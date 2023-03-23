@@ -1,18 +1,18 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
-import Header from "../custom/Header";
+import { View, Text, Image } from 'react-native';
+import React from 'react';
+import Header from '../Custom/Header';
 
 const Main = () => {
   return (
     <View style={{ flex: 1 }}>
       <Header />
       <Image
-        source={require("../images/Banner.png")}
+        source={require('../Images/Banner.png')}
         style={{
-          width: "95%",
+          width: '95%',
           height: 180,
           borderRadius: 10,
-          alignSelf: "center",
+          alignSelf: 'center',
           marginTop: 10,
         }}
       />

@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View, Text } from 'react-native';
+import React from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CustomButton = ({ onPress, title, bgcolor, textColor, disabled }) => {
   return (
@@ -8,11 +8,11 @@ const CustomButton = ({ onPress, title, bgcolor, textColor, disabled }) => {
       disabled={disabled}
       style={{
         backgroundColor: bgcolor,
-        justifyContent: "center",
-        alignItems: "center",
-        width: "75%",
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '75%',
         height: 45,
-        alignSelf: "center",
+        alignSelf: 'center',
         borderRadius: 10,
         marginTop: 25,
       }}

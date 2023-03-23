@@ -1,6 +1,6 @@
-import { View, Text, Image } from "react-native";
-import React from "react";
-import { TextInput } from "react-native-gesture-handler";
+import { View, Text, Image } from 'react-native';
+import React from 'react';
+import { TextInput } from 'react-native-gesture-handler';
 
 const CustomTextInput = ({
   value,
@@ -13,14 +13,14 @@ const CustomTextInput = ({
   return (
     <View
       style={{
-        width: "75%",
+        width: '75%',
         height: 40,
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderRadius: 10,
-        alignSelf: "center",
+        alignSelf: 'center',
         marginTop: 25,
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingLeft: 10,
         paddingRight: 10,
       }}
@@ -28,12 +28,12 @@ const CustomTextInput = ({
       <Image source={icon} style={{ width: 25, height: 25 }} />
       <TextInput
         value={value}
-        keyboardType={keyboardType ? keyboardType : "default"}
+        keyboardType={keyboardType ? keyboardType : 'default'}
         onChangeText={(txt) => {
           onChangeText(txt);
         }}
         placeholder={placeholder}
-        style={{ marginLeft: 10, marginRight: 10, width: "75%" }}
+        style={{ marginLeft: 10, marginRight: 10, width: '75%' }}
         secureTextEntry={type ? true : false}
       />
     </View>
