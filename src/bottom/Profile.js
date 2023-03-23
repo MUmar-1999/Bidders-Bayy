@@ -23,9 +23,7 @@ const Profile = () => {
           justifyContent: "space-between",
           alignItems: "center",
         }}
-      >
-        <Text>Profile</Text>
-      </View>
+      ></View>
       <Image
         source={require("../images/dp.png")}
         style={{
