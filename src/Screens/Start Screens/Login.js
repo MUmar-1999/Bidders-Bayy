@@ -1,103 +1,98 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { useState } from 'react';
 
-import CustomTextInput from '../../Custom/CustomTextInput';
+import FormInputField from '../../Components/FormInputField';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 
 import { useNavigation } from '@react-navigation/native';
+import { useForm } from 'react-hook-form';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../Custom/Loader';
+
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Login = () => {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [badEmail, setBadEmail] = useState(false);
-  const [badPassword, setBadPassword] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const login = () => {
-    setModalVisible(true);
-    if (email == '') {
-      setModalVisible(false);
-      setBadEmail(true);
-    } else {
-      setBadEmail(false);
-      if (password == '') {
-        setModalVisible(false);
-        setBadPassword(true);
-      } else {
-        setBadPassword(false);
-        setTimeout(() => {
-          getData();
-        }, 2000);
-      }
-    }
+  const { control, handleSubmit } = useForm();
+
+  const loginPressHandler = (data) => {
+    console.log('LOGIN PRESSED');
+    console.log(data);
   };
-  const getData = async () => {
-    const mEmail = await AsyncStorage.getItem('Email');
-    const mPass = await AsyncStorage.getItem('Password');
-    console.log(mEmail, mPass);
-    if (email === mEmail && password === mPass) {
-      setModalVisible(false);
-      navigation.navigate('Home');
-    } else {
-      setModalVisible(false);
-      alert('wrong password');
-    }
-  };
+
   function newAccountHandler() {
     navigation.navigate('Signup');
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Image source={require('../../Images/logo.png')} style={styles.logo} />
-      <Text style={styles.headerText}>Login</Text>
+    <KeyboardAvoidingView style={{ flex: 1 }} enabled>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        {/* Header Image and Title */}
+        <Image source={require('../../Images/logo.png')} style={styles.logo} />
+        <Text style={styles.headerText}>Login</Text>
 
-      <CustomTextInput
-        placeholder={'Email'}
-        icon={require('../../Images/email.png')}
-        value={email}
-        onChangeText={(txt) => {
-          setEmail(txt);
-        }}
-      />
-      {badEmail === true && (
-        <Text style={styles.errorText}>Please Enter Email</Text>
-      )}
+        {/* Form Start */}
+        <FormInputField
+          name={'email'}
+          control={control}
+          placeholder={'Email'}
+          icon={require('../../Images/email.png')}
+          rule={{
+            required: 'Email cannot be empty.',
+            pattern: { value: EMAIL_REGEX, message: 'Enter correct email.' },
+          }}
+        />
 
-      <CustomTextInput
-        placeholder={'Password'}
-        icon={require('../../Images/password.png')}
-        type={'password'}
-        value={password}
-        onChangeText={(txt) => {
-          setPassword(txt);
-        }}
-      />
-      {badPassword === true && (
-        <Text style={styles.errorText}>Please Enter Password</Text>
-      )}
+        <FormInputField
+          name={'password'}
+          control={control}
+          rule={{
+            required: 'Password cannot be empty.',
+            minLength: {
+              value: 3,
+              message: 'Password must contain 3 characters.',
+            },
+            maxLength: {
+              value: 15,
+              message: 'Password cannot be more than 15 characters.',
+            },
+          }}
+          placeholder={'Password'}
+          icon={require('../../Images/password.png')}
+          secureTextEntry
+        />
 
-      <Text
-        style={styles.forgetText}
-        onPress={() => {
-          navigation.navigate('Forget');
-        }}
-      >
-        Forgot Password?
-      </Text>
+        <Text
+          style={styles.forgetText}
+          onPress={() => console.log('Forget Pressed!!!')}
+        >
+          Forgot Password?
+        </Text>
 
-      <PrimaryButton title={'LogIn'} onPress={login} />
-      <SecondaryButton
-        title={'Create New Account'}
-        onPress={newAccountHandler}
-      />
-      <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
-    </View>
+        <PrimaryButton
+          title={'LogIn'}
+          onPress={() => {
+            handleSubmit(loginPressHandler)();
+            console.log('log');
+          }}
+        />
+        {/* Form End */}
+        <SecondaryButton
+          title={'Create New Account'}
+          onPress={newAccountHandler}
+        />
+        <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -125,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#566573',
     fontWeight: 'bold',
-    marginTop: 10,
+    marginTop: 15,
     marginLeft: 50,
   },
 });
