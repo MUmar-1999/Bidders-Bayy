@@ -6,221 +6,170 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { useState } from 'react';
 
-import CustomTextInput from '../../Custom/CustomTextInput';
+import { useForm } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
+
+import FormInputField from '../../Components/FormInputField';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const NAME_REGEX = /^[aA-zZ\s]+$/;
+const PHONE_REGEX = /^(03)[0-5]\d{8}$/;
 
 const Register = () => {
   const navigation = useNavigation();
-  const [name, setName] = useState('');
-  const [badName, setBadName] = useState(false);
-  const [badUname, setBadUname] = useState('');
-  const [uname, setUname] = useState('');
-  const [email, setEmail] = useState('');
-  const [badEmail, setBadEmail] = useState(false);
-  const [phone, setPhone] = useState('');
-  const [badPhone, setBadPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [badPassword, setBadPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [badConfirmPassword, setBadConfirmPassword] = useState(false);
-  const [address, setAddress] = useState('');
-  const [badAddress, setBadAddress] = useState(false);
-  const [date, setDate] = useState('');
-  const [badDate, setBadDate] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const signupp = () => {
-    setButtonDisabled(true);
-    if (name == '') {
-      setBadName(true);
-      setButtonDisabled(false);
-    } else {
-      setBadName(false);
-      if (uname == '') {
-        setBadUname(true);
-        setButtonDisabled(false);
-      } else {
-        setBadUname(false);
-        if (email == '') {
-          setBadEmail(true);
-          setButtonDisabled(false);
-        } else {
-          setBadEmail(false);
-          if (phone == '') {
-            setBadPhone(true);
-            setButtonDisabled(false);
-          } else if (phone.length < 10) {
-            setBadPhone(true);
-            setButtonDisabled(false);
-          } else {
-            setBadPhone(false);
-            if (address == '') {
-              setBadAddress(true);
-              setButtonDisabled(false);
-            } else {
-              setBadAddress(false);
-              if (password == '') {
-                setBadPassword(true);
-                setButtonDisabled(false);
-              } else {
-                setBadPassword(false);
-                if (confirmPassword == '') {
-                  setBadConfirmPassword(true);
-                  setButtonDisabled(false);
-                } else {
-                  setBadConfirmPassword(false);
-                  if (password !== confirmPassword) {
-                    setBadConfirmPassword(true);
-                    setButtonDisabled(false);
-                  } else {
-                    setBadConfirmPassword(false);
-                    saveData();
-                    // if (date == "") {
-                    //   setBadDate(true);
-                    //   setButtonDisabled(false);
-                    // } else {
-                    //   setBadDate(false);
-                    // }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  };
-  const saveData = async () => {
-    await AsyncStorage.setItem('User', {
-      name,
-      uname,
-      email,
-      phone,
-      address,
-      password,
-      confirmPassword,
-    });
-    navigation.goBack();
-  };
+  const { control, handleSubmit, watch } = useForm();
+  const pwd = watch('Password');
+  function signUpHandler(data) {
+    console.log('SignUp Pressed');
+    console.log(data);
+  }
 
   function haveAccountHandler() {
     navigation.navigate('Login');
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-        paddingTop: 50,
-      }}
-      enabled
-    >
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../Images/logo.png')} style={styles.logo} />
-        <Text style={styles.headerText}>Signup</Text>
+    <KeyboardAvoidingView style={{ flex: 1 }} enabled>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ marginTop: 50, marginBottom: 50 }}>
+          {/* Header Image and Title Text */}
+          <Image
+            source={require('../../Images/logo.png')}
+            style={styles.logo}
+          />
+          <Text style={styles.headerText}>Signup</Text>
+          {/* Form START */}
 
-        <CustomTextInput
-          placeholder={'Name'}
-          value={name}
-          onChangeText={(txt) => {
-            setName(txt);
-          }}
-          icon={require('../../Images/name.png')}
-        />
-        {badName === true && (
-          <Text style={styles.errorText}>Please Enter Name</Text>
-        )}
+          <FormInputField
+            name={'firstName'}
+            placeholder={'FirstName'}
+            control={control}
+            icon={require('../../Images/name.png')}
+            rule={{
+              required: 'Firstname cannot be empty.',
+              pattern: {
+                value: NAME_REGEX,
+                message: 'Firstname can only contain alphabets.',
+              },
+              minLength: {
+                value: 3,
+                message: 'Firstname must contain 3 characters.',
+              },
+              maxLength: {
+                value: 24,
+                message: 'Firstname cannot be greater than 24 characters.',
+              },
+            }}
+          />
 
-        <CustomTextInput
-          placeholder={'User Name'}
-          value={uname}
-          onChangeText={(txt) => {
-            setUname(txt);
-          }}
-          icon={require('../../Images/name.png')}
-        />
-        {badUname === true && (
-          <Text style={styles.errorText}>Please Enter User Name</Text>
-        )}
+          <FormInputField
+            name={'Lastname'}
+            placeholder={'Lastname'}
+            control={control}
+            icon={require('../../Images/name.png')}
+            rule={{
+              required: 'Lastname cannot be empty.',
+              pattern: {
+                value: NAME_REGEX,
+                message: 'Lastname can only contain alphabets.',
+              },
+              minLength: {
+                value: 3,
+                message: 'Lastname must contain 3 characters.',
+              },
+              maxLength: {
+                value: 14,
+                message: 'Lastname cannot be greater than 24 characters.',
+              },
+            }}
+          />
 
-        <CustomTextInput
-          placeholder={'Email'}
-          value={email}
-          onChangeText={(txt) => {
-            setEmail(txt);
-          }}
-          icon={require('../../Images/email.png')}
-        />
-        {badEmail === true && (
-          <Text style={styles.errorText}>Please Enter Email</Text>
-        )}
-        <CustomTextInput
-          placeholder={'Phone Number'}
-          value={phone}
-          keyboardType={'number-pad'}
-          onChangeText={(txt) => {
-            setPhone(txt);
-          }}
-          icon={require('../../Images/phone.png')}
-        />
-        {badPhone === true && (
-          <Text style={styles.errorText}>Please Enter Phone Number</Text>
-        )}
+          <FormInputField
+            name={'Email'}
+            placeholder={'Email'}
+            control={control}
+            icon={require('../../Images/email.png')}
+            keyboardType={'email-address'}
+            rule={{
+              required: 'Email cannot be empty.',
+              pattern: { value: EMAIL_REGEX, message: 'Enter correct email.' },
+            }}
+          />
 
-        <CustomTextInput
-          placeholder={'Residential Address'}
-          value={address}
-          onChangeText={(txt) => {
-            setAddress(txt);
-          }}
-          icon={require('../../Images/location.png')}
-        />
-        {badAddress === true && (
-          <Text style={styles.errorText}>Please Enter Residential Address</Text>
-        )}
+          <FormInputField
+            name={'Password'}
+            placeholder={'Password'}
+            control={control}
+            icon={require('../../Images/password.png')}
+            secureTextEntry
+            rule={{
+              required: 'Password cannot be empty.',
+              minLength: {
+                value: 3,
+                message: 'Password must contain 3 characters.',
+              },
+              maxLength: {
+                value: 15,
+                message: 'Password cannot be more than 15 characters.',
+              },
+            }}
+          />
 
-        <CustomTextInput
-          placeholder={'Password'}
-          value={password}
-          onChangeText={(txt) => {
-            setPassword(txt);
-          }}
-          icon={require('../../Images/password.png')}
-          type={'password'}
-        />
-        {badPassword === true && (
-          <Text style={styles.errorText}>Please Enter Password</Text>
-        )}
+          <FormInputField
+            name={'Confirm Password'}
+            placeholder={'Confirm Password'}
+            control={control}
+            icon={require('../../Images/password.png')}
+            secureTextEntry
+            rule={{
+              required: 'Password cannot be empty.',
+              validate: (value) => value === pwd || 'Password do not match.',
+            }}
+          />
 
-        <CustomTextInput
-          placeholder={'Confirm Password'}
-          value={confirmPassword}
-          onChangeText={(txt) => {
-            setConfirmPassword(txt);
-          }}
-          icon={require('../../Images/password.png')}
-          type={'password'}
-        />
-        {badConfirmPassword === true && (
-          <Text style={styles.errorText}>Please Enter Confirm Password</Text>
-        )}
+          <FormInputField
+            name={'Phone Number'}
+            placeholder={'Phone Number'}
+            control={control}
+            icon={require('../../Images/phone.png')}
+            keyboardType={'phone-pad'}
+            rule={{
+              required: 'Phone Number cannot be empty.',
+              pattern: {
+                value: PHONE_REGEX,
+                message: 'Enter correct phone number.',
+              },
+              maxLength: {
+                value: 11,
+                message: 'Phone Number cannot contain more than 11 numbers.',
+              },
+            }}
+          />
 
-        <PrimaryButton
-          title={'Signup'}
-          onPress={signupp}
-          disabled={buttonDisabled}
-        />
-        <SecondaryButton
-          title={'Already have Account?'}
-          onPress={haveAccountHandler}
-          disabled={buttonDisabled}
-        />
+          <FormInputField
+            name={'Address'}
+            placeholder={'Address'}
+            control={control}
+            icon={require('../../Images/location.png')}
+            rule={{ required: 'Address cannot be empty.' }}
+          />
+
+          <PrimaryButton
+            title={'Signup'}
+            onPress={handleSubmit(signUpHandler)}
+          />
+
+          {/* Form END */}
+
+          <SecondaryButton
+            title={'Already have Account?'}
+            onPress={haveAccountHandler}
+          />
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
