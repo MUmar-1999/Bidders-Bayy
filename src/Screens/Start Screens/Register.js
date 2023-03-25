@@ -5,54 +5,54 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-} from 'react-native';
-import { useState } from 'react';
+} from "react-native";
+import { useState } from "react";
 
-import CustomTextInput from '../../Custom/CustomTextInput';
-import PrimaryButton from '../../Components/PrimaryButton';
-import SecondaryButton from '../../Components/SecondaryButton';
+import CustomTextInput from "../../custom/CustomTextInput";
+import PrimaryButton from "../../Components/PrimaryButton";
+import SecondaryButton from "../../Components/SecondaryButton";
 
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = () => {
   const navigation = useNavigation();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [badName, setBadName] = useState(false);
-  const [badUname, setBadUname] = useState('');
-  const [uname, setUname] = useState('');
-  const [email, setEmail] = useState('');
+  const [badUname, setBadUname] = useState("");
+  const [uname, setUname] = useState("");
+  const [email, setEmail] = useState("");
   const [badEmail, setBadEmail] = useState(false);
-  const [phone, setPhone] = useState('');
-  const [badPhone, setBadPhone] = useState('');
-  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState("");
+  const [badPhone, setBadPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [badPassword, setBadPassword] = useState(false);
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [badConfirmPassword, setBadConfirmPassword] = useState(false);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState("");
   const [badAddress, setBadAddress] = useState(false);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState("");
   const [badDate, setBadDate] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const signupp = () => {
     setButtonDisabled(true);
-    if (name == '') {
+    if (name == "") {
       setBadName(true);
       setButtonDisabled(false);
     } else {
       setBadName(false);
-      if (uname == '') {
+      if (uname == "") {
         setBadUname(true);
         setButtonDisabled(false);
       } else {
         setBadUname(false);
-        if (email == '') {
+        if (email == "") {
           setBadEmail(true);
           setButtonDisabled(false);
         } else {
           setBadEmail(false);
-          if (phone == '') {
+          if (phone == "") {
             setBadPhone(true);
             setButtonDisabled(false);
           } else if (phone.length < 10) {
@@ -60,17 +60,17 @@ const Register = () => {
             setButtonDisabled(false);
           } else {
             setBadPhone(false);
-            if (address == '') {
+            if (address == "") {
               setBadAddress(true);
               setButtonDisabled(false);
             } else {
               setBadAddress(false);
-              if (password == '') {
+              if (password == "") {
                 setBadPassword(true);
                 setButtonDisabled(false);
               } else {
                 setBadPassword(false);
-                if (confirmPassword == '') {
+                if (confirmPassword == "") {
                   setBadConfirmPassword(true);
                   setButtonDisabled(false);
                 } else {
@@ -97,7 +97,7 @@ const Register = () => {
     }
   };
   const saveData = async () => {
-    await AsyncStorage.setItem('User', {
+    await AsyncStorage.setItem("User", {
       name,
       uname,
       email,
@@ -110,7 +110,7 @@ const Register = () => {
   };
 
   function haveAccountHandler() {
-    navigation.navigate('Login');
+    navigation.navigate("Login");
   }
 
   return (
@@ -122,102 +122,102 @@ const Register = () => {
       enabled
     >
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <Image source={require('../../Images/logo.png')} style={styles.logo} />
+        <Image source={require("../../images/logo.png")} style={styles.logo} />
         <Text style={styles.headerText}>Signup</Text>
 
         <CustomTextInput
-          placeholder={'Name'}
+          placeholder={"Name"}
           value={name}
           onChangeText={(txt) => {
             setName(txt);
           }}
-          icon={require('../../Images/name.png')}
+          icon={require("../../images/name.png")}
         />
         {badName === true && (
           <Text style={styles.errorText}>Please Enter Name</Text>
         )}
 
         <CustomTextInput
-          placeholder={'User Name'}
+          placeholder={"User Name"}
           value={uname}
           onChangeText={(txt) => {
             setUname(txt);
           }}
-          icon={require('../../Images/name.png')}
+          icon={require("../../images/name.png")}
         />
         {badUname === true && (
           <Text style={styles.errorText}>Please Enter User Name</Text>
         )}
 
         <CustomTextInput
-          placeholder={'Email'}
+          placeholder={"Email"}
           value={email}
           onChangeText={(txt) => {
             setEmail(txt);
           }}
-          icon={require('../../Images/email.png')}
+          icon={require("../../images/email.png")}
         />
         {badEmail === true && (
           <Text style={styles.errorText}>Please Enter Email</Text>
         )}
         <CustomTextInput
-          placeholder={'Phone Number'}
+          placeholder={"Phone Number"}
           value={phone}
-          keyboardType={'number-pad'}
+          keyboardType={"number-pad"}
           onChangeText={(txt) => {
             setPhone(txt);
           }}
-          icon={require('../../Images/phone.png')}
+          icon={require("../../images/phone.png")}
         />
         {badPhone === true && (
           <Text style={styles.errorText}>Please Enter Phone Number</Text>
         )}
 
         <CustomTextInput
-          placeholder={'Residential Address'}
+          placeholder={"Residential Address"}
           value={address}
           onChangeText={(txt) => {
             setAddress(txt);
           }}
-          icon={require('../../Images/location.png')}
+          icon={require("../../images/location.png")}
         />
         {badAddress === true && (
           <Text style={styles.errorText}>Please Enter Residential Address</Text>
         )}
 
         <CustomTextInput
-          placeholder={'Password'}
+          placeholder={"Password"}
           value={password}
           onChangeText={(txt) => {
             setPassword(txt);
           }}
-          icon={require('../../Images/password.png')}
-          type={'password'}
+          icon={require("../../images/password.png")}
+          type={"password"}
         />
         {badPassword === true && (
           <Text style={styles.errorText}>Please Enter Password</Text>
         )}
 
         <CustomTextInput
-          placeholder={'Confirm Password'}
+          placeholder={"Confirm Password"}
           value={confirmPassword}
           onChangeText={(txt) => {
             setConfirmPassword(txt);
           }}
-          icon={require('../../Images/password.png')}
-          type={'password'}
+          icon={require("../../images/password.png")}
+          type={"password"}
         />
         {badConfirmPassword === true && (
           <Text style={styles.errorText}>Please Enter Confirm Password</Text>
         )}
 
         <PrimaryButton
-          title={'Signup'}
+          title={"Signup"}
           onPress={signupp}
           disabled={buttonDisabled}
         />
         <SecondaryButton
-          title={'Already have Account?'}
+          title={"Already have Account?"}
           onPress={haveAccountHandler}
           disabled={buttonDisabled}
         />
@@ -232,17 +232,17 @@ const styles = StyleSheet.create({
   logo: {
     height: 75,
     width: 75,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   headerText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   errorText: {
     marginTop: 10,
-    alignSelf: 'center',
-    color: 'red',
+    alignSelf: "center",
+    color: "red",
   },
 });
