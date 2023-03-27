@@ -6,9 +6,11 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
+import { useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../../Store/authActions';
 
 import FormInputField from '../../Components/FormInputField';
 import PrimaryButton from '../../Components/PrimaryButton';
@@ -18,14 +20,24 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const NAME_REGEX = /^[aA-zZ\s]+$/;
 const PHONE_REGEX = /^(03)[0-5]\d{8}$/;
 
-const Register = () => {
-  const navigation = useNavigation();
+const Register = ({ navigation }) => {
+  const { loading, error, success } = useSelector((state) => state.auth);
+  //! REMOVE CONSOLELOG
+  // console.log({ loading, userInfo, error, success });
 
+  const dispatch = useDispatch();
   const { control, handleSubmit, watch } = useForm();
   const pwd = watch('Password');
+
+  useEffect(() => {
+    if (success) {
+      navigation.navigate('Login');
+    }
+  }, [success]);
+
   function signUpHandler(data) {
     console.log('SignUp Pressed');
-    console.log(data);
+    dispatch(register(data));
   }
 
   function haveAccountHandler() {
@@ -67,7 +79,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Lastname'}
+            name={'lastName'}
             placeholder={'Lastname'}
             control={control}
             icon={require('../../Images/name.png')}
@@ -89,7 +101,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Email'}
+            name={'email'}
             placeholder={'Email'}
             control={control}
             icon={require('../../Images/email.png')}
@@ -101,7 +113,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Password'}
+            name={'password'}
             placeholder={'Password'}
             control={control}
             icon={require('../../Images/password.png')}
@@ -120,7 +132,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Confirm Password'}
+            name={'rePassword'}
             placeholder={'Confirm Password'}
             control={control}
             icon={require('../../Images/password.png')}
@@ -132,7 +144,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Phone Number'}
+            name={'phoneNo'}
             placeholder={'Phone Number'}
             control={control}
             icon={require('../../Images/phone.png')}
@@ -151,7 +163,7 @@ const Register = () => {
           />
 
           <FormInputField
-            name={'Address'}
+            name={'address'}
             placeholder={'Address'}
             control={control}
             icon={require('../../Images/location.png')}
@@ -160,6 +172,7 @@ const Register = () => {
 
           <PrimaryButton
             title={'Signup'}
+            disabled={loading}
             onPress={handleSubmit(signUpHandler)}
           />
 

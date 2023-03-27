@@ -1,10 +1,10 @@
 import { View, Text, Image } from 'react-native';
 import React, { useState } from 'react';
-import Main from '../Bottom/Main';
-import Search from '../Bottom/Search';
-import List from '../Bottom/List';
-import Favorite from '../Bottom/Favorite';
-import Profile from '../Bottom/Profile';
+import Main from '../../Bottom/Main';
+import Search from '../../Bottom/Search';
+import List from '../../Bottom/List';
+import Favorite from '../../Bottom/Favorite';
+import Profile from './Profile';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 const Home = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -45,7 +45,7 @@ const Home = () => {
           }}
         >
           <Image
-            source={require('../Images/home1.png')}
+            source={require('../../Images/home1.png')}
             style={{
               width: 25,
               height: 25,
@@ -67,7 +67,7 @@ const Home = () => {
           }}
         >
           <Image
-            source={require('../Images/search.png')}
+            source={require('../../Images/search.png')}
             style={{
               width: 25,
               height: 25,
@@ -98,7 +98,7 @@ const Home = () => {
             }}
           >
             <Image
-              source={require('../Images/list.png')}
+              source={require('../../Images/list.png')}
               style={{ width: 25, height: 25, tintColor: 'white' }}
             />
           </TouchableOpacity>
@@ -116,7 +116,7 @@ const Home = () => {
           }}
         >
           <Image
-            source={require('../Images/favorite.png')}
+            source={require('../../Images/favorite.png')}
             style={{
               width: 25,
               height: 25,
@@ -137,7 +137,7 @@ const Home = () => {
           }}
         >
           <Image
-            source={require('../Images/name.png')}
+            source={require('../../Images/name.png')}
             style={{
               width: 25,
               height: 25,

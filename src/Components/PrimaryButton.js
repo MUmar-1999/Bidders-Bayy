@@ -1,5 +1,10 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 
 const PrimaryButton = ({ onPress, title, disabled }) => (
   <TouchableOpacity
@@ -9,7 +14,11 @@ const PrimaryButton = ({ onPress, title, disabled }) => (
       onPress();
     }}
   >
-    <Text style={styles.text}>{title}</Text>
+    {disabled ? (
+      <ActivityIndicator size="small" color="white" />
+    ) : (
+      <Text style={styles.text}>{title}</Text>
+    )}
   </TouchableOpacity>
 );
 

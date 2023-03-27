@@ -6,27 +6,36 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../Store/authActions';
 
 import FormInputField from '../../Components/FormInputField';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 
-import { useNavigation } from '@react-navigation/native';
-import { useForm } from 'react-hook-form';
-
 import Loader from '../../Custom/Loader';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const Login = () => {
-  const navigation = useNavigation();
+const Login = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
+  const { loading, userInfo, error, success, userToken } = useSelector(
+    (state) => state.auth
+  );
+  //! REMOVE CONSOLE
+  console.log(
+    'LOGIN!!!!!',
+    JSON.stringify({ loading, success, error, userToken }, null, 2)
+  );
+
+  const dispatch = useDispatch();
   const { control, handleSubmit } = useForm();
 
   const loginPressHandler = (data) => {
     console.log('LOGIN PRESSED');
-    console.log(data);
+    dispatch(login(data));
   };
 
   function newAccountHandler() {
@@ -80,10 +89,8 @@ const Login = () => {
 
         <PrimaryButton
           title={'LogIn'}
-          onPress={() => {
-            handleSubmit(loginPressHandler)();
-            console.log('log');
-          }}
+          disabled={loading}
+          onPress={handleSubmit(loginPressHandler)}
         />
         {/* Form End */}
         <SecondaryButton
