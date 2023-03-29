@@ -33,6 +33,7 @@ const FormInputField = ({
               secureTextEntry={secureTextEntry}
               style={styles.input}
               keyboardType={keyboardType || 'default'}
+              autoCapitalize={'none'}
             />
           </View>
 

@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../Store/authActions';
 
 import FormInputField from '../../Components/FormInputField';
+import ErrorMessage from '../../Components/ErrorMessage';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 
@@ -97,6 +98,7 @@ const Login = ({ navigation }) => {
           title={'Create New Account'}
           onPress={newAccountHandler}
         />
+        {error && <ErrorMessage err={error} />}
         <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
       </View>
     </KeyboardAvoidingView>

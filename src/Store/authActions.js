@@ -18,7 +18,6 @@ export const register = createAsyncThunk(
     },
     { rejectWithValue }
   ) => {
-    console.log('inide redux');
     try {
       await BidderApi.post('/users/signup', {
         firstName,
@@ -27,9 +26,9 @@ export const register = createAsyncThunk(
         password,
         rePassword,
         phoneNo,
-        gender: 'male',
+        gender,
         address,
-        dob: '2000-10-10',
+        dob,
       });
     } catch (error) {
       console.error('Register', error);

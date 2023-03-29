@@ -13,6 +13,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../Store/authActions';
 
 import FormInputField from '../../Components/FormInputField';
+import FormGenderField from '../../Components/FormGenderField';
+import FormDateField from '../../Components/FormDateField';
+import ErrorMessage from '../../Components/ErrorMessage';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 
@@ -36,7 +39,7 @@ const Register = ({ navigation }) => {
   }, [success]);
 
   function signUpHandler(data) {
-    console.log('SignUp Pressed');
+    console.log(data);
     dispatch(register(data));
   }
 
@@ -49,10 +52,10 @@ const Register = ({ navigation }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 50, marginBottom: 50 }}>
           {/* Header Image and Title Text */}
-          <Image
+          {/* <Image
             source={require('../../Images/logo.png')}
             style={styles.logo}
-          />
+          /> */}
           <Text style={styles.headerText}>Signup</Text>
           {/* Form START */}
 
@@ -97,6 +100,22 @@ const Register = ({ navigation }) => {
                 value: 14,
                 message: 'Lastname cannot be greater than 24 characters.',
               },
+            }}
+          />
+
+          <FormGenderField
+            name={'gender'}
+            control={control}
+            rule={{
+              required: 'Select a gender.',
+            }}
+          />
+
+          <FormDateField
+            name={'dob'}
+            control={control}
+            rule={{
+              required: 'Select Date of Birth',
             }}
           />
 
@@ -182,6 +201,7 @@ const Register = ({ navigation }) => {
             title={'Already have Account?'}
             onPress={haveAccountHandler}
           />
+          {error && <ErrorMessage err={error} />}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
