@@ -27,7 +27,7 @@ const Register = ({ navigation }) => {
 
   const dispatch = useDispatch();
   const { control, handleSubmit, watch } = useForm();
-  const pwd = watch('Password');
+  const pwd = watch('password');
 
   useEffect(() => {
     if (success) {
