@@ -28,19 +28,55 @@ const Main = () => {
           marginTop: 10,
         }}
       />
+      <Text
+        style={{
+          fontSize: 24,
+          marginTop: 20,
+          marginLeft: 35,
+          fontWeight: "bold",
+        }}
+      >
+        Products
+      </Text>
       <FlatList
         data={products}
         renderItem={({ item, index }) => {
           return (
             <View
               style={{
-                width: "90%",
-                height: 100,
-                backgroundColor: "grey",
+                width: "80%",
+                height: 220,
+                backgroundColor: "white",
                 alignSelf: "center",
+                marginTop: 10,
+                borderRadius: 10,
+                flexDirection: "column",
+                borderWidth: 1,
               }}
             >
-              <Text>Hello</Text>
+              <Image
+                source={{ uri: item.image }}
+                style={{
+                  height: 140,
+                  width: 160,
+                  alignSelf: "center",
+                  marginTop: 10,
+                  borderRadius: 10,
+                }}
+              />
+              <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                {item.title}
+              </Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "green",
+                  fontWeight: "bold",
+                }}
+              >
+                {" "}
+                Rs. {item.price}
+              </Text>
             </View>
           );
         }}

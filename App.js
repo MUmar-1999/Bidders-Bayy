@@ -1,9 +1,9 @@
-import { Provider } from 'react-redux';
-import { useEffect } from 'react';
-import { store } from './src/Store/store.js';
-import { getAuthToken } from './src/Store/authActions';
+import { Provider } from "react-redux";
+import { useEffect } from "react";
+import { store } from "./src/Store/store.js";
+import { getAuthToken } from "./src/Store/authActions";
 
-import NavContainer from './src/Screens/NavContainer';
+import NavContainer from "./src/Screens/NavContainer";
 
 export default function App() {
   useEffect(() => {
