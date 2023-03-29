@@ -16,7 +16,7 @@ const Main = () => {
       });
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <Header />
       <Image
         source={require("../Images/Banner.png")}
@@ -39,26 +39,35 @@ const Main = () => {
         Products
       </Text>
       <FlatList
+        numColumns={2}
         data={products}
         renderItem={({ item, index }) => {
           return (
             <View
               style={{
-                width: "80%",
-                height: 220,
+                padding: 12,
+                paddingBottom: 18,
                 backgroundColor: "white",
-                alignSelf: "center",
-                marginTop: 10,
+                width: "45%",
+                margin: 8,
                 borderRadius: 10,
                 flexDirection: "column",
-                borderWidth: 1,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.43,
+                shadowRadius: 9.51,
+
+                elevation: 15,
               }}
             >
               <Image
                 source={{ uri: item.image }}
                 style={{
-                  height: 140,
-                  width: 160,
+                  height: 180,
+                  width: "100%",
                   alignSelf: "center",
                   marginTop: 10,
                   borderRadius: 10,
