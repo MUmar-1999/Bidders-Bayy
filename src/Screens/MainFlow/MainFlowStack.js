@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Home from "./Home";
 import Profile from "./Profile";
-import List from "./List";
+// import List from "./List";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -27,7 +27,7 @@ function MainFlowStack() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="List"
         component={List}
         options={{
@@ -36,14 +36,14 @@ function MainFlowStack() {
             <FontAwesome5 name="user-alt" size={24} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="fal fa-plus-circle" size={24} color={color} />
+            <FontAwesome5 name="user-alt" size={24} color={color} />
           ),
         }}
       />
