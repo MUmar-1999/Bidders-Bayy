@@ -1,10 +1,10 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Home from './Home';
-import Profile from './Profile';
-
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
+import Home from "./Home";
+import Profile from "./Profile";
+import List from "./List";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,17 +13,27 @@ function MainFlowStack() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: 'black',
-        tabBarLabelStyle: { fontWeight: 'bold', fontSize: 12 },
+        tabBarActiveTintColor: "black",
+        tabBarLabelStyle: { fontWeight: "bold", fontSize: 12 },
       }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-home" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="List"
+        component={List}
+        options={{
+          tabBarLabel: "List",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome5 name="user-alt" size={24} color={color} />
           ),
         }}
       />
@@ -31,9 +41,9 @@ function MainFlowStack() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" size={24} color={color} />
+            <FontAwesome5 name="fal fa-plus-circle" size={24} color={color} />
           ),
         }}
       />

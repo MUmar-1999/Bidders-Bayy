@@ -17,7 +17,6 @@ const Main = () => {
   };
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Header />
       <Image
         source={require("../Images/Banner.png")}
         style={{
