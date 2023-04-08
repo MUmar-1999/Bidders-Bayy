@@ -154,6 +154,7 @@
 import { View, Text, Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -173,12 +174,47 @@ const Home = () => {
         source={require("../Images/Banner.png")}
         style={{
           width: "95%",
-          height: 180,
+          height: 160,
           borderRadius: 10,
           alignSelf: "center",
           marginTop: 10,
         }}
       />
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: "rgba(0,0,0,0.2)",
+            width: 80,
+            height: 80,
+            backgroundColor: "#fff",
+            borderRadius: 50,
+            margin: 15,
+            marginLeft: 85,
+          }}
+        >
+          <Image
+            source={require("../Images/Bid.webp")}
+            style={{ borderRadius: 50, width: 79, height: 79 }}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: "rgba(0,0,0,0.2)",
+            width: 80,
+            height: 80,
+            backgroundColor: "#fff",
+            borderRadius: 50,
+            margin: 15,
+          }}
+        >
+          <Image
+            source={require("../Images/purchase.webp")}
+            style={{ borderRadius: 50, width: 79, height: 79 }}
+          />
+        </TouchableOpacity>
+      </View>
       <Text
         style={{
           fontSize: 24,
