@@ -13,10 +13,13 @@ const FormDateField = ({ control, name, rule }) => {
   };
 
   const handleConfirm = (date) => {
-    let dat = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let dat = `${date.getFullYear()}-${
+      date.getMonth() < 9 ? `0${date.getMonth() + 1}` : date.getMonth() + 1
+    }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
     return dat;
     showDatePicker();
   };
+
   return (
     <Controller
       control={control}
@@ -44,6 +47,7 @@ const FormDateField = ({ control, name, rule }) => {
               mode="date"
               onConfirm={(date) => onChange(handleConfirm(date))}
               onCancel={showDatePicker}
+              isDarkModeEnabled
             />
           </View>
           {error && (
