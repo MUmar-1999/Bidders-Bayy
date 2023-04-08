@@ -218,7 +218,6 @@ const Home = () => {
       <Text
         style={{
           fontSize: 24,
-          marginTop: 20,
           marginLeft: 35,
           fontWeight: "bold",
         }}
