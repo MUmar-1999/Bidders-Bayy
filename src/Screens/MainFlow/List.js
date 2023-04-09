@@ -1,108 +1,100 @@
-import { View, Text, Image } from "react-native";
 import React, { useState } from "react";
-import FormInputField from "../../Components/FormInputField";
-import { useForm } from "react-hook-form";
+import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import PrimaryButton from "../../Components/PrimaryButton";
-import { SelectList } from "react-native-dropdown-select-list";
 
 const List = () => {
-  const { control, handleSubmit } = useForm();
-  const [category, setCategory] = useState();
-  const [subCategory, setSubCategory] = useState();
-  const categories = [
-    { key: "EL", value: "Electronics" },
-    { key: "VE", value: "Vehicles" },
-    { key: "CU", value: "Currency" },
-  ];
-  const subcategories = {
-    EL: [
-      { key: "1", value: "Mobile" },
-      { key: "2", value: "Laptops" },
-      { key: "3", value: "Computer" },
-    ],
-    VE: [
-      { key: "4", value: "Motor Bike" },
-      { key: "5", value: "Scooter" },
-      { key: "6", value: "Car" },
-    ],
-    CU: [
-      { key: "7", value: "Dollar" },
-      { key: "8", value: "Pound" },
-      { key: "9", value: "Euro" },
-    ],
-  };
+  const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [type, setType] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
+  const handlePostButtonPress = () => {};
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Image
-        source={require("../../Images/logo.png")}
-        style={{
-          height: 75,
-          width: 75,
-          alignSelf: "center",
-          marginTop: 20,
-        }}
-      />
-      <View
-        style={{
-          width: "75%",
-          height: 40,
-          alignSelf: "center",
-        }}
+    <View style={styles.container}>
+      <Text style={styles.label}>Category:</Text>
+      <Picker
+        selectedValue={category}
+        onValueChange={(value) => setCategory(value)}
+        style={styles.dropdown}
       >
-        <SelectList
-          setSelected={setCategory}
-          data={categories}
-          placeholder="Select Category"
-          defaultOption={{ key: "EL", value: "Electronics" }}
-        />
-      </View>
-      <View
-        style={{
-          width: "75%",
-          height: 40,
-          alignSelf: "center",
-          marginTop: 25,
-        }}
+        <Picker.Item label="Select category" value="" />
+        <Picker.Item label="Category 1" value="category1" />
+        <Picker.Item label="Category 2" value="category2" />
+      </Picker>
+
+      <Text style={styles.label}>Sub Category:</Text>
+      <Picker
+        selectedValue={subCategory}
+        onValueChange={(value) => setSubCategory(value)}
+        style={styles.dropdown}
       >
-        <SelectList
-          setSelected={setSubCategory}
-          data={subcategories[category]}
-          placeholder="Select Sub Category"
-          defaultOption={subcategories[category][0]}
-        />
-      </View>
-      <FormInputField
-        name={"Title"}
-        control={control}
-        placeholder={"Product Title"}
-        icon={require("../../Images/email.png")}
-        rule={{
-          required: "Title cannot be empty.",
-        }}
+        <Picker.Item label="Select sub category" value="" />
+        <Picker.Item label="Sub Category 1" value="subCategory1" />
+        <Picker.Item label="Sub Category 2" value="subCategory2" />
+      </Picker>
+
+      <Text style={styles.label}>Type:</Text>
+      <Picker
+        selectedValue={type}
+        onValueChange={(value) => setType(value)}
+        style={styles.dropdown}
+      >
+        <Picker.Item label="Select type" value="" />
+        <Picker.Item label="Type 1" value="type1" />
+        <Picker.Item label="Type 2" value="type2" />
+      </Picker>
+
+      <Text style={styles.label}>Title:</Text>
+      <TextInput
+        style={styles.input}
+        value={title}
+        onChangeText={(text) => setTitle(text)}
       />
-      <FormInputField
-        name={"Description"}
-        control={control}
-        placeholder={"Description"}
-        icon={require("../../Images/email.png")}
-        rule={{
-          required: "Description cannot be empty.",
-        }}
+
+      <Text style={styles.label}>Description:</Text>
+      <TextInput
+        style={styles.input}
+        value={description}
+        onChangeText={(text) => setDescription(text)}
       />
-      <FormInputField
-        name={"Price"}
-        keyboardType={"number-pad"}
-        control={control}
-        placeholder={"Price"}
-        icon={require("../../Images/email.png")}
-        rule={{
-          required: "Price cannot be empty.",
-        }}
+
+      <Text style={styles.label}>Price:</Text>
+
+      <TextInput
+        style={styles.input}
+        value={price}
+        onChangeText={(text) => setPrice(text)}
       />
-      <PrimaryButton title={"Post"} />
+      <PrimaryButton title="Post" onPress={handlePostButtonPress} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  dropdown: {
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+  },
+});
 
 export default List;
