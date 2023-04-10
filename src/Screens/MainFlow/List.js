@@ -15,6 +15,11 @@ const List = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.imageUploadContainer}>
+        <Text style={styles.label}>Upload Image:</Text>
+        <Button title="Choose Image" onPress={() => {}} />
+      </View>
+
       <Text style={styles.label}>Category:</Text>
       <Picker
         selectedValue={category}
@@ -63,12 +68,13 @@ const List = () => {
       />
 
       <Text style={styles.label}>Price:</Text>
-
       <TextInput
         style={styles.input}
         value={price}
         onChangeText={(text) => setPrice(text)}
+        keyboardType="numeric"
       />
+
       <PrimaryButton title="Post" onPress={handlePostButtonPress} />
     </View>
   );
@@ -94,6 +100,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+  },
+  imageUploadContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
   },
 });
 

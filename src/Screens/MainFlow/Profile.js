@@ -1,31 +1,95 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../Store/authSlice';
-
-import PrimaryButton from '../../Components/PrimaryButton';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, updateProfile } from "../../Store/authSlice";
+import PrimaryButton from "../../Components/PrimaryButton";
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const [firstName, setFirstName] = useState(userInfo.firstName || "");
+  const [lastName, setLastName] = useState(userInfo.lastName || "");
+  const [email, setEmail] = useState(userInfo.email || "");
+  const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo || "");
+  const [gender, setGender] = useState(userInfo.gender || "");
+  const [dob, setDob] = useState(userInfo.dob || "");
+
   function logoutHandler() {
-    console.log('LOGOUT PRESSED!!!');
+    console.log("LOGOUT PRESSED!!!");
     dispatch(logout());
   }
 
+  function saveHandler() {
+    console.log("SAVE PRESSED!!!");
+    const updatedUserInfo = {
+      firstName,
+      lastName,
+      email,
+      phoneNo,
+      gender,
+      dob,
+    };
+    console.log(updatedUserInfo);
+    dispatch(updateProfile(updatedUserInfo));
+  }
+
   return (
-    <View style={styles.container}>
-      <Image source={require('../../Images/dp.png')} style={styles.image} />
-      {userInfo && (
-        <>
-          <Text style={styles.text}>
-            Name: {`${userInfo.firstName} ${userInfo.lastName}` || 'name'}
-          </Text>
-          <Text style={styles.text}>Email: {userInfo.email || 'email'}</Text>
-        </>
-      )}
-      <PrimaryButton title={'Logout'} onPress={logoutHandler} />
-    </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image source={require("../../Images/dp.png")} style={styles.image} />
+
+      <Text style={styles.label}>First Name</Text>
+      <TextInput
+        style={styles.input}
+        value={firstName}
+        onChangeText={(text) => setFirstName(text)}
+      />
+
+      <Text style={styles.label}>Last Name</Text>
+      <TextInput
+        style={styles.input}
+        value={lastName}
+        onChangeText={(text) => setLastName(text)}
+      />
+
+      <Text style={styles.label}>Email</Text>
+      <TextInput
+        style={styles.input}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
+
+      <Text style={styles.label}>Phone Number</Text>
+      <TextInput
+        style={styles.input}
+        value={phoneNo}
+        onChangeText={(text) => setPhoneNo(text)}
+      />
+
+      <Text style={styles.label}>Gender</Text>
+      <TextInput
+        style={styles.input}
+        value={gender}
+        onChangeText={(text) => setGender(text)}
+      />
+
+      <Text style={styles.label}>Date of Birth</Text>
+      <TextInput
+        style={styles.input}
+        value={dob}
+        onChangeText={(text) => setDob(text)}
+      />
+
+      <PrimaryButton title={"Save"} onPress={saveHandler} />
+      <PrimaryButton title={"Logout"} onPress={logoutHandler} />
+    </ScrollView>
   );
 };
 
@@ -33,21 +97,31 @@ export default Profile;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white',
+    flexGrow: 1,
+    backgroundColor: "white",
+    padding: 20,
   },
   image: {
     width: 100,
     height: 100,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 50,
     borderRadius: 50,
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 0.4,
   },
-  text: {
-    alignSelf: 'center',
+  label: {
     marginTop: 20,
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  input: {
+    marginTop: 5,
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    padding: 10,
+    width: "100%",
   },
 });

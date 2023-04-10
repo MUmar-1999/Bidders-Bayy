@@ -1,166 +1,15 @@
-// import { View, Text, Image } from "react-native";
-// import React, { useState } from "react";
-// import Main from "../../Bottom/Main";
-// import Search from "../../Bottom/Search";
-// import List from "../../Bottom/List";
-// import Favorite from "../../Bottom/Favorite";
-// import Profile from "./Profile";
-// import { TouchableOpacity } from "react-native-gesture-handler";
-// const Home = () => {
-//   const [selectedTab, setSelectedTab] = useState(0);
-//   return (
-//     <View style={{ flex: 1 }}>
-//       {/* {selectedTab == 0 ? (
-//         <Main />
-//       ) : selectedTab == 1 ? (
-//         <Search />
-//       ) : selectedTab == 2 ? (
-//         <List />
-//       ) : selectedTab == 3 ? (
-//         <Favorite />
-//       ) : (
-//         <Profile />
-//       )} */}
-//       <View
-//         style={{
-//           width: "100%",
-//           height: 70,
-//           backgroundColor: "lightgrey",
-//           position: "absolute",
-//           bottom: 0,
-//           flexDirection: "row",
-//           alignItems: "center",
-//         }}
-//       >
-//         <TouchableOpacity
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             padding: 23,
-//           }}
-//           onPress={() => {
-//             setSelectedTab(0);
-//           }}
-//         >
-//           <Image
-//             source={require("../../Images/home1.png")}
-//             style={{
-//               width: 25,
-//               height: 25,
-//               tintColor: selectedTab == 0 ? "green" : "black",
-//             }}
-//           />
-//         </TouchableOpacity>
-
-//         <TouchableOpacity
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             padding: 23,
-//           }}
-//           onPress={() => {
-//             setSelectedTab(1);
-//           }}
-//         >
-//           <Image
-//             source={require("../../Images/search.png")}
-//             style={{
-//               width: 25,
-//               height: 25,
-//               tintColor: selectedTab == 1 ? "green" : "black",
-//             }}
-//           />
-//         </TouchableOpacity>
-//         <View
-//           style={{
-//             width: "20%",
-//             height: "100%",
-//             justifyContent: "center",
-//             alignItems: "center",
-//           }}
-//         >
-//           <TouchableOpacity
-//             style={{
-//               width: 40,
-//               height: 40,
-//               backgroundColor: "black",
-//               borderRadius: 20,
-//               justifyContent: "center",
-//               padding: 7.5,
-//               backgroundColor: selectedTab == 2 ? "green" : "black",
-//             }}
-//             onPress={() => {
-//               setSelectedTab(2);
-//             }}
-//           >
-//             <Image
-//               source={require("../../Images/list.png")}
-//               style={{ width: 25, height: 25, tintColor: "white" }}
-//             />
-//           </TouchableOpacity>
-//         </View>
-//         <TouchableOpacity
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             padding: 23,
-//           }}
-//           onPress={() => {
-//             setSelectedTab(3);
-//           }}
-//         >
-//           <Image
-//             source={require("../../Images/favorite.png")}
-//             style={{
-//               width: 25,
-//               height: 25,
-//               tintColor: selectedTab == 3 ? "green" : "black",
-//             }}
-//           />
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           style={{
-//             width: "100%",
-//             height: "100%",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             padding: 23,
-//           }}
-//           onPress={() => {
-//             setSelectedTab(4);
-//           }}
-//         >
-//           <Image
-//             source={require("../../Images/name.png")}
-//             style={{
-//               width: 25,
-//               height: 25,
-//               tintColor: selectedTab == 4 ? "green" : "black",
-//             }}
-//           />
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default Home;
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TextInput, ScrollView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     getData();
   }, []);
+
   const getData = () => {
     fetch("https://fakestoreapi.com/products")
       .then((res) => res.json())
@@ -168,65 +17,72 @@ const Home = () => {
         setProducts(json);
       });
   };
+
+  const filteredProducts = products.filter((product) => {
+    return product.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <Image
-        source={require("../Images/Banner.png")}
-        style={{
-          width: "95%",
-          height: 160,
-          borderRadius: 10,
-          alignSelf: "center",
-          marginTop: 10,
-        }}
-      />
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity
+    <ScrollView>
+      <View style={{ height: 200 }}>
+        <View
           style={{
-            borderWidth: 1,
-            borderColor: "rgba(0,0,0,0.2)",
-            width: 80,
-            height: 80,
-            backgroundColor: "#fff",
-            borderRadius: 50,
-            margin: 15,
-            marginLeft: 85,
+            flexDirection: "row",
+            alignItems: "center",
+            marginHorizontal: 16,
+            marginTop: 10,
           }}
         >
-          <Image
-            source={require("../Images/Bid.webp")}
-            style={{ borderRadius: 50, width: 79, height: 79 }}
+          <TextInput
+            placeholder="Search products..."
+            value={searchQuery}
+            onChangeText={(query) => setSearchQuery(query)}
+            style={{
+              flex: 1,
+              height: 40,
+              borderWidth: 1,
+              borderRadius: 10,
+              paddingHorizontal: 16,
+            }}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
+
+          <TouchableOpacity
+            onPress={() => setSearchQuery("")}
+            style={{
+              backgroundColor: "#ddd",
+              borderRadius: 10,
+              marginLeft: 8,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+            }}
+          >
+            <Text>Clear</Text>
+          </TouchableOpacity>
+        </View>
+        <Image
+          source={require("../Images/Banner.png")}
           style={{
-            borderWidth: 1,
-            borderColor: "rgba(0,0,0,0.2)",
-            width: 80,
-            height: 80,
-            backgroundColor: "#fff",
-            borderRadius: 50,
-            margin: 15,
+            width: "95%",
+            height: 160,
+            borderRadius: 10,
+            alignSelf: "center",
+            marginTop: 10,
           }}
-        >
-          <Image
-            source={require("../Images/purchase.webp")}
-            style={{ borderRadius: 50, width: 79, height: 79 }}
-          />
-        </TouchableOpacity>
+        />
       </View>
       <Text
         style={{
           fontSize: 24,
           marginLeft: 35,
           fontWeight: "bold",
+          marginTop: 16,
         }}
       >
         Products
       </Text>
       <FlatList
         numColumns={2}
-        data={products}
+        data={filteredProducts}
         renderItem={({ item, index }) => {
           return (
             <View
@@ -245,7 +101,6 @@ const Home = () => {
                 },
                 shadowOpacity: 0.43,
                 shadowRadius: 9.51,
-
                 elevation: 15,
               }}
             >
@@ -276,7 +131,7 @@ const Home = () => {
           );
         }}
       />
-    </View>
+    </ScrollView>
   );
 };
 
