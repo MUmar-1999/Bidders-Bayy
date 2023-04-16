@@ -2,6 +2,8 @@ import { View, Text, Image, TextInput, ScrollView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import axios from "axios";
+import BidderApi from "../../api/BidderApi";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -10,11 +12,27 @@ const Home = () => {
     getData();
   }, []);
 
+  // const getData = async () => {
+  //   try {
+  //     const res = await BidderApi.get("/product/");
+  //     console.log(res.data.allProducts[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const getData = () => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) => {
-        setProducts(json);
+    axios
+      .get("http://192.168.10.2:5000/product/", {
+        headers: {
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im05QGdtYWlsLmNvbSIsImlkIjoiNjQzMTdmMDgzZWEzNWQ2ZTk2YjY5ZGQ5IiwiaWF0IjoxNjgxNTkyMDc3fQ.jayQZq6p8mPy2it_z1gPkIufE-1g0Q6SHz4TQHEz-Gw",
+        },
+      })
+      .then((response) => {
+        setProducts(response.data.data.allProducts);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -75,7 +93,7 @@ const Home = () => {
           fontSize: 24,
           marginLeft: 35,
           fontWeight: "bold",
-          marginTop: 16,
+          marginTop: 25,
         }}
       >
         Products
@@ -105,7 +123,7 @@ const Home = () => {
               }}
             >
               <Image
-                source={{ uri: item.image }}
+                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
                 style={{
                   height: 180,
                   width: "100%",
@@ -125,7 +143,7 @@ const Home = () => {
                 }}
               >
                 {" "}
-                Rs. {item.price}
+                Rs. {item.productPrice}
               </Text>
             </View>
           );
