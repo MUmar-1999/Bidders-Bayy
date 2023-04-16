@@ -12,29 +12,30 @@ const Home = () => {
     getData();
   }, []);
 
-  // const getData = async () => {
-  //   try {
-  //     const res = await BidderApi.get("/product/");
-  //     console.log(res.data.allProducts[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  const getData = () => {
-    axios
-      .get("http://192.168.10.2:5000/product/", {
-        headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im05QGdtYWlsLmNvbSIsImlkIjoiNjQzMTdmMDgzZWEzNWQ2ZTk2YjY5ZGQ5IiwiaWF0IjoxNjgxNTkyMDc3fQ.jayQZq6p8mPy2it_z1gPkIufE-1g0Q6SHz4TQHEz-Gw",
-        },
-      })
-      .then((response) => {
-        setProducts(response.data.data.allProducts);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const getData = async () => {
+    try {
+      const res = await BidderApi.get("/product/");
+      // console.log(res.data.data.allProducts);
+      setProducts(res.data.data.allProducts);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  // const getData = () => {
+  //   axios
+  //     .get("http://192.168.10.2:5000/product/", {
+  //       headers: {
+  //         Authorization:
+  //           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im05QGdtYWlsLmNvbSIsImlkIjoiNjQzMTdmMDgzZWEzNWQ2ZTk2YjY5ZGQ5IiwiaWF0IjoxNjgxNTkyMDc3fQ.jayQZq6p8mPy2it_z1gPkIufE-1g0Q6SHz4TQHEz-Gw",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       setProducts(response.data.data.allProducts);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const filteredProducts = products.filter((product) => {
     return product.title.toLowerCase().includes(searchQuery.toLowerCase());

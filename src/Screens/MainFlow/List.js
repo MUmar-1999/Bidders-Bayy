@@ -39,27 +39,10 @@ const List = () => {
       axios
         .get(`http://192.168.10.2:5000/sub-category/${value}`)
         .then(function (response) {
-          console.log(response.data.data);
           setSubCategoryData(response.data.data);
         });
     }
   };
-
-  // const handlePostButtonPress = async () => {
-  //   try {
-  //     const res = await BidderApi.post("/product/", {
-  //       category,
-  //       subcategoryId,
-  //       type,
-  //       title,
-  //       description,
-  //       productPrice,
-  //     });
-  //     console.log(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   const NewPost = (
     title,
     description,
