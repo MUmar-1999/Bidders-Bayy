@@ -1,10 +1,17 @@
-import { View, Text, Image, TextInput, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import axios from "axios";
 import BidderApi from "../../api/BidderApi";
-const Home = () => {
+const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -15,7 +22,6 @@ const Home = () => {
   const getData = async () => {
     try {
       const res = await BidderApi.get("/product/");
-      // console.log(res.data.data.allProducts);
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
@@ -40,6 +46,10 @@ const Home = () => {
   const filteredProducts = products.filter((product) => {
     return product.title.toLowerCase().includes(searchQuery.toLowerCase());
   });
+  const handleProductPress = (product) => {
+    // define a function to handle product press
+    navigation.navigate("Product", { product }); // navigate to Product screen and pass in the product data
+  };
 
   return (
     <ScrollView>
@@ -123,29 +133,35 @@ const Home = () => {
                 elevation: 15,
               }}
             >
-              <Image
-                source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
-                style={{
-                  height: 180,
-                  width: "100%",
-                  alignSelf: "center",
-                  marginTop: 10,
-                  borderRadius: 10,
-                }}
-              />
-              <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: "green",
-                  fontWeight: "bold",
-                }}
-              >
-                {" "}
-                Rs. {item.productPrice}
-              </Text>
+              <TouchableOpacity onPress={() => handleProductPress(item)}>
+                <View>
+                  <Image
+                    source={{
+                      uri: "https://reactnative.dev/img/tiny_logo.png",
+                    }}
+                    style={{
+                      height: 180,
+                      width: "100%",
+                      alignSelf: "center",
+                      marginTop: 10,
+                      borderRadius: 10,
+                    }}
+                  />
+                </View>
+                <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                  {item.title}
+                </Text>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "green",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {" "}
+                  Rs. {item.productPrice}
+                </Text>
+              </TouchableOpacity>
             </View>
           );
         }}
