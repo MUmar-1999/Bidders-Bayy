@@ -12,7 +12,7 @@ import PrimaryButton from "../../Components/PrimaryButton";
 import BidderApi from "../../api/BidderApi";
 import { useEffect } from "react";
 import axios from "axios";
-import { validate } from "react-native-web/dist/cjs/exports/StyleSheet/validate";
+import ImagePicker from "react-native-image-picker";
 
 const List = () => {
   const [category, setCategory] = useState(null);
@@ -23,6 +23,7 @@ const List = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
+  const [picture, setPicture] = useState();
 
   useEffect(() => {
     axios.get("http://192.168.10.2:5000/category/").then(function (response) {
@@ -70,12 +71,39 @@ const List = () => {
         console.log(error);
       });
   };
+  const chooseImage = () => {
+    const options = {
+      title: "Select Image",
+      storageOptions: {
+        skipBackup: true,
+        path: "images",
+      },
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        const source = { uri: response.uri };
+
+        // You can also pass the image data as a base64-encoded string:
+        // const source = { uri: `data:${response.type};base64,${response.data}` };
+        setPicture(source);
+      }
+    });
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.imageUploadContainer}>
         <Text style={styles.label}>Upload Image:</Text>
-        <Button title="Choose Image" onPress={() => {}} />
+        <Button title="Choose Image" onPress={chooseImage} />
       </View>
 
       <Text style={styles.label}>Category:</Text>
