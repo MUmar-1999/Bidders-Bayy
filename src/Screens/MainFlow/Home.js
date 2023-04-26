@@ -47,7 +47,7 @@ const Home = ({ navigation }) => {
     return product.title.toLowerCase().includes(searchQuery.toLowerCase());
   });
   const handleProductPress = (product) => {
-    navigation.navigate("Product", { product });
+    navigation.navigate("Product");
   };
 
   return (

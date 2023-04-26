@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
 import Profile from "./Profile";
 import List from "./List";
@@ -12,21 +12,23 @@ import {
   Feather,
   AntDesign,
 } from "@expo/vector-icons";
+import Product from "./Product";
 
+const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MainFlowStack() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeStack"
       screenOptions={{
         tabBarActiveTintColor: "black",
         tabBarLabelStyle: { fontWeight: "bold", fontSize: 12 },
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeStack"
+        component={HomeStackScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
@@ -79,3 +81,33 @@ function MainFlowStack() {
 }
 
 export default MainFlowStack;
+
+const HomeStackScreen = ({ navigation }) => (
+  <HomeStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: "teal",
+      },
+      headerTintColor: "white",
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+    }}
+  >
+    <HomeStack.Screen
+      name="Home "
+      component={Home}
+      options={{
+        title: "Home",
+      }}
+    />
+
+    <HomeStack.Screen
+      name="Product "
+      component={Product}
+      options={{
+        title: "Product",
+      }}
+    />
+  </HomeStack.Navigator>
+);
