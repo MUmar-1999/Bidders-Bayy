@@ -47,8 +47,7 @@ const Home = ({ navigation }) => {
     return product.title.toLowerCase().includes(searchQuery.toLowerCase());
   });
   const handleProductPress = (product) => {
-    // define a function to handle product press
-    navigation.navigate("Product", { product }); // navigate to Product screen and pass in the product data
+    navigation.navigate("Product", { product });
   };
 
   return (
