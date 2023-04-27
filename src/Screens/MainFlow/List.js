@@ -27,15 +27,15 @@ const List = () => {
 
   useEffect(() => {
     axios.get("http://192.168.10.2:5000/category/").then(function (response) {
-      console.log(response.data.data.allCategory);
+      // console.log(response.data.data.allCategory);
       setCategory(response.data.data.allCategory);
     });
   }, []);
 
   const handleSubCategory = (value) => {
-    console.log(value);
+    // console.log(value);
     setCategoryData(value);
-    console.log(categoryData);
+    // console.log(categoryData);
     if (value != "") {
       axios
         .get(`http://192.168.10.2:5000/sub-category/${value}`)
@@ -65,7 +65,7 @@ const List = () => {
         }
       )
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         console.log(error);

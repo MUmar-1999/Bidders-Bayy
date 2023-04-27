@@ -98,12 +98,71 @@ const Home = ({ navigation }) => {
           }}
         />
       </View>
+      <View
+        style={{
+          marginVertical: 30,
+          marginHorizontal: 10,
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <TouchableOpacity
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            marginHorizontal: 10,
+          }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Image
+              source={require("./../Images/Bid.webp")}
+              style={{ borderRadius: 30, width: 60, height: 60 }}
+            />
+            <Text
+              style={{
+                marginTop: 10,
+                fontSize: 13,
+                color: "#444",
+                marginBottom: 5,
+                fontWeight: "300",
+              }}
+            >
+              Bidding Products
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 10,
+            marginHorizontal: 10,
+          }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <Image
+              source={require("./../Images/purchase.webp")}
+              style={{ borderRadius: 30, width: 60, height: 60 }}
+            />
+            <Text
+              style={{
+                marginTop: 10,
+                fontSize: 13,
+                color: "#444",
+                marginBottom: 5,
+                fontWeight: "300",
+              }}
+            >
+              Fix Price Products
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
       <Text
         style={{
           fontSize: 24,
           marginLeft: 35,
           fontWeight: "bold",
-          marginTop: 25,
         }}
       >
         Products
