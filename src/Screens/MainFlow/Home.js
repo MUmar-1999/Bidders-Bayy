@@ -22,6 +22,7 @@ const Home = ({ navigation }) => {
   const getData = async () => {
     try {
       const res = await BidderApi.get("/product/");
+      console.log(res.data.data.allProducts.images);
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);

@@ -8,13 +8,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import PrimaryButton from "../../Components/PrimaryButton";
 import BidderApi from "../../api/BidderApi";
 import { useEffect } from "react";
 import axios from "axios";
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
 
 const List = () => {
   const [category, setCategory] = useState(null);
@@ -25,8 +26,15 @@ const List = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
-  const [picture, setPicture] = useState();
-
+  const [picture, setPicture] = useState(null);
+  const initial = {
+    subcategoryId: "6430544a59721f736b5f6ebe",
+    title: "Ragnar",
+    productType: "Bidding Item",
+    productPrice: "133",
+    description: "dawn reporter",
+    product_picture: [],
+  };
   useEffect(() => {
     axios.get("http://192.168.10.2:5000/category/").then(function (response) {
       // console.log(response.data.data.allCategory);
@@ -51,55 +59,73 @@ const List = () => {
     description,
     productPrice,
     subcategoryId,
-    ProductType
+    ProductType,
+    images
   ) => {
+    let formData = new FormData(),
+      key;
+    const entries = Object.entries(initial);
+    for (const [key, value] of entries) {
+      if (key == "xsadfdsa") {
+        let images = [];
+        for (let i = 0; i < value.length; i++) {
+          images.push(value[i]);
+          formData.append("product_picture", [value[i]]);
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+    for (key of entries) {
+      console.log(key);
+    }
+    console.log(images);
     axios
       .post(
         "http://192.168.10.2:5000/product/",
 
-        { title, description, productPrice, subcategoryId, ProductType },
+        formData,
+
         {
           headers: {
             Authorization:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im05QGdtYWlsLmNvbSIsImlkIjoiNjQzMTdmMDgzZWEzNWQ2ZTk2YjY5ZGQ5IiwiaWF0IjoxNjgxNTkyMjE5fQ.7T_vM5zcGCzEc6ykdd-czVY9rdL8AxJZ1sD_InsawMY",
-            enctype: "multipart/form-data",
+            "Content-Type": "multipart/form-data",
           },
         }
       )
       .then((response) => {
-        // console.log(response);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  const chooseImage = () => {
-    const options = {
-      title: "Select Image",
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
-    };
 
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-
-        // You can also pass the image data as a base64-encoded string:
-        // const source = { uri: `data:${response.type};base64,${response.data}` };
-        setPicture(source);
-      }
+  const chooseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [9, 16],
+      quality: 1,
     });
+
+    console.log("total ", result.assets);
+
+    if (
+      result &&
+      !result.cancelled &&
+      result.assets &&
+      result.assets.length > 0
+    ) {
+      // setPicture(result.assets[0].uri);
+      initial.product_picture = result.assets;
+    }
   };
+
+  useEffect(() => {
+    console.log(initial.product_picture.uri);
+  }, [initial.product_picture]);
 
   return (
     <ScrollView style={styles.container}>
@@ -180,7 +206,9 @@ const List = () => {
 
       <PrimaryButton
         title="Post"
-        onPress={() => NewPost(title, description, price, subCategory, type)}
+        onPress={() =>
+          NewPost(title, description, price, subCategory, type, picture)
+        }
       />
     </ScrollView>
   );
