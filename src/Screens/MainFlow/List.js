@@ -6,6 +6,8 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import PrimaryButton from "../../Components/PrimaryButton";
@@ -100,7 +102,7 @@ const List = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.imageUploadContainer}>
         <Text style={styles.label}>Upload Image:</Text>
         <Button title="Choose Image" onPress={chooseImage} />
@@ -180,7 +182,7 @@ const List = () => {
         title="Post"
         onPress={() => NewPost(title, description, price, subCategory, type)}
       />
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
 import Profile from "./Profile";
 import List from "./List";
-import Search from "./Search";
+import MyProducts from "./MyProducts";
 import Favorite from "./Favorite";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -11,6 +11,7 @@ import {
   EvilIcons,
   Feather,
   AntDesign,
+  Fontisto,
 } from "@expo/vector-icons";
 import Product from "./Product";
 
@@ -37,15 +38,16 @@ function MainFlowStack() {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="Favorite"
+        component={Favorite}
         options={{
-          tabBarLabel: "Search",
+          tabBarLabel: "Favorite",
           tabBarIcon: ({ color }) => (
-            <AntDesign name="search1" size={26} color={color} />
+            <FontAwesome5 name="heart" size={24} color={color} />
           ),
         }}
       />
+
       <Tab.Screen
         name="List"
         component={List}
@@ -57,15 +59,16 @@ function MainFlowStack() {
         }}
       />
       <Tab.Screen
-        name="Favorite"
-        component={Favorite}
+        name="My Products"
+        component={MyProducts}
         options={{
-          tabBarLabel: "Favorite",
+          tabBarLabel: "My Products",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="heart" size={24} color={color} />
+            <Fontisto name="shopping-bag-1" size={26} color={color} />
           ),
         }}
       />
+
       <Tab.Screen
         name="Profile"
         component={Profile}
