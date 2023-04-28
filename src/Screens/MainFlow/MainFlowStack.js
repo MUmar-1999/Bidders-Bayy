@@ -3,6 +3,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./Home";
 import Profile from "./Profile";
 import List from "./List";
+import BidProduct from "./BidProduct";
+import FixProduct from "./FixProduct";
 import MyProducts from "./MyProducts";
 import Favorite from "./Favorite";
 import { Ionicons } from "@expo/vector-icons";
@@ -100,5 +102,7 @@ const HomeStackScreen = () => (
     />
 
     <HomeStack.Screen name="Product" component={Product} />
+    <HomeStack.Screen name="BidProduct" component={BidProduct} />
+    <HomeStack.Screen name="FixProduct" component={FixProduct} />
   </HomeStack.Navigator>
 );
