@@ -22,7 +22,9 @@ const Product = ({ route }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }}
+        source={{
+          uri: "https://cdn.mos.cms.futurecdn.net/kSUXaLsWD6dMQuXrSRYMKg-1200-80.jpg.webp",
+        }}
         style={styles.image}
       />
       <View style={styles.titleContainer}>

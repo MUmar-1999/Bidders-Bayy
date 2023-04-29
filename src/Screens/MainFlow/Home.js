@@ -95,7 +95,7 @@ const Home = ({ navigation }) => {
         <Image
           source={require("../Images/Banner.png")}
           style={{
-            width: "95%",
+            width: "91.5%",
             height: 160,
             borderRadius: 10,
             alignSelf: "center",
@@ -167,8 +167,8 @@ const Home = ({ navigation }) => {
         <Text
           style={{
             fontSize: 20,
-            marginLeft: 35,
-            fontWeight: "bold",
+            marginLeft: 25,
+            fontWeight: "400",
           }}
         >
           Products
@@ -201,13 +201,13 @@ const Home = ({ navigation }) => {
                   <View>
                     <Image
                       source={{
-                        uri: "https://reactnative.dev/img/tiny_logo.png",
+                        uri: "https://cdn.mos.cms.futurecdn.net/kSUXaLsWD6dMQuXrSRYMKg-1200-80.jpg.webp",
                       }}
                       style={{
-                        height: 180,
+                        height: 170,
                         width: "100%",
                         alignSelf: "center",
-                        marginTop: 10,
+                        marginTop: 5,
                         borderRadius: 10,
                       }}
                     />
