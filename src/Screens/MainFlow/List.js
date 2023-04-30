@@ -13,6 +13,7 @@ import BidderApi from "../../api/BidderApi";
 import { useEffect } from "react";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
+import FormControl from "../../Components/Form Control/FormControl";
 
 const List = () => {
   const [category, setCategory] = useState(null);
@@ -24,14 +25,17 @@ const List = () => {
   const [price, setPrice] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
   const [picture, setPicture] = useState(null);
+
   const initial = {
-    subcategoryId: "6430544a59721f736b5f6ebe",
-    title: "Ragnar",
-    productType: "Bidding Item",
-    productPrice: "133",
-    description: "dawn reporter",
+    subcategoryId: "",
+    title: "",
+    productType: "",
+    productPrice: "",
+    description: "",
     product_picture: [],
   };
+
+  const { setPostValue, postValue, postChange } = FormControl(initial);
   useEffect(() => {
     axios.get("http://192.168.10.2:5000/category/").then(function (response) {
       // console.log(response.data.data.allCategory);
@@ -61,7 +65,7 @@ const List = () => {
   ) => {
     let formData = new FormData(),
       key;
-    const entries = Object.entries(initial);
+    const entries = Object.entries(postValue);
     for (const [key, value] of entries) {
       if (key == "xsadfdsa") {
         let images = [];
@@ -92,7 +96,7 @@ const List = () => {
         }
       )
       .then((response) => {
-        // console.log('RES', JSON.stringify(response, null, 2));
+        console.log("RES", JSON.stringify(response, null, 2));
       })
       .catch((error) => {
         // console.error(error);
@@ -116,11 +120,13 @@ const List = () => {
       result.assets.length > 0
     ) {
       // setPicture(result.assets[0].uri);
-      initial.product_picture = {
+
+      const pro = {
         uri: result.assets[0].uri,
         type: "image/jpeg", // Change the type based on your image format
         name: "image.jpg",
       };
+      postChange("product_picture", pro);
     }
   };
 
@@ -132,8 +138,8 @@ const List = () => {
     <ScrollView style={styles.container}>
       <Text style={styles.label}>Type:</Text>
       <Picker
-        selectedValue={type}
-        onValueChange={(value) => setType(value)}
+        selectedValue={postValue.productType}
+        onValueChange={(itemValue) => postChange("productType", itemValue)}
         style={styles.dropdown}
       >
         <Picker.Item label="Select type" value="" />
@@ -166,8 +172,9 @@ const List = () => {
 
       <Text style={styles.label}>Sub Category:</Text>
       <Picker
-        selectedValue={subCategory}
-        onValueChange={(value) => setSubCategory(value)}
+        name="subcategoryId"
+        selectedValue={postValue.subcategoryId}
+        onValueChange={(itemValue) => postChange("subcategoryId", itemValue)}
         style={styles.dropdown}
         onPress={() => console.log("hello")}
       >
@@ -186,24 +193,24 @@ const List = () => {
       <Text style={styles.label}>Title:</Text>
       <TextInput
         style={styles.input}
-        value={title}
-        onChangeText={(text) => setTitle(text)}
+        value={postValue.title}
+        onChangeText={(text) => postChange("title", text)}
       />
 
       <Text style={styles.label}>Description:</Text>
       <TextInput
         style={styles.input}
-        value={description}
-        onChangeText={(text) => setDescription(text)}
+        value={postValue.description}
+        onChangeText={(text) => postChange("description", text)}
       />
 
       <Text style={styles.label}>
-        {type === "Bidding Item" ? "Base Price:" : "Price:"}
+        {postValue.productType === "Bidding Item" ? "Base Price:" : "Price:"}
       </Text>
       <TextInput
         style={styles.input}
-        value={price}
-        onChangeText={(text) => setPrice(text)}
+        value={postValue.productPrice}
+        onChangeText={(text) => postChange("productPrice", text)}
         keyboardType="numeric"
       />
 

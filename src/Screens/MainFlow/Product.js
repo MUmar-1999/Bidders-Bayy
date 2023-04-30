@@ -12,7 +12,7 @@ import {
 
 const Product = ({ route }) => {
   const { product } = route.params;
-
+  console.log(product.userId.firstName);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
@@ -27,7 +27,10 @@ const Product = ({ route }) => {
         <View style={styles.container}>
           <Image
             source={{
-              uri: `http://192.168.10.2:5000/${product.images[0]}`,
+              uri:
+                product.images && product.images.length > 0
+                  ? `http://192.168.10.2:5000/${product.images[0]}`
+                  : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
             }}
             style={styles.image}
           />
@@ -40,7 +43,23 @@ const Product = ({ route }) => {
           <Text style={styles.price}>Price: Rs. {product.productPrice}</Text>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.sellerContainer}>
-            <Text style={styles.seller}>Seller:{product.seller}</Text>
+            <View style={styles.sellerDetails}>
+              <Image
+                source={require("../../Images/name.png")}
+                style={styles.sellerNameIcon}
+              />
+              <Text style={styles.sellerName}>
+                {product.userId.firstName} {product.userId.lastName}
+              </Text>
+            </View>
+            <View style={styles.sellerDetails}>
+              <Image
+                source={require("../../Images/phone.png")}
+                style={styles.sellerPhoneIcon}
+              />
+              <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
+            </View>
+
             <View style={styles.commentContainer}>
               <TextInput
                 style={styles.commentInput}
@@ -157,6 +176,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     textAlign: "left",
+  },
+  sellerContainer: {
+    marginTop: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+  },
+  sellerDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  sellerNameIcon: {
+    marginRight: 10,
+    width: 24,
+    height: 24,
+  },
+  sellerPhoneIcon: {
+    marginRight: 10,
+    width: 24,
+    height: 24,
+  },
+  sellerName: {
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  sellerPhone: {
+    fontSize: 16,
   },
 });
 

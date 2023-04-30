@@ -14,7 +14,7 @@ import PrimaryButton from "../../Components/PrimaryButton";
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  console.log(userInfo.dob);
   const [firstName, setFirstName] = useState(userInfo.firstName || "");
   const [lastName, setLastName] = useState(userInfo.lastName || "");
   const [email, setEmail] = useState(userInfo.email || "");
