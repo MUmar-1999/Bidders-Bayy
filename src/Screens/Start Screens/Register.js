@@ -200,6 +200,13 @@ const Register = ({ navigation }) => {
             rule={{ required: "Address cannot be empty." }}
           />
 
+          <FormInputField
+            name={"currentCity"}
+            placeholder={"City"}
+            control={control}
+            icon={require("../../Images/location.png")}
+            rule={{ required: "City cannot be empty." }}
+          />
           <PrimaryButton
             title={"Signup"}
             disabled={loading}

@@ -1,9 +1,9 @@
-import BidderApi from '../api/BidderApi';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import BidderApi from "../api/BidderApi";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getItemAsync, setItemAsync } from "expo-secure-store";
 
 export const register = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (
     {
       firstName,
@@ -14,12 +14,13 @@ export const register = createAsyncThunk(
       phoneNo,
       gender,
       address,
-      dob = '2000-10-10',
+      dob = "2000-10-10",
+      currentCity,
     },
     { rejectWithValue }
   ) => {
     try {
-      await BidderApi.post('/users/signup', {
+      await BidderApi.post("/users/signup", {
         firstName,
         lastName,
         email,
@@ -29,9 +30,10 @@ export const register = createAsyncThunk(
         gender,
         address,
         dob,
+        currentCity,
       });
     } catch (error) {
-      console.error('Register', error);
+      console.error("Register", error);
       // return custom error message from backend if present
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -43,19 +45,19 @@ export const register = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await BidderApi.post('/users/login', {
+      const { data } = await BidderApi.post("/users/login", {
         email,
         password,
       });
       // store user's token in local storage
-      await setItemAsync('user', JSON.stringify(data.user));
-      await setItemAsync('token', JSON.stringify(data.token));
+      await setItemAsync("user", JSON.stringify(data.user));
+      await setItemAsync("token", JSON.stringify(data.token));
       return data;
     } catch (error) {
-      console.error('Login', error);
+      console.error("Login", error);
 
       // return custom error message from API if any
       if (error.response && error.response.data.message) {
@@ -67,13 +69,13 @@ export const login = createAsyncThunk(
   }
 );
 
-export const getAuthToken = createAsyncThunk('auth/getAuthToken', async () => {
+export const getAuthToken = createAsyncThunk("auth/getAuthToken", async () => {
   try {
-    const token = JSON.parse(await getItemAsync('token'));
-    const user = JSON.parse(await getItemAsync('user'));
+    const token = JSON.parse(await getItemAsync("token"));
+    const user = JSON.parse(await getItemAsync("user"));
     return { token: token, user: user };
   } catch (error) {
-    console.error('ERRTOKEN', error);
+    console.error("ERRTOKEN", error);
     return rejectWithValue(error);
   }
 });
