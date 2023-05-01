@@ -5,14 +5,18 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
+import { SegmentedButtons, Surface } from "react-native-paper";
 
 import BidderApi from "../../api/BidderApi";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [value, setValue] = React.useState("");
 
   useEffect(() => {
     getData();
@@ -169,6 +173,26 @@ const Home = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
             </View>
+            {/* 
+            <SafeAreaView style={styles.container}>
+              <SegmentedButtons
+                value={value}
+                onValueChange={setValue}
+                buttons={[
+                  {
+                    value: "bid",
+                    label: "Bidding Items",
+                  },
+                  {
+                    value: "fix",
+                    label: "Fix Price Items",
+                  },
+                ]}
+                style={{
+                  borderRadius: 20, // set the desired border radius value
+                }}
+              />
+            </SafeAreaView> */}
             <Text
               style={{
                 fontSize: 20,
@@ -242,3 +266,13 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+});
