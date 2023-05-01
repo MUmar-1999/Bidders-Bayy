@@ -14,7 +14,7 @@ const FixProduct = ({ navigation }) => {
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get("/product/bid/");
+      const res = await BidderApi.get("/product/used/");
       console.log(
         "HOME LSIT::",
         JSON.stringify(res.data.data.allProducts[0], null, 2)
