@@ -21,6 +21,7 @@ const Profile = () => {
   const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo || "");
   const [gender, setGender] = useState(userInfo.gender || "");
   const [dob, setDob] = useState(userInfo.dob || "");
+  const [currentCity, setCurrentCity] = useState(userInfo.currentCity || "");
 
   function logoutHandler() {
     console.log("LOGOUT PRESSED!!!");
@@ -36,6 +37,7 @@ const Profile = () => {
       phoneNo,
       gender,
       dob,
+      currentCity,
     };
     console.log(updatedUserInfo);
     dispatch(updateProfile(updatedUserInfo));
@@ -83,8 +85,15 @@ const Profile = () => {
       <Text style={styles.label}>Date of Birth</Text>
       <TextInput
         style={styles.input}
-        value={dob}
+        value={dob.substring(0, 10)}
         onChangeText={(text) => setDob(text)}
+      />
+
+      <Text style={styles.label}>City</Text>
+      <TextInput
+        style={styles.input}
+        value={currentCity}
+        onChangeText={(text) => setCurrentCity(text)}
       />
 
       <PrimaryButton title={"Save"} onPress={saveHandler} />
