@@ -3,9 +3,7 @@ import {
   Text,
   Image,
   TextInput,
-  ScrollView,
   TouchableOpacity,
-  SafeAreaView,
   StyleSheet,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
