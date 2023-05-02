@@ -208,7 +208,7 @@ const Home = ({ navigation }) => {
         renderItem={({ item, index }) => {
           return (
             <View
-              key={item._id} // added unique key prop
+              // key={item._id} // added unique key prop
               style={{
                 backgroundColor: "white",
                 width: "45%",

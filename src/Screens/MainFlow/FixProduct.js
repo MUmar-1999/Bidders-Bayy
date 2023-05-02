@@ -101,81 +101,75 @@ const FixProduct = ({ navigation }) => {
         }
         renderItem={({ item, index }) => {
           return (
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-              {products
-                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .map((item) => (
-                  <View
-                    key={item._id} // added unique key prop
+            <View
+              // key={item._id} // added unique key prop
+              style={{
+                backgroundColor: "white",
+                width: "45%",
+                margin: 8,
+                borderRadius: 10,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 7,
+                },
+                shadowOpacity: 0.43,
+                shadowRadius: 9.51,
+                elevation: 15,
+              }}
+            >
+              <TouchableOpacity onPress={() => handleProductPress(item)}>
+                <View
+                  style={{
+                    height: 170,
+                    borderRadius: 10,
+                    overflow: "hidden",
+                  }}
+                >
+                  <Image
+                    source={{
+                      uri:
+                        item.images && item.images.length > 0
+                          ? `http://192.168.10.2:5000/${item.images[0]}`
+                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+                    }}
+                    style={{ height: "100%", width: "100%" }}
+                  />
+                </View>
+                <View style={{ padding: 12 }}>
+                  <Text
                     style={{
-                      backgroundColor: "white",
-                      width: "45%",
-                      margin: 8,
-                      borderRadius: 10,
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 7,
-                      },
-                      shadowOpacity: 0.43,
-                      shadowRadius: 9.51,
-                      elevation: 15,
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      marginBottom: 8,
                     }}
                   >
-                    <TouchableOpacity onPress={() => handleProductPress(item)}>
-                      <View
-                        style={{
-                          height: 170,
-                          borderRadius: 10,
-                          overflow: "hidden",
-                        }}
-                      >
-                        <Image
-                          source={{
-                            uri:
-                              item.images && item.images.length > 0
-                                ? `http://192.168.10.2:5000/${item.images[0]}`
-                                : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                          }}
-                          style={{ height: "100%", width: "100%" }}
-                        />
-                      </View>
-                      <View style={{ padding: 12 }}>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontWeight: "bold",
-                            marginBottom: 8,
-                          }}
-                        >
-                          {item.title}
-                        </Text>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 12,
-                              fontWeight: "bold",
-                              color: "green",
-                            }}
-                          >
-                            Rs. {item.productPrice}
-                          </Text>
-                          <Text style={{ fontSize: 12, color: "#aaa" }}>
-                            {item.createdAt.substring(0, 10)}
-                          </Text>
-                          <Text style={{ fontSize: 12, color: "#aaa" }}>
-                            {item.city}
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
+                    {item.title}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "bold",
+                        color: "green",
+                      }}
+                    >
+                      Rs. {item.productPrice}
+                    </Text>
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      {item.createdAt.substring(0, 10)}
+                    </Text>
+                    {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
+                          {item.currenCity}
+                        </Text> */}
                   </View>
-                ))}
+                </View>
+              </TouchableOpacity>
             </View>
           );
         }}

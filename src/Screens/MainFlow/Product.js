@@ -36,11 +36,31 @@ const Product = ({ route }) => {
           />
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{product.title}</Text>
-            <View style={styles.inspectionButton}>
-              <Text style={styles.buttonText}>Inspection</Text>
+            <View style={styles.inspectionButtonContainer}>
+              <View style={styles.inspectionButton}>
+                <Text style={styles.buttonText}>Inspection</Text>
+              </View>
             </View>
           </View>
-          <Text style={styles.price}>Price: Rs. {product.productPrice}</Text>
+          {product.productType === "Bidding Item" ? (
+            <View>
+              <Text style={styles.price}>
+                Base Price: Rs. {product.productPrice}
+              </Text>
+              <View style={styles.bidContainer}>
+                <TextInput
+                  placeholder="Enter bid amount"
+                  keyboardType="numeric"
+                />
+                <TouchableOpacity style={styles.bidButton}>
+                  <Text style={styles.bidButtonText}>Place Bid</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <Text style={styles.price}>Price: Rs. {product.productPrice}</Text>
+          )}
+
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.sellerContainer}>
             <View style={styles.sellerDetails}>
@@ -108,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginBottom: 10,
+    flexWrap: "wrap",
   },
   title: {
     fontSize: 22,
@@ -118,6 +139,10 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
+    width: "100%",
+  },
+  inspectionButtonContainer: {
+    width: 100,
   },
   buttonText: {
     color: "white",
@@ -197,12 +222,38 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+  bidButton: {
+    backgroundColor: "black",
+    borderRadius: 4,
+    paddingVertical: 6,
+    paddingHorizontal: 20,
+    marginLeft: 20,
+  },
+  bidButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
   sellerName: {
     fontWeight: "bold",
     fontSize: 16,
   },
   sellerPhone: {
     fontSize: 16,
+  },
+  bidContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  bidInput: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 4,
+    marginRight: 10,
+    paddingHorizontal: 10,
+    width: 100,
   },
 });
 
