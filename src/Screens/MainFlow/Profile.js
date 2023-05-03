@@ -10,11 +10,12 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { logout, updateProfile } from "../../Store/authSlice";
 import PrimaryButton from "../../Components/PrimaryButton";
+import BecomeSeller from "./BecomeSeller";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log(userInfo.dob);
+
   const [firstName, setFirstName] = useState(userInfo.firstName || "");
   const [lastName, setLastName] = useState(userInfo.lastName || "");
   const [email, setEmail] = useState(userInfo.email || "");
@@ -42,10 +43,23 @@ const Profile = () => {
     console.log(updatedUserInfo);
     dispatch(updateProfile(updatedUserInfo));
   }
-
+  const handleBecomeSeller = (becomeSeller) => {
+    navigation.navigate("BecomeSeller", { becomeSeller });
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require("../../Images/dp.png")} style={styles.image} />
+      <View style={styles.profileImageContainer}>
+        <Image
+          source={require("../../Images/dp.png")}
+          style={styles.profileImage}
+        />
+        <PrimaryButton
+          title={"Become a Seller"}
+          onPress={() => {
+            handleBecomeSeller();
+          }}
+        />
+      </View>
 
       <Text style={styles.label}>First Name</Text>
       <TextInput
@@ -110,7 +124,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
   },
-  image: {
+  profileImageContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+
+  profileImage: {
     width: 100,
     height: 100,
     alignSelf: "center",

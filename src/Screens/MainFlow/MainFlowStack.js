@@ -17,8 +17,10 @@ import {
 } from "@expo/vector-icons";
 import Product from "./Product";
 import SellerProfile from "./SellerProfile";
+import BecomeSeller from "./BecomeSeller";
 
 const HomeStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MainFlowStack() {
@@ -75,7 +77,7 @@ function MainFlowStack() {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileStackScreen}
         options={{
           tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
@@ -108,4 +110,22 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="FixProduct" component={FixProduct} />
     <HomeStack.Screen name="SellerProfile" component={SellerProfile} />
   </HomeStack.Navigator>
+);
+
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <ProfileStack.Screen
+      name="Profile "
+      component={Profile}
+      options={{
+        title: "Profile",
+      }}
+    />
+
+    <ProfileStack.Screen name="BecomeSeller" component={BecomeSeller} />
+  </ProfileStack.Navigator>
 );
