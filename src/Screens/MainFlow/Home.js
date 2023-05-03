@@ -172,26 +172,7 @@ const Home = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
             </View>
-            {/* 
-            <SafeAreaView style={styles.container}>
-              <SegmentedButtons
-                value={value}
-                onValueChange={setValue}
-                buttons={[
-                  {
-                    value: "bid",
-                    label: "Bidding Items",
-                  },
-                  {
-                    value: "fix",
-                    label: "Fix Price Items",
-                  },
-                ]}
-                style={{
-                  borderRadius: 20, // set the desired border radius value
-                }}
-              />
-            </SafeAreaView> */}
+
             <Text
               style={{
                 fontSize: 20,

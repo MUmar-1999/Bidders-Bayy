@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 
-const Product = ({ route }) => {
+const Product = ({ route, navigation }) => {
   const { product } = route.params;
   console.log(product.userId.firstName);
   const [comment, setComment] = useState("");
@@ -19,6 +19,9 @@ const Product = ({ route }) => {
   const handleComment = () => {
     setComments([...comments, comment]);
     setComment("");
+  };
+  const handleSellerPress = (sellerProfile) => {
+    navigation.navigate("SellerProfile", { sellerProfile });
   };
 
   return (
@@ -68,7 +71,10 @@ const Product = ({ route }) => {
                 source={require("../../Images/name.png")}
                 style={styles.sellerNameIcon}
               />
-              <Text style={styles.sellerName}>
+              <Text
+                style={styles.sellerName}
+                onPress={() => handleSellerPress(product)}
+              >
                 {product.userId.firstName} {product.userId.lastName}
               </Text>
             </View>

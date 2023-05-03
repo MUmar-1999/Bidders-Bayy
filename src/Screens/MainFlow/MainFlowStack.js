@@ -1,21 +1,22 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import Home from './Home';
-import Profile from './Profile';
-import List from './List';
-import BidProduct from './BidProduct';
-import FixProduct from './FixProduct';
-import MyProducts from './MyProducts';
-import Favorite from './Favorite';
-import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import Home from "./Home";
+import Profile from "./Profile";
+import List from "./List";
+import BidProduct from "./BidProduct";
+import FixProduct from "./FixProduct";
+import MyProducts from "./MyProducts";
+import Favorite from "./Favorite";
+import { Ionicons } from "@expo/vector-icons";
 import {
   FontAwesome5,
   EvilIcons,
   Feather,
   AntDesign,
   Fontisto,
-} from '@expo/vector-icons';
-import Product from './Product';
+} from "@expo/vector-icons";
+import Product from "./Product";
+import SellerProfile from "./SellerProfile";
 
 const HomeStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,8 +26,8 @@ function MainFlowStack() {
     <Tab.Navigator
       initialRouteName="Bidders Bay"
       screenOptions={{
-        tabBarActiveTintColor: 'black',
-        tabBarLabelStyle: { fontWeight: 'bold', fontSize: 12 },
+        tabBarActiveTintColor: "black",
+        tabBarLabelStyle: { fontWeight: "bold", fontSize: 12 },
         tabBarHideOnKeyboard: true,
       }}
     >
@@ -34,7 +35,7 @@ function MainFlowStack() {
         name="Bidders Bay"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-home" color={color} size={26} />
           ),
@@ -44,7 +45,7 @@ function MainFlowStack() {
         name="Favorite"
         component={Favorite}
         options={{
-          tabBarLabel: 'Favorite',
+          tabBarLabel: "Favorite",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="heart" size={24} color={color} />
           ),
@@ -55,7 +56,7 @@ function MainFlowStack() {
         name="List"
         component={List}
         options={{
-          tabBarLabel: 'List',
+          tabBarLabel: "List",
           tabBarIcon: ({ color }) => (
             <Feather name="plus-circle" size={32} color={color} />
           ),
@@ -65,7 +66,7 @@ function MainFlowStack() {
         name="My Products"
         component={MyProducts}
         options={{
-          tabBarLabel: 'My Products',
+          tabBarLabel: "My Products",
           tabBarIcon: ({ color }) => (
             <Fontisto name="shopping-bag-1" size={26} color={color} />
           ),
@@ -76,7 +77,7 @@ function MainFlowStack() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="user-alt" size={24} color={color} />
           ),
@@ -98,12 +99,13 @@ const HomeStackScreen = () => (
       name="Home "
       component={Home}
       options={{
-        title: 'Home',
+        title: "Home",
       }}
     />
 
     <HomeStack.Screen name="Product" component={Product} />
     <HomeStack.Screen name="BidProduct" component={BidProduct} />
     <HomeStack.Screen name="FixProduct" component={FixProduct} />
+    <HomeStack.Screen name="SellerProfile" component={SellerProfile} />
   </HomeStack.Navigator>
 );
