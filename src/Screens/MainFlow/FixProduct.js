@@ -164,9 +164,9 @@ const FixProduct = ({ navigation }) => {
                     <Text style={{ fontSize: 12, color: "#aaa" }}>
                       {item.createdAt.substring(0, 10)}
                     </Text>
-                    {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
-                          {item.currenCity}
-                        </Text> */}
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      {item.currenCity}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

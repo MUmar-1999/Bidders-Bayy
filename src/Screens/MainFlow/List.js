@@ -55,7 +55,7 @@ const List = () => {
         });
     }
   };
-  const NewPost = (
+  const NewPost = async (
     title,
     description,
     productPrice,
@@ -78,29 +78,40 @@ const List = () => {
       }
     }
     for (key of entries) {
-      // console.log(key);
+      console.log(key);
     }
     // console.log('image', images);
-    axios
-      .post(
-        "http://192.168.10.2:5000/product/",
+    // axios
+    //   .post(
+    //     "http://192.168.10.2:5000/product/",
 
-        formData,
+    //     formData,
 
-        {
-          headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im05QGdtYWlsLmNvbSIsImlkIjoiNjQzMTdmMDgzZWEzNWQ2ZTk2YjY5ZGQ5IiwiaWF0IjoxNjgxNTkyMjE5fQ.7T_vM5zcGCzEc6ykdd-czVY9rdL8AxJZ1sD_InsawMY",
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
-      .then((response) => {
-        console.log("RES", JSON.stringify(response, null, 2));
-      })
-      .catch((error) => {
-        // console.error(error);
-      });
+    //     {
+    //       headers: {
+    //         Authorization:
+
+    //         "Content-Type": "multipart/form-data",
+    //       },
+    //     }
+    //   )
+    //   .then((response) => {
+    //     console.log("RES", JSON.stringify(response, null, 2));
+    //   })
+    //   .catch((error) => {
+    //     // console.error(error);
+    //   });
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      const res = await BidderApi.post("/product/", formData, config);
+      console.log("HOME LIST::", JSON.stringify(res, null, 2));
+    } catch (error) {
+      console.log(error.res);
+    }
   };
 
   const chooseImage = async () => {

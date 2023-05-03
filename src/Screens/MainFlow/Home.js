@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
       const res = await BidderApi.get("/product/bid/");
       console.log(
         "HOME LSIT::",
-        JSON.stringify(res.data.data.allProducts[0], null, 2)
+        JSON.stringify(res.data.data.allProducts[0].userId.currentCity, null, 2)
       );
       setProducts(res.data.data.allProducts);
     } catch (error) {
@@ -185,6 +185,7 @@ const Home = ({ navigation }) => {
           </>
         }
         renderItem={({ item, index }) => {
+          console.log("item value", item);
           return (
             <View
               // key={item._id} // added unique key prop
@@ -246,12 +247,14 @@ const Home = ({ navigation }) => {
                     >
                       Rs. {item.productPrice}
                     </Text>
-                    <Text style={{ fontSize: 12, color: "#aaa" }}>
-                      {item.createdAt.substring(0, 10)}
-                    </Text>
                     {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
-                            {item.currenCity}
-                          </Text> */}
+                      {item.createdAt.substring(0, 10)}
+                    </Text> */}
+                    {item.userId ? (
+                      <Text style={{ fontSize: 12, color: "#aaa" }}>
+                        {item.userId.currentCity}
+                      </Text>
+                    ) : null}
                   </View>
                 </View>
               </TouchableOpacity>

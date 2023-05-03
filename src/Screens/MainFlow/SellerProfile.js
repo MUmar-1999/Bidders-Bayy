@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import BidderApi from "../../api/BidderApi";
-import { FlatList } from "react-native-gesture-handler";
 
-const SellerProfile = ({ route }) => {
+const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const { sellerProfile } = route.params;
-
+  console.log(sellerProfile);
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get("/product/bid/");
-      console.log(
-        "Seller Product LIST::",
-        JSON.stringify(res.data.data.allProducts[0], null, 2)
+      const res = await BidderApi.get(
+        `/product/user_product/${sellerProfile.userId._id}`
       );
+      console.log("Seller Product LIST::", JSON.stringify(res, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
@@ -28,22 +33,24 @@ const SellerProfile = ({ route }) => {
   };
   return (
     <View>
-      <View style={styles.container}>
-        <Image
-          source={{ uri: sellerProfile.userId.dp }}
-          style={styles.profileImage}
-        />
-        <Text style={styles.name}>
-          {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
-        </Text>
-        <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
-        {/* <Text style={styles.location}>{sellerProfile.location}</Text>
-      <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
-      </View>
       <FlatList
+        data={products}
+        keyExtractor={(item) => item._id}
         numColumns={2}
         ListHeaderComponent={
           <>
+            <View style={styles.container}>
+              <Image
+                source={{ uri: sellerProfile.userId.dp }}
+                style={styles.profileImage}
+              />
+              <Text style={styles.name}>
+                {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
+              </Text>
+              <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+              {/* <Text style={styles.location}>{sellerProfile.location}</Text>
+      <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
+            </View>
             <Text
               style={{
                 fontSize: 20,
@@ -84,8 +91,7 @@ const SellerProfile = ({ route }) => {
                   <Image
                     source={{
                       uri:
-                        item.sellerProfile.images &&
-                        item.sellerProfile.images.length > 0
+                        item.images && item.images.length > 0
                           ? `http://192.168.10.2:5000/${item.images[0]}`
                           : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
                     }}
@@ -100,7 +106,7 @@ const SellerProfile = ({ route }) => {
                       marginBottom: 8,
                     }}
                   >
-                    {item.sellerProfile.title}
+                    {item.title}
                   </Text>
                   <View
                     style={{
@@ -115,7 +121,7 @@ const SellerProfile = ({ route }) => {
                         color: "green",
                       }}
                     >
-                      Rs. {item.sellerProfile.productPrice}
+                      Rs. {item.productPrice}
                     </Text>
                     <Text style={{ fontSize: 12, color: "#aaa" }}>
                       {item.createdAt.substring(0, 10)}

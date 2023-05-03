@@ -10,7 +10,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { logout, updateProfile } from "../../Store/authSlice";
 import PrimaryButton from "../../Components/PrimaryButton";
-import BecomeSeller from "./BecomeSeller";
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -53,12 +52,12 @@ const Profile = ({ navigation }) => {
           source={require("../../Images/dp.png")}
           style={styles.profileImage}
         />
-        <PrimaryButton
-          title={"Become a Seller"}
-          onPress={() => {
-            handleBecomeSeller();
-          }}
-        />
+        {userInfo.role === "buyer" && (
+          <PrimaryButton
+            title={"Become a Seller"}
+            onPress={handleBecomeSeller}
+          />
+        )}
       </View>
 
       <Text style={styles.label}>First Name</Text>

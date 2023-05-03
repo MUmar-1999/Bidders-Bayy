@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,9 @@ import {
 
 const Product = ({ route, navigation }) => {
   const { product } = route.params;
-  console.log(product.userId.firstName);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [bid, setBid] = useState(null);
 
   const handleComment = () => {
     setComments([...comments, comment]);
@@ -22,6 +22,31 @@ const Product = ({ route, navigation }) => {
   };
   const handleSellerPress = (sellerProfile) => {
     navigation.navigate("SellerProfile", { sellerProfile });
+  };
+
+  const handleTextChange = (newText) => {
+    setBid(newText);
+  };
+
+  useEffect(() => {
+    getBid();
+  }, []);
+
+  const getBid = async () => {
+    const config = {
+      Authorization:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0xQGdtYWlsLmNvbSIsImlkIjoiNjQ1MjU2ZTIzNWQ5M2YwNjQ5MmM0MzdhIiwiaWF0IjoxNjgzMTQ3Njc2fQ.YFS8r_vfb56lHpB37lJiY4BEjt3Saw3BHG-L5-E6h6I",
+    };
+    try {
+      console.log(product._id);
+      const res = await BidderApi.get("/bidding/6452b181d8a428976a224b2f", {
+        headers: config,
+      });
+      console.log("Bidding::", JSON.stringify(res, null, 2));
+      setProducts(res.data.data.allProducts);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -50,8 +75,13 @@ const Product = ({ route, navigation }) => {
               <Text style={styles.price}>
                 Base Price: Rs. {product.productPrice}
               </Text>
+              <Text style={styles.price}>
+                Highest Bid: Rs. {product.productPrice}
+              </Text>
               <View style={styles.bidContainer}>
                 <TextInput
+                  value={bid}
+                  onChangeText={handleTextChange}
                   placeholder="Enter bid amount"
                   keyboardType="numeric"
                 />
