@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,15 +7,15 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-} from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import PrimaryButton from "../../Components/PrimaryButton";
-import FormInputField from "../../Components/FormInputField";
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import PrimaryButton from '../../Components/PrimaryButton';
+import FormInputField from '../../Components/FormInputField';
 
 const BecomeSeller = () => {
   const [frontImage, setFrontImage] = useState(null);
   const [backImage, setBackImage] = useState(null);
-  const [cnic, setCnic] = useState("");
+  const [cnic, setCnic] = useState('');
 
   const pickImage = async (side) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -25,8 +25,8 @@ const BecomeSeller = () => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      if (side === "front") {
+    if (!result.canceled) {
+      if (side === 'front') {
         setFrontImage(result.uri);
       } else {
         setBackImage(result.uri);
@@ -59,9 +59,9 @@ const BecomeSeller = () => {
         )}
 
         <Button
-          style={{ backgroundColor: "red", color: "white" }}
+          style={{ backgroundColor: 'red', color: 'white' }}
           title="Select Front Side of CNIC"
-          onPress={() => pickImage("front")}
+          onPress={() => pickImage('front')}
         />
       </View>
       <View style={styles.imageContainer}>
@@ -76,7 +76,7 @@ const BecomeSeller = () => {
         )}
         <Button
           title="Select Back Side of CNIC"
-          onPress={() => pickImage("back")}
+          onPress={() => pickImage('back')}
         />
       </View>
 
@@ -88,7 +88,7 @@ const BecomeSeller = () => {
       />
 
       <PrimaryButton
-        title={"Apply for Verification"}
+        title={'Apply for Verification'}
         onPress={handleVerificationSubmit}
       />
     </View>
@@ -99,41 +99,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   heading: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 16,
   },
   imageContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginBottom: 16,
   },
   image: {
     width: 250,
     height: 150,
-    resizeMode: "cover",
+    resizeMode: 'cover',
     marginBottom: 8,
     borderRadius: 5,
   },
   imagePlaceholder: {
     width: 250,
     height: 150,
-    backgroundColor: "#ddd",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 8,
     borderRadius: 5,
   },
   imagePlaceholderText: {
-    color: "#555",
+    color: '#555',
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   input: {
     height: 40,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 8,
