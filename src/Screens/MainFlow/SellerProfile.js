@@ -8,7 +8,6 @@ import {
   FlatList,
 } from "react-native";
 import BidderApi from "../../api/BidderApi";
-import { EvilIcons } from "@expo/vector-icons";
 
 const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
@@ -124,14 +123,12 @@ const SellerProfile = ({ route, navigation }) => {
                     >
                       Rs. {item.productPrice}
                     </Text>
-                    {item.userId ? (
-                      <Text style={{ fontSize: 12, color: "#aaa" }}>
-                        {item.userId.currentCity}
-                      </Text>
-                    ) : null}
-                    <TouchableOpacity>
-                      <EvilIcons name="heart" size={24} color="black" />
-                    </TouchableOpacity>
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      {item.createdAt.substring(0, 10)}
+                    </Text>
+                    {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
+                            {item.currenCity}
+                          </Text> */}
                   </View>
                 </View>
               </TouchableOpacity>

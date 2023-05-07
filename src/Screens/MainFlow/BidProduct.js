@@ -2,7 +2,6 @@ import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
-import { EvilIcons } from "@expo/vector-icons";
 
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -162,15 +161,12 @@ const BidProduct = ({ navigation }) => {
                     >
                       Rs. {item.productPrice}
                     </Text>
-
-                    {item.userId ? (
-                      <Text style={{ fontSize: 12, color: "#aaa" }}>
-                        {item.userId.currentCity}
-                      </Text>
-                    ) : null}
-                    <TouchableOpacity>
-                      <EvilIcons name="heart" size={24} color="black" />
-                    </TouchableOpacity>
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      {item.createdAt.substring(0, 10)}
+                    </Text>
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      {item.city}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
