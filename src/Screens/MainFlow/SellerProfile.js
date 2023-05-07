@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,14 +6,20 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+<<<<<<< HEAD
 } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { EvilIcons } from "@expo/vector-icons";
+=======
+} from 'react-native';
+import BidderApi from '../../api/BidderApi';
+import Card from '../../Components/Card';
+>>>>>>> 26c05f2eaa1ef7b06812c966b7e7e836f7eec60e
 
-const SellerProfile = ({ route, navigation }) => {
+const SellerProfile = ({ route }) => {
   const [products, setProducts] = useState([]);
   const { sellerProfile } = route.params;
-  console.log(sellerProfile);
+  // console.log(sellerProfile);
   useEffect(() => {
     getData();
   }, []);
@@ -23,44 +29,29 @@ const SellerProfile = ({ route, navigation }) => {
       const res = await BidderApi.get(
         `/product/user_product/${sellerProfile.userId._id}`
       );
-      console.log("Seller Product LIST::", JSON.stringify(res, null, 2));
+      console.log('Seller Product LIST::', JSON.stringify(res, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
     }
   };
-  const handleProductPress = (product) => {
-    navigation.navigate("Product", { product });
-  };
+
   return (
-    <View>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        ListHeaderComponent={
-          <>
-            <View style={styles.container}>
-              <Image
-                source={{ uri: sellerProfile.userId.dp }}
-                style={styles.profileImage}
-              />
-              <Text style={styles.name}>
-                {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
-              </Text>
-              <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
-              {/* <Text style={styles.location}>{sellerProfile.location}</Text>
-      <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
-            </View>
-            <Text
-              style={{
-                fontSize: 20,
-                marginLeft: 25,
-                fontWeight: "400",
-              }}
-            >
-              Seller Products
+    <FlatList
+      data={products}
+      keyExtractor={(item) => item._id}
+      numColumns={2}
+      ListHeaderComponent={
+        <>
+          <View style={styles.container}>
+            <Image
+              source={{ uri: sellerProfile.userId.dp }}
+              style={styles.profileImage}
+            />
+            <Text style={styles.name}>
+              {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
             </Text>
+<<<<<<< HEAD
           </>
         }
         renderItem={({ item, index }) => {
@@ -140,13 +131,34 @@ const SellerProfile = ({ route, navigation }) => {
         }}
       />
     </View>
+=======
+            <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+            {/* <Text style={styles.location}>{sellerProfile.location}</Text>
+      <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
+          </View>
+          <Text
+            style={{
+              fontSize: 20,
+              marginLeft: 25,
+              fontWeight: '400',
+            }}
+          >
+            Seller Products
+          </Text>
+        </>
+      }
+      renderItem={({ item, index }) => {
+        return <Card item={item} />;
+      }}
+    />
+>>>>>>> 26c05f2eaa1ef7b06812c966b7e7e836f7eec60e
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 50,
   },
   profileImage: {
@@ -155,11 +167,11 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: 'black',
   },
   name: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   bio: {
@@ -172,7 +184,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
