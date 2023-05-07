@@ -9,6 +9,7 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { SegmentedButtons, Surface } from "react-native-paper";
+import { EvilIcons } from "@expo/vector-icons";
 
 import BidderApi from "../../api/BidderApi";
 const Home = ({ navigation }) => {
@@ -255,6 +256,9 @@ const Home = ({ navigation }) => {
                         {item.userId.currentCity}
                       </Text>
                     ) : null}
+                    <TouchableOpacity>
+                      <EvilIcons name="heart" size={24} color="black" />
+                    </TouchableOpacity>
                   </View>
                 </View>
               </TouchableOpacity>
