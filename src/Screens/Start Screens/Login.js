@@ -22,9 +22,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const Login = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { loading, userInfo, error, success, userToken } = useSelector(
-    (state) => state.auth
-  );
+  const { loading, error } = useSelector((state) => state.auth);
   //! REMOVE CONSOLE
   console.log(
     "LOGIN!!!!!",
