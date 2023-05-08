@@ -13,50 +13,113 @@ import { logout, updateProfile } from '../../Store/authSlice';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 import { Feather } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
+import * as ImagePicker from 'expo-image-picker';
+import BidderApi from '../../api/BidderApi';
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  // TODO: make all these states into 1 && Update IMAGE URI to display image recieved from backend
   const [firstName, setFirstName] = useState(userInfo.firstName || '');
   const [lastName, setLastName] = useState(userInfo.lastName || '');
   const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo || '');
+  const [currentCity, setCurrentCity] = useState(userInfo.currentCity || '');
+  const [profile_picture, setProfilePicture] = useState(
+    userInfo.profile_picture || undefined
+  );
 
   function logoutHandler() {
     console.log('LOGOUT PRESSED!!!');
     dispatch(logout());
   }
 
-  function saveHandler() {
+  async function saveHandler() {
     console.log('SAVE PRESSED!!!');
-    // const updatedUserInfo = {
-    //   firstName,
-    //   lastName,
-    //   email,
-    //   phoneNo,
-    //   gender,
-    //   dob,
-    //   currentCity,
-    // };
-    // console.log(updatedUserInfo);
+    const updatedUserInfo = {
+      profile_picture,
+      firstName,
+      lastName,
+      phoneNo,
+      dob: userInfo.dob,
+      currentCity,
+    };
+    let formData = new FormData();
+    formData.append('profile_picture', profile_picture);
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('phoneNo', phoneNo);
+    formData.append('dob', userInfo.dob);
+    formData.append('currentCity', currentCity);
+
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    try {
+      const result = await BidderApi.post('/users/edit/', formData, config);
+      console.log('UPDATEUSERINFO:::', JSON.stringify(result.data, null, 2));
+    } catch (error) {
+      console.log(error.res);
+    }
+
+    // console.log('UserINFO:::', JSON.stringify(updatedUserInfo, null, 2));
     // dispatch(updateProfile(updatedUserInfo));
   }
+
   const handleBecomeSeller = (becomeSeller) => {
     navigation.navigate('BecomeSeller', { becomeSeller });
   };
+
+  const chooseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [1, 1],
+      quality: 0.5,
+      allowsMultipleSelection: false,
+    });
+
+    console.log('total:::', result.assets[0].uri);
+
+    if (
+      result &&
+      !result.canceled &&
+      result.assets &&
+      result.assets.length > 0
+    ) {
+      setProfilePicture({
+        uri: result.assets[0].uri,
+        type: 'image/jpeg',
+        name: 'profile.jpg',
+      });
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileImageContainer}>
         <Image
-          source={require('../../Images/dp.png')}
+          source={
+            profile_picture
+              ? { uri: profile_picture.uri }
+              : require('../../Images/dp.png')
+          }
           style={styles.profileImage}
         />
-        <TouchableOpacity style={{ marginLeft: -10, alignSelf: 'flex-end' }}>
+        <TouchableOpacity
+          style={{ marginLeft: -10, alignSelf: 'flex-end' }}
+          onPress={chooseImage}
+        >
           <Feather name="upload" size={34} color="black" />
         </TouchableOpacity>
       </View>
       {userInfo.role === 'buyer' && (
-        <PrimaryButton title={'Become a Seller'} onPress={handleBecomeSeller} />
+        <SecondaryButton
+          title={'Become a Seller'}
+          onPress={handleBecomeSeller}
+        />
       )}
 
       <Text style={styles.label}>First Name</Text>
@@ -98,12 +161,26 @@ const Profile = ({ navigation }) => {
       />
 
       <Text style={styles.label}>City</Text>
-      <TextInput
-        style={styles.input}
-        value={userInfo.currentCity}
-        editable={false}
-      />
-
+      <View style={[styles.input, { padding: 0 }]}>
+        <Picker
+          selectedValue={currentCity}
+          onValueChange={(itemValue) => setCurrentCity(itemValue)}
+          mode="dropdown"
+          style={{ flex: 1 }}
+        >
+          <Picker.Item label="Select type" value="" />
+          <Picker.Item label="Lahore" value="Lahore" />
+          <Picker.Item label="Karachi" value="Karachi" />
+          <Picker.Item label="Faisalabad" value="Faisalabad" />
+          <Picker.Item label="Islamabad" value="Islamabad" />
+          <Picker.Item label="Gujranwala" value="Gujranwala" />
+          <Picker.Item label="Rawalpindi" value="Rawalpindi" />
+          <Picker.Item label="Hyderabad" value="Hyderabad" />
+          <Picker.Item label="Multan" value="Multan" />
+          <Picker.Item label="Peshawar" value="Peshawar" />
+          <Picker.Item label="Quetta" value="Quetta" />
+        </Picker>
+      </View>
       <SecondaryButton title={'Save'} onPress={saveHandler} />
       <PrimaryButton title={'Logout'} onPress={logoutHandler} />
     </ScrollView>
@@ -125,13 +202,12 @@ const styles = StyleSheet.create({
   },
 
   profileImage: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
-    marginTop: 50,
-    borderRadius: 50,
+    borderRadius: 75,
     borderColor: 'black',
-    borderWidth: 0.4,
+    borderWidth: 0,
   },
   label: {
     marginTop: 20,
