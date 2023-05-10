@@ -16,9 +16,32 @@ const Product = ({ route, navigation }) => {
   const [comments, setComments] = useState([]);
   const [bid, setBid] = useState(null);
 
-  const handleComment = () => {
-    setComments([...comments, comment]);
-    setComment("");
+  const getComments = async () => {
+    try {
+      const res = await BidderApi.get(`/comment/${product._id}`);
+      console.log(
+        "GET COMMENT::",
+        JSON.stringify(res.data.data.allCommentsOfPost, null, 2)
+      );
+      setComments(res.data.data.allCommentsOfPost);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleComment = async (postId, comment) => {
+    console.log(comment);
+    console.log(postId);
+    try {
+      const res = await BidderApi.post("/comment/", { postId, comment });
+      console.log("COMMENT::", JSON.stringify(res, null, 2));
+      if (res) {
+        getComments();
+        setComment("");
+      }
+    } catch (error) {
+      console.log(error.res);
+    }
   };
   const handleSellerPress = (sellerProfile) => {
     navigation.navigate("SellerProfile", { sellerProfile });
@@ -29,7 +52,8 @@ const Product = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    getBid();
+    // getBid();
+    getComments();
   }, []);
 
   const getBid = async () => {
@@ -43,7 +67,7 @@ const Product = ({ route, navigation }) => {
         headers: config,
       });
       console.log("Bidding::", JSON.stringify(res, null, 2));
-      setProducts(res.data.data.allProducts);
+      // setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
     }
@@ -125,7 +149,7 @@ const Product = ({ route, navigation }) => {
               />
               <TouchableOpacity
                 style={styles.commentButton}
-                onPress={handleComment}
+                onPress={() => handleComment(product._id, comment)}
               >
                 <Text style={styles.commentButtonText}>Post</Text>
               </TouchableOpacity>
@@ -134,7 +158,7 @@ const Product = ({ route, navigation }) => {
             <Text style={styles.commentTitle}>Comments:</Text>
             {comments.map((c, index) => (
               <Text key={index} style={styles.comment}>
-                {c}
+                {c.comment}
               </Text>
             ))}
           </View>

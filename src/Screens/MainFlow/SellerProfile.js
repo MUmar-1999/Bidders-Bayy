@@ -49,7 +49,7 @@ const SellerProfile = ({ route, navigation }) => {
               </Text>
               <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
               {/* <Text style={styles.location}>{sellerProfile.location}</Text>
-      <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
+              <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
             </View>
             <Text
               style={{
