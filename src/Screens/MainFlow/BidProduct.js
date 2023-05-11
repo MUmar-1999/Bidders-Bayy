@@ -3,6 +3,8 @@ import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
 import { EvilIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
+
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,6 +34,23 @@ const BidProduct = ({ navigation }) => {
   const handleProductPress = (product) => {
     navigation.navigate("Product", { product });
   };
+
+  const addfav = async (postId) => {
+    try {
+      const res = await BidderApi.post("/favorite/", { postId });
+      console.log("Fav::", JSON.stringify(res, null, 2));
+      if (res) {
+        getData();
+      }
+    } catch (error) {
+      console.log(error.res);
+    }
+  };
+  useFocusEffect(
+    React.useCallback(() => {
+      getData();
+    }, [navigation])
+  );
   return (
     <View>
       <FlatList
@@ -166,7 +185,7 @@ const BidProduct = ({ navigation }) => {
                         {item.userId.currentCity}
                       </Text>
                     ) : null}
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => addfav(item._id)}>
                       <EvilIcons name="heart" size={24} color="black" />
                     </TouchableOpacity>
                   </View>
