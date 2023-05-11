@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,14 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 const Product = ({ route, navigation }) => {
   const { product } = route.params;
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [bid, setBid] = useState(null);
 
-<<<<<<< Updated upstream
   const getComments = async () => {
     try {
       const res = await BidderApi.get(`/comment/${product._id}`);
@@ -43,14 +42,9 @@ const Product = ({ route, navigation }) => {
     } catch (error) {
       console.log(error.res);
     }
-=======
-  const handleComment = () => {
-    setComments([...comments, comment]);
-    setComment('');
->>>>>>> Stashed changes
   };
   const handleSellerPress = (sellerProfile) => {
-    navigation.navigate('SellerProfile', { sellerProfile });
+    navigation.navigate("SellerProfile", { sellerProfile });
   };
 
   const handleTextChange = (newText) => {
@@ -65,20 +59,15 @@ const Product = ({ route, navigation }) => {
   const getBid = async () => {
     const config = {
       Authorization:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0xQGdtYWlsLmNvbSIsImlkIjoiNjQ1MjU2ZTIzNWQ5M2YwNjQ5MmM0MzdhIiwiaWF0IjoxNjgzMTQ3Njc2fQ.YFS8r_vfb56lHpB37lJiY4BEjt3Saw3BHG-L5-E6h6I',
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0xQGdtYWlsLmNvbSIsImlkIjoiNjQ1MjU2ZTIzNWQ5M2YwNjQ5MmM0MzdhIiwiaWF0IjoxNjgzMTQ3Njc2fQ.YFS8r_vfb56lHpB37lJiY4BEjt3Saw3BHG-L5-E6h6I",
     };
     try {
       console.log(product._id);
-      const res = await BidderApi.get('/bidding/6452b181d8a428976a224b2f', {
+      const res = await BidderApi.get("/bidding/6452b181d8a428976a224b2f", {
         headers: config,
       });
-<<<<<<< Updated upstream
       console.log("Bidding::", JSON.stringify(res, null, 2));
       // setProducts(res.data.data.allProducts);
-=======
-      console.log('Bidding::', JSON.stringify(res.data, null, 2));
-      setProducts(res.data.data.allProducts);
->>>>>>> Stashed changes
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +82,7 @@ const Product = ({ route, navigation }) => {
               uri:
                 product.images && product.images.length > 0
                   ? `http://192.168.10.2:5000/${product.images[0]}`
-                  : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
+                  : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
             }}
             style={styles.image}
           />
@@ -105,7 +94,7 @@ const Product = ({ route, navigation }) => {
               </View>
             </View>
           </View>
-          {product.productType === 'Bidding Item' ? (
+          {product.productType === "Bidding Item" ? (
             <View>
               <Text style={styles.price}>
                 Base Price: Rs. {product.productPrice}
@@ -133,7 +122,7 @@ const Product = ({ route, navigation }) => {
           <View style={styles.sellerContainer}>
             <View style={styles.sellerDetails}>
               <Image
-                source={require('../../Images/name.png')}
+                source={require("../../Images/name.png")}
                 style={styles.sellerNameIcon}
               />
               <Text
@@ -145,7 +134,7 @@ const Product = ({ route, navigation }) => {
             </View>
             <View style={styles.sellerDetails}>
               <Image
-                source={require('../../Images/phone.png')}
+                source={require("../../Images/phone.png")}
                 style={styles.sellerPhoneIcon}
               />
               <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
@@ -181,106 +170,106 @@ const Product = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     paddingHorizontal: 20,
     paddingTop: 10,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     marginBottom: 10,
     borderRadius: 5,
   },
   titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
     marginBottom: 10,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   inspectionButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    width: '100%',
+    width: "100%",
   },
   inspectionButtonContainer: {
     width: 100,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   price: {
     fontSize: 16,
-    color: 'green',
-    fontWeight: 'bold',
+    color: "green",
+    fontWeight: "bold",
   },
 
   description: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
+    textAlign: "left",
   },
   seller: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
-    fontWeight: 'bold',
+    textAlign: "left",
+    fontWeight: "bold",
   },
   commentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 10,
   },
   commentInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
-    width: '70%',
+    width: "70%",
     height: 40,
     paddingHorizontal: 10,
     marginRight: 10,
   },
   commentButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   commentButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   commentTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
   },
   comment: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
+    textAlign: "left",
   },
   sellerContainer: {
     marginTop: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     borderRadius: 10,
   },
   sellerDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   sellerNameIcon: {
@@ -294,33 +283,33 @@ const styles = StyleSheet.create({
     height: 24,
   },
   bidButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderRadius: 4,
     paddingVertical: 6,
     paddingHorizontal: 20,
     marginLeft: 20,
   },
   bidButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   sellerName: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   sellerPhone: {
     fontSize: 16,
   },
   bidContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 10,
   },
   bidInput: {
     flex: 1,
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 4,
     marginRight: 10,
     paddingHorizontal: 10,
