@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, login, getAuthToken } from './authActions';
-import { deleteItemAsync, getItemAsync } from 'expo-secure-store';
+import { register, login, getAuthToken, update } from './authActions';
+import { deleteItemAsync } from 'expo-secure-store';
 
 const initialState = {
   loading: false,
@@ -61,6 +61,18 @@ const authSlice = createSlice({
         state.success = true; // registration successful
       })
       .addCase(register.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      })
+      .addCase(update.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(update.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.userInfo = payload.user;
+      })
+      .addCase(update.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

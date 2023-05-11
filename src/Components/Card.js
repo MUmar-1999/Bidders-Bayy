@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { EvilIcons } from '@expo/vector-icons';
 
 function Card({ item }) {
   const navigation = useNavigation();
@@ -7,7 +8,24 @@ function Card({ item }) {
   const handleProductPress = (product) => {
     navigation.navigate('Product', { product });
   };
-  console.log('IMAGE:::', item.images);
+  // console.log('IMAGE:::', item.images);
+  function normalizeImage(imagePath) {
+    const baseUrl = 'http://192.168.10.2:5000';
+    const normalizedImagePath = imagePath
+      .replace(/\\/g, '/')
+      .replace(/^\//, '');
+    const imageUrl = `${baseUrl}/${normalizedImagePath}`;
+    return imageUrl;
+  }
+
+  const addfav = async (postId) => {
+    try {
+      const res = await BidderApi.post('/favorite/', { postId });
+      console.log('Fav::', JSON.stringify(res, null, 2));
+    } catch (error) {
+      console.log(error.res);
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -19,7 +37,7 @@ function Card({ item }) {
           source={{
             uri:
               item.images && item.images.length > 0
-                ? `http://192.168.10.2:5000/${item.images[0]}`
+                ? normalizeImage(item.images[0])
                 : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
           }}
           style={styles.image}
@@ -34,6 +52,9 @@ function Card({ item }) {
             <Text style={styles.cityText}>{item.userId.currentCity}</Text>
           ) : null}
         </View>
+        <TouchableOpacity onPress={() => addfav(item._id)}>
+          <EvilIcons name="heart" size={24} color="black" />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );

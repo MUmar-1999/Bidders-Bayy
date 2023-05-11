@@ -77,7 +77,7 @@ const List = () => {
       }
     }
     for (key of entries) {
-      console.log(key);
+      // console.log(key);
     }
     const config = {
       headers: {
@@ -85,8 +85,8 @@ const List = () => {
       },
     };
     try {
-      const res = await BidderApi.post('/product/', formData, config);
-      console.log('HOME LIST::', JSON.stringify(res, null, 2));
+      const res = await BidderApi.post('/products/', formData, config);
+      console.log('LIST::', JSON.stringify(res.data, null, 2));
     } catch (error) {
       console.log(error.res);
     }
@@ -125,90 +125,92 @@ const List = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.label}>Type:</Text>
-      <Picker
-        selectedValue={postValue.productType}
-        onValueChange={(itemValue) => postChange('productType', itemValue)}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Select type" value="" />
-        <Picker.Item label="Bidding" value="Bidding Item" />
-        <Picker.Item label="Used Item" value="Used Item" />
-      </Picker>
+      <View style={{ paddingBottom: 30 }}>
+        <Text style={styles.label}>Type:</Text>
+        <Picker
+          selectedValue={postValue.productType}
+          onValueChange={(itemValue) => postChange('productType', itemValue)}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Select type" value="" />
+          <Picker.Item label="Bidding" value="Bidding Item" />
+          <Picker.Item label="Used Item" value="Used Item" />
+        </Picker>
 
-      <View style={styles.imageUploadContainer}>
-        <Text style={styles.label}>Upload Image:</Text>
-        <Button title="Choose Image" onPress={chooseImage} />
+        <View style={styles.imageUploadContainer}>
+          <Text style={styles.label}>Upload Image:</Text>
+          <Button title="Choose Image" onPress={chooseImage} />
+        </View>
+
+        <Text style={styles.label}>Category:</Text>
+        <Picker
+          selectedValue={categoryData}
+          onValueChange={handleSubCategory}
+          style={styles.dropdown}
+        >
+          <Picker.Item label="Select Category" value="" />
+          {category != null
+            ? category.map((Option) => (
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
+            : null}
+        </Picker>
+
+        <Text style={styles.label}>Sub Category:</Text>
+        <Picker
+          name="subcategoryId"
+          selectedValue={postValue.subcategoryId}
+          onValueChange={(itemValue) => postChange('subcategoryId', itemValue)}
+          style={styles.dropdown}
+          onPress={() => console.log('hello')}
+        >
+          <Picker.Item label="Select sub Category" value="" />
+          {subCategoryData != null
+            ? subCategoryData.map((Option) => (
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
+            : null}
+        </Picker>
+
+        <Text style={styles.label}>Title:</Text>
+        <TextInput
+          style={styles.input}
+          value={postValue.title}
+          onChangeText={(text) => postChange('title', text)}
+        />
+
+        <Text style={styles.label}>Description:</Text>
+        <TextInput
+          style={styles.input}
+          value={postValue.description}
+          onChangeText={(text) => postChange('description', text)}
+        />
+
+        <Text style={styles.label}>
+          {postValue.productType === 'Bidding Item' ? 'Base Price:' : 'Price:'}
+        </Text>
+        <TextInput
+          style={styles.input}
+          value={postValue.productPrice}
+          onChangeText={(text) => postChange('productPrice', text)}
+          keyboardType="numeric"
+        />
+
+        <PrimaryButton
+          title="Post"
+          onPress={() =>
+            NewPost(title, description, price, subCategory, type, picture)
+          }
+        />
       </View>
-
-      <Text style={styles.label}>Category:</Text>
-      <Picker
-        selectedValue={categoryData}
-        onValueChange={handleSubCategory}
-        style={styles.dropdown}
-      >
-        <Picker.Item label="Select Category" value="" />
-        {category != null
-          ? category.map((Option) => (
-              <Picker.Item
-                key={Option._id}
-                label={Option.title}
-                value={Option._id}
-              />
-            ))
-          : null}
-      </Picker>
-
-      <Text style={styles.label}>Sub Category:</Text>
-      <Picker
-        name="subcategoryId"
-        selectedValue={postValue.subcategoryId}
-        onValueChange={(itemValue) => postChange('subcategoryId', itemValue)}
-        style={styles.dropdown}
-        onPress={() => console.log('hello')}
-      >
-        <Picker.Item label="Select sub Category" value="" />
-        {subCategoryData != null
-          ? subCategoryData.map((Option) => (
-              <Picker.Item
-                key={Option._id}
-                label={Option.title}
-                value={Option._id}
-              />
-            ))
-          : null}
-      </Picker>
-
-      <Text style={styles.label}>Title:</Text>
-      <TextInput
-        style={styles.input}
-        value={postValue.title}
-        onChangeText={(text) => postChange('title', text)}
-      />
-
-      <Text style={styles.label}>Description:</Text>
-      <TextInput
-        style={styles.input}
-        value={postValue.description}
-        onChangeText={(text) => postChange('description', text)}
-      />
-
-      <Text style={styles.label}>
-        {postValue.productType === 'Bidding Item' ? 'Base Price:' : 'Price:'}
-      </Text>
-      <TextInput
-        style={styles.input}
-        value={postValue.productPrice}
-        onChangeText={(text) => postChange('productPrice', text)}
-        keyboardType="numeric"
-      />
-
-      <PrimaryButton
-        title="Post"
-        onPress={() =>
-          NewPost(title, description, price, subCategory, type, picture)
-        }
-      />
     </ScrollView>
   );
 };

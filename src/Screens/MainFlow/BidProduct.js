@@ -1,14 +1,14 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import React, { useEffect, useState } from "react";
-import BidderApi from "../../api/BidderApi";
-import { EvilIcons } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import BidderApi from '../../api/BidderApi';
+import { EvilIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [value, setValue] = React.useState("");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [value, setValue] = React.useState('');
 
   useEffect(() => {
     getData();
@@ -16,11 +16,11 @@ const BidProduct = ({ navigation }) => {
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get("/product/bid/");
-      console.log(
-        "HOME LSIT::",
-        JSON.stringify(res.data.data.allProducts[0], null, 2)
-      );
+      const res = await BidderApi.get('/product/bid/');
+      // console.log(
+      //   "HOME LSIT::",
+      //   JSON.stringify(res.data.data.allProducts[0], null, 2)
+      // );
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
@@ -32,13 +32,13 @@ const BidProduct = ({ navigation }) => {
   });
 
   const handleProductPress = (product) => {
-    navigation.navigate("Product", { product });
+    navigation.navigate('Product', { product });
   };
 
   const addfav = async (postId) => {
     try {
-      const res = await BidderApi.post("/favorite/", { postId });
-      console.log("Fav::", JSON.stringify(res, null, 2));
+      const res = await BidderApi.post('/favorite/', { postId });
+      // console.log("Fav::", JSON.stringify(res, null, 2));
       if (res) {
         getData();
       }
@@ -61,14 +61,14 @@ const BidProduct = ({ navigation }) => {
             <View>
               <View
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
+                  flexDirection: 'row',
+                  alignItems: 'center',
                   marginHorizontal: 16,
                   marginTop: 10,
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   borderRadius: 10,
-                  overflow: "hidden",
-                  shadowColor: "#000",
+                  overflow: 'hidden',
+                  shadowColor: '#000',
                   shadowOffset: {
                     width: 0,
                     height: 7,
@@ -90,18 +90,18 @@ const BidProduct = ({ navigation }) => {
                   }}
                 />
                 <TouchableOpacity
-                  onPress={() => setSearchQuery("")}
+                  onPress={() => setSearchQuery('')}
                   style={{
-                    backgroundColor: "#ddd",
+                    backgroundColor: '#ddd',
                     borderRadius: 5,
                     paddingHorizontal: 12,
                     paddingVertical: 8,
                     marginRight: 3,
-                    alignItems: "center",
-                    justifyContent: "center",
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  <Text style={{ fontSize: 16, fontWeight: "bold" }}>X</Text>
+                  <Text style={{ fontSize: 16, fontWeight: 'bold' }}>X</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -110,7 +110,7 @@ const BidProduct = ({ navigation }) => {
               style={{
                 fontSize: 20,
                 marginLeft: 20,
-                fontWeight: "bold",
+                fontWeight: 'bold',
                 marginTop: 10,
               }}
             >
@@ -123,11 +123,11 @@ const BidProduct = ({ navigation }) => {
             <View
               key={item._id} // added unique key prop
               style={{
-                backgroundColor: "white",
-                width: "45%",
+                backgroundColor: 'white',
+                width: '45%',
                 margin: 8,
                 borderRadius: 10,
-                shadowColor: "#000",
+                shadowColor: '#000',
                 shadowOffset: {
                   width: 0,
                   height: 7,
@@ -142,7 +142,7 @@ const BidProduct = ({ navigation }) => {
                   style={{
                     height: 170,
                     borderRadius: 10,
-                    overflow: "hidden",
+                    overflow: 'hidden',
                   }}
                 >
                   <Image
@@ -150,16 +150,16 @@ const BidProduct = ({ navigation }) => {
                       uri:
                         item.images && item.images.length > 0
                           ? `http://192.168.10.2:5000/${item.images[0]}`
-                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+                          : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
                     }}
-                    style={{ height: "100%", width: "100%" }}
+                    style={{ height: '100%', width: '100%' }}
                   />
                 </View>
                 <View style={{ padding: 12 }}>
                   <Text
                     style={{
                       fontSize: 16,
-                      fontWeight: "bold",
+                      fontWeight: 'bold',
                       marginBottom: 8,
                     }}
                   >
@@ -167,21 +167,21 @@ const BidProduct = ({ navigation }) => {
                   </Text>
                   <View
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
                     }}
                   >
                     <Text
                       style={{
                         fontSize: 12,
-                        fontWeight: "bold",
-                        color: "green",
+                        fontWeight: 'bold',
+                        color: 'green',
                       }}
                     >
                       Rs. {item.productPrice}
                     </Text>
                     {item.userId ? (
-                      <Text style={{ fontSize: 12, color: "#aaa" }}>
+                      <Text style={{ fontSize: 12, color: '#aaa' }}>
                         {item.userId.currentCity}
                       </Text>
                     ) : null}

@@ -48,10 +48,6 @@ const Register = ({ navigation }) => {
   }, [success]);
 
   function signUpHandler(data) {
-    console.log('SignUp:::', data);
-
-    console.log('SignUp Pressed');
-
     dispatch(register(data));
   }
 

@@ -24,13 +24,12 @@ const Login = ({ navigation }) => {
 
   const { loading, error } = useSelector((state) => state.auth);
   //! REMOVE CONSOLE
-  console.log('LOGIN!!!!!', JSON.stringify({ loading, error }, null, 2));
+  // console.log('LOGIN!!!!!', JSON.stringify({ loading, error }, null, 2));
 
   const dispatch = useDispatch();
   const { control, handleSubmit } = useForm();
 
   const loginPressHandler = (data) => {
-    console.log('LOGIN PRESSED');
     dispatch(login(data));
   };
 
