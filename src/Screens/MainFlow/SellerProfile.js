@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,8 +6,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-} from 'react-native';
-import BidderApi from '../../api/BidderApi';
+} from "react-native";
+import BidderApi from "../../api/BidderApi";
 
 const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
@@ -20,7 +20,7 @@ const SellerProfile = ({ route, navigation }) => {
   const getData = async () => {
     try {
       const res = await BidderApi.get(
-        `/product/user_product/${sellerProfile.userId._id}`
+        `/products/user_product/${sellerProfile.userId._id}`
       );
       // console.log("Seller Product LIST::", JSON.stringify(res, null, 2));
       setProducts(res.data.data.allProducts);
@@ -29,7 +29,7 @@ const SellerProfile = ({ route, navigation }) => {
     }
   };
   const handleProductPress = (product) => {
-    navigation.navigate('Product', { product });
+    navigation.navigate("Product", { product });
   };
   return (
     <View>
@@ -55,7 +55,7 @@ const SellerProfile = ({ route, navigation }) => {
               style={{
                 fontSize: 20,
                 marginLeft: 25,
-                fontWeight: '400',
+                fontWeight: "400",
               }}
             >
               Seller Products
@@ -66,11 +66,11 @@ const SellerProfile = ({ route, navigation }) => {
           return (
             <View
               style={{
-                backgroundColor: 'white',
-                width: '45%',
+                backgroundColor: "white",
+                width: "45%",
                 margin: 8,
                 borderRadius: 10,
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
                   height: 7,
@@ -85,7 +85,7 @@ const SellerProfile = ({ route, navigation }) => {
                   style={{
                     height: 170,
                     borderRadius: 10,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                   }}
                 >
                   <Image
@@ -93,16 +93,16 @@ const SellerProfile = ({ route, navigation }) => {
                       uri:
                         item.images && item.images.length > 0
                           ? `http://192.168.10.2:5000/${item.images[0]}`
-                          : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
+                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
                     }}
-                    style={{ height: '100%', width: '100%' }}
+                    style={{ height: "100%", width: "100%" }}
                   />
                 </View>
                 <View style={{ padding: 12 }}>
                   <Text
                     style={{
                       fontSize: 16,
-                      fontWeight: 'bold',
+                      fontWeight: "bold",
                       marginBottom: 8,
                     }}
                   >
@@ -110,20 +110,20 @@ const SellerProfile = ({ route, navigation }) => {
                   </Text>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
                   >
                     <Text
                       style={{
                         fontSize: 12,
-                        fontWeight: 'bold',
-                        color: 'green',
+                        fontWeight: "bold",
+                        color: "green",
                       }}
                     >
                       Rs. {item.productPrice}
                     </Text>
-                    <Text style={{ fontSize: 12, color: '#aaa' }}>
+                    <Text style={{ fontSize: 12, color: "#aaa" }}>
                       {item.createdAt.substring(0, 10)}
                     </Text>
                     {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
@@ -142,8 +142,8 @@ const SellerProfile = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 50,
   },
   profileImage: {
@@ -152,11 +152,11 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
   },
   name: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   bio: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

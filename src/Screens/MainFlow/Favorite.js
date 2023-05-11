@@ -1,9 +1,9 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
-import BidderApi from '../../api/BidderApi';
-import { EvilIcons } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
+import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import React, { useEffect, useState } from "react";
+import BidderApi from "../../api/BidderApi";
+import { EvilIcons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 const Favorite = ({ navigation }) => {
   const [products, setProducts] = useState([]);
 
@@ -14,8 +14,8 @@ const Favorite = ({ navigation }) => {
   const getData = async () => {
     // console.log("mein chal rha hun");
     try {
-      const res = await BidderApi.get('/favorite/');
-      console.log('Fav::', JSON.stringify(res.data.FavoritePosts, null, 2));
+      const res = await BidderApi.get("/favorite/");
+      console.log("Fav::", JSON.stringify(res.data.FavoritePosts, null, 2));
       setProducts(res.data.FavoritePosts);
     } catch (error) {
       console.log(error);
@@ -24,7 +24,7 @@ const Favorite = ({ navigation }) => {
 
   const handleProductPress = (product) => {
     // console.log(product);
-    navigation.navigate('Product', { product });
+    navigation.navigate("Product", { product });
   };
 
   useFocusEffect(
@@ -43,7 +43,7 @@ const Favorite = ({ navigation }) => {
               style={{
                 fontSize: 20,
                 marginLeft: 20,
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 marginTop: 10,
               }}
             >
@@ -56,11 +56,11 @@ const Favorite = ({ navigation }) => {
             <View
               // key={item._id} // added unique key prop
               style={{
-                backgroundColor: 'white',
-                width: '45%',
+                backgroundColor: "white",
+                width: "45%",
                 margin: 8,
                 borderRadius: 10,
-                shadowColor: '#000',
+                shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
                   height: 7,
@@ -75,24 +75,24 @@ const Favorite = ({ navigation }) => {
                   style={{
                     height: 170,
                     borderRadius: 10,
-                    overflow: 'hidden',
+                    overflow: "hidden",
                   }}
                 >
-                  {/* <Image
+                  <Image
                     source={{
                       uri:
                         item.postId.images && item.postId.images.length > 0
                           ? `http://192.168.10.2:5000/${item.postId.images[0]}`
-                          : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
+                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
                     }}
-                    style={{ height: '100%', width: '100%' }}
-                  /> */}
+                    style={{ height: "100%", width: "100%" }}
+                  />
                 </View>
                 <View style={{ padding: 12 }}>
                   <Text
                     style={{
                       fontSize: 16,
-                      fontWeight: 'bold',
+                      fontWeight: "bold",
                       marginBottom: 8,
                     }}
                   >
@@ -100,21 +100,21 @@ const Favorite = ({ navigation }) => {
                   </Text>
                   <View
                     style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
+                      flexDirection: "row",
+                      justifyContent: "space-between",
                     }}
                   >
                     <Text
                       style={{
                         fontSize: 12,
-                        fontWeight: 'bold',
-                        color: 'green',
+                        fontWeight: "bold",
+                        color: "green",
                       }}
                     >
                       Rs. {item.postId.productPrice}
                     </Text>
                     {item.postId.userId ? (
-                      <Text style={{ fontSize: 12, color: '#aaa' }}>
+                      <Text style={{ fontSize: 12, color: "#aaa" }}>
                         {item.postId.userId.currentCity}
                       </Text>
                     ) : null}

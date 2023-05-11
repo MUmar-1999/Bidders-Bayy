@@ -5,19 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import React, { useEffect, useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import Card from '../../Components/Card';
-import BidderApi from '../../api/BidderApi';
+} from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import React, { useEffect, useState, useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import Card from "../../Components/Card";
+import BidderApi from "../../api/BidderApi";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get('/products/');
+      const res = await BidderApi.get("/products/bid/");
       // console.log('HOME LSIT::', JSON.stringify(res.data, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
@@ -35,15 +35,15 @@ const Home = ({ navigation }) => {
   });
 
   const handleBidPress = (bidproduct) => {
-    navigation.navigate('BidProduct', { bidproduct });
+    navigation.navigate("BidProduct", { bidproduct });
   };
   const handleFixPress = (fixproduct) => {
-    navigation.navigate('FixProduct', { fixproduct });
+    navigation.navigate("FixProduct", { fixproduct });
   };
 
   const addfav = async (postId) => {
     try {
-      const res = await BidderApi.post('/favorite/', { postId });
+      const res = await BidderApi.post("/favorite/", { postId });
       // console.log('Fav::', JSON.stringify(res, null, 2));
       if (res) {
         getData();
@@ -64,14 +64,14 @@ const Home = ({ navigation }) => {
         <View>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
               marginHorizontal: 16,
               marginTop: 10,
-              backgroundColor: 'white',
+              backgroundColor: "white",
               borderRadius: 10,
-              overflow: 'hidden',
-              shadowColor: '#000',
+              overflow: "hidden",
+              shadowColor: "#000",
               shadowOffset: {
                 width: 0,
                 height: 7,
@@ -93,28 +93,28 @@ const Home = ({ navigation }) => {
               }}
             />
             <TouchableOpacity
-              onPress={() => setSearchQuery('')}
+              onPress={() => setSearchQuery("")}
               style={{
-                backgroundColor: '#ddd',
+                backgroundColor: "#ddd",
                 borderRadius: 5,
                 paddingHorizontal: 12,
                 paddingVertical: 8,
                 marginRight: 3,
-                alignItems: 'center',
-                justifyContent: 'center',
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>X</Text>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>X</Text>
             </TouchableOpacity>
           </View>
 
           <Image
-            source={require('../Images/Banner.png')}
+            source={require("../Images/Banner.png")}
             style={{
-              width: '91.5%',
+              width: "91.5%",
               height: 160,
               borderRadius: 10,
-              alignSelf: 'center',
+              alignSelf: "center",
               marginTop: 10,
             }}
           />
@@ -122,8 +122,8 @@ const Home = ({ navigation }) => {
         <View
           style={{
             marginHorizontal: 10,
-            flexDirection: 'row',
-            justifyContent: 'center',
+            flexDirection: "row",
+            justifyContent: "center",
           }}
         >
           <TouchableOpacity
@@ -134,18 +134,18 @@ const Home = ({ navigation }) => {
               marginHorizontal: 10,
             }}
           >
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: "center" }}>
               <Image
-                source={require('./../Images/Bid.webp')}
+                source={require("./../Images/Bid.webp")}
                 style={{ borderRadius: 40, width: 80, height: 80 }}
               />
               <Text
                 style={{
                   marginTop: 10,
                   fontSize: 13,
-                  color: '#444',
+                  color: "#444",
                   marginBottom: 5,
-                  fontWeight: '300',
+                  fontWeight: "300",
                 }}
               >
                 Bidding Products
@@ -160,18 +160,18 @@ const Home = ({ navigation }) => {
               marginHorizontal: 10,
             }}
           >
-            <View style={{ alignItems: 'center' }}>
+            <View style={{ alignItems: "center" }}>
               <Image
-                source={require('./../Images/purchase.webp')}
+                source={require("./../Images/purchase.webp")}
                 style={{ borderRadius: 40, width: 80, height: 80 }}
               />
               <Text
                 style={{
                   marginTop: 10,
                   fontSize: 13,
-                  color: '#444',
+                  color: "#444",
                   marginBottom: 5,
-                  fontWeight: '300',
+                  fontWeight: "300",
                 }}
               >
                 Fix Price Products
@@ -184,7 +184,7 @@ const Home = ({ navigation }) => {
           style={{
             fontSize: 20,
             marginLeft: 25,
-            fontWeight: '400',
+            fontWeight: "400",
           }}
         >
           Products
@@ -212,7 +212,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 15,
     marginLeft: 10,
     marginRight: 10,

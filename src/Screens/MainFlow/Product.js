@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,19 +8,20 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
-import { useForm } from 'react-hook-form';
-import FormInputField from '../../Components/FormInputField';
-import BidderApi from '../../api/BidderApi';
+import { useForm } from "react-hook-form";
+import FormInputField from "../../Components/FormInputField";
+import BidderApi from "../../api/BidderApi";
+import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
   const { product } = route.params;
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
 
-  console.log('PRODUCT:::', product._id);
+  console.log("PRODUCT:::", product._id);
   const getComments = async () => {
     try {
       const res = await BidderApi.get(`/comment/${product._id}`);
@@ -38,32 +39,32 @@ const Product = ({ route, navigation }) => {
     // console.log(comment);
     // console.log(postId);
     try {
-      const res = await BidderApi.post('/comment/', { postId, comment });
+      const res = await BidderApi.post("/comment/", { postId, comment });
       // console.log("COMMENT::", JSON.stringify(res, null, 2));
       if (res) {
         getComments();
-        setComment('');
+        setComment("");
       }
     } catch (error) {
       console.log(error.res);
     }
   };
   const handleSellerPress = (sellerProfile) => {
-    navigation.navigate('SellerProfile', { sellerProfile });
+    navigation.navigate("SellerProfile", { sellerProfile });
   };
 
   async function handlePlaceBid({ bid }) {
     try {
-      const { data } = await BidderApi.post('/bidding/', {
+      const { data } = await BidderApi.post("/bidding/", {
         bidingPrice: bid,
         productId: product._id,
       });
-      console.log('BID POST DATA:::', JSON.stringify(data, null, 2));
+      console.log("BID POST DATA:::", JSON.stringify(data, null, 2));
       if (data.success) {
         getBid();
       }
     } catch (error) {
-      console.error('BID ERRORR::', error);
+      console.error("BID ERRORR::", error);
     }
   }
 
@@ -75,7 +76,7 @@ const Product = ({ route, navigation }) => {
   const getBid = async () => {
     try {
       const { data } = await BidderApi.get(`/bidding/${product._id}`);
-      console.log('Bidding::', JSON.stringify(data, null, 2));
+      console.log("Bidding::", JSON.stringify(data, null, 2));
       setHighestBid(data.highestBid);
     } catch (error) {
       console.log(error);
@@ -91,7 +92,7 @@ const Product = ({ route, navigation }) => {
               uri:
                 product.images && product.images.length > 0
                   ? `http://192.168.10.2:5000/${product.images[0]}`
-                  : 'https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg',
+                  : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
             }}
             style={styles.image}
           />
@@ -103,20 +104,20 @@ const Product = ({ route, navigation }) => {
               </View>
             </View>
           </View>
-          {product.productType === 'Bidding Item' ? (
+          {product.productType === "Bidding Item" ? (
             <View>
               <Text style={styles.price}>
                 Base Price: Rs. {product.productPrice}
               </Text>
               <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
-              <View style={styles.bidContainer}>
-                <FormInputField
-                  name={'bid'}
+              <View style={styles.BidContainer}>
+                <FormInputFieldd
+                  name={"bid"}
                   control={control}
-                  placeholder={'Enter Bid Ammount'}
-                  keyboardType={'number-pad'}
+                  placeholder={"Enter Bid"}
+                  keyboardType={"number-pad"}
                   rule={{
-                    required: 'Bid cannot be empty.',
+                    required: "Bid cannot be empty.",
                     validate: (value) =>
                       value > highestBid ||
                       `Bid must be greater than Rs.${highestBid}`,
@@ -138,7 +139,7 @@ const Product = ({ route, navigation }) => {
           <View style={styles.sellerContainer}>
             <View style={styles.sellerDetails}>
               <Image
-                source={require('../../Images/name.png')}
+                source={require("../../Images/name.png")}
                 style={styles.sellerNameIcon}
               />
               <Text
@@ -150,7 +151,7 @@ const Product = ({ route, navigation }) => {
             </View>
             <View style={styles.sellerDetails}>
               <Image
-                source={require('../../Images/phone.png')}
+                source={require("../../Images/phone.png")}
                 style={styles.sellerPhoneIcon}
               />
               <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
@@ -186,106 +187,113 @@ const Product = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     paddingHorizontal: 20,
     paddingTop: 10,
   },
   image: {
-    width: '100%',
+    width: "100%",
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     marginBottom: 10,
     borderRadius: 5,
   },
   titleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
     marginBottom: 10,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   inspectionButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    width: '100%',
+    width: "100%",
   },
   inspectionButtonContainer: {
     width: 100,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   price: {
     fontSize: 16,
-    color: 'green',
-    fontWeight: 'bold',
+    color: "green",
+    fontWeight: "bold",
   },
 
   description: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
+    textAlign: "left",
   },
   seller: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
-    fontWeight: 'bold',
+    textAlign: "left",
+    fontWeight: "bold",
   },
   commentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 10,
+    marginRight: 10,
+  },
+  BidContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 100,
   },
   commentInput: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
-    width: '70%',
+    width: "70%",
     height: 40,
     paddingHorizontal: 10,
     marginRight: 10,
   },
   commentButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   commentButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 16,
   },
   commentTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 20,
   },
   comment: {
     fontSize: 16,
     marginTop: 10,
-    textAlign: 'left',
+    textAlign: "left",
   },
   sellerContainer: {
     marginTop: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     borderRadius: 10,
   },
   sellerDetails: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   sellerNameIcon: {
@@ -299,21 +307,22 @@ const styles = StyleSheet.create({
     height: 24,
   },
   bidButton: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 25,
     width: 100,
     height: 40,
+    marginLeft: 5,
   },
   bidButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
   },
   sellerName: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
   sellerPhone: {
@@ -321,14 +330,14 @@ const styles = StyleSheet.create({
   },
   bidContainer: {
     // flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
   },
   bidInput: {
     flex: 1,
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 4,
     marginRight: 10,
     paddingHorizontal: 10,
