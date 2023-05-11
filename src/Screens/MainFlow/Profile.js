@@ -9,14 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, updateProfile } from '../../Store/authSlice';
+import { logout } from '../../Store/authSlice';
+import { update } from '../../Store/authActions';
 import PrimaryButton from '../../Components/PrimaryButton';
 import SecondaryButton from '../../Components/SecondaryButton';
 import { Feather } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
-import BidderApi from '../../api/BidderApi';
-import { update } from '../../Store/authActions';
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);

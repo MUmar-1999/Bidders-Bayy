@@ -1,6 +1,6 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BidderApi from '../../api/BidderApi';
 import { EvilIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [value, setValue] = React.useState('');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     getData();

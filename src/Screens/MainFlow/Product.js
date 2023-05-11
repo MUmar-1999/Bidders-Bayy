@@ -10,12 +10,17 @@ import {
   ScrollView,
 } from 'react-native';
 
+import { useForm } from 'react-hook-form';
+import FormInputField from '../../Components/FormInputField';
+import BidderApi from '../../api/BidderApi';
 const Product = ({ route, navigation }) => {
+  const { control, handleSubmit } = useForm();
   const { product } = route.params;
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
-  const [bid, setBid] = useState(null);
+  const [highestBid, setHighestBid] = useState(0);
 
+  console.log('PRODUCT:::', product._id);
   const getComments = async () => {
     try {
       const res = await BidderApi.get(`/comment/${product._id}`);
@@ -47,27 +52,31 @@ const Product = ({ route, navigation }) => {
     navigation.navigate('SellerProfile', { sellerProfile });
   };
 
-  const handleTextChange = (newText) => {
-    setBid(newText);
-  };
+  async function handlePlaceBid({ bid }) {
+    try {
+      const { data } = await BidderApi.post('/bidding/', {
+        bidingPrice: bid,
+        productId: product._id,
+      });
+      console.log('BID POST DATA:::', JSON.stringify(data, null, 2));
+      if (data.success) {
+        getBid();
+      }
+    } catch (error) {
+      console.error('BID ERRORR::', error);
+    }
+  }
 
   useEffect(() => {
-    // getBid();
+    getBid();
     getComments();
   }, []);
 
   const getBid = async () => {
-    const config = {
-      Authorization:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im0xQGdtYWlsLmNvbSIsImlkIjoiNjQ1MjU2ZTIzNWQ5M2YwNjQ5MmM0MzdhIiwiaWF0IjoxNjgzMTQ3Njc2fQ.YFS8r_vfb56lHpB37lJiY4BEjt3Saw3BHG-L5-E6h6I',
-    };
     try {
-      // console.log(product._id);
-      const res = await BidderApi.get('/bidding/6452b181d8a428976a224b2f', {
-        headers: config,
-      });
-      // console.log("Bidding::", JSON.stringify(res, null, 2));
-      // setProducts(res.data.data.allProducts);
+      const { data } = await BidderApi.get(`/bidding/${product._id}`);
+      console.log('Bidding::', JSON.stringify(data, null, 2));
+      setHighestBid(data.highestBid);
     } catch (error) {
       console.log(error);
     }
@@ -99,17 +108,24 @@ const Product = ({ route, navigation }) => {
               <Text style={styles.price}>
                 Base Price: Rs. {product.productPrice}
               </Text>
-              <Text style={styles.price}>
-                Highest Bid: Rs. {product.productPrice}
-              </Text>
+              <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
               <View style={styles.bidContainer}>
-                <TextInput
-                  value={bid}
-                  onChangeText={handleTextChange}
-                  placeholder="Enter bid amount"
-                  keyboardType="numeric"
+                <FormInputField
+                  name={'bid'}
+                  control={control}
+                  placeholder={'Enter Bid Ammount'}
+                  keyboardType={'number-pad'}
+                  rule={{
+                    required: 'Bid cannot be empty.',
+                    validate: (value) =>
+                      value > highestBid ||
+                      `Bid must be greater than Rs.${highestBid}`,
+                  }}
                 />
-                <TouchableOpacity style={styles.bidButton}>
+                <TouchableOpacity
+                  style={styles.bidButton}
+                  onPress={handleSubmit(handlePlaceBid)}
+                >
                   <Text style={styles.bidButtonText}>Place Bid</Text>
                 </TouchableOpacity>
               </View>
@@ -284,14 +300,17 @@ const styles = StyleSheet.create({
   },
   bidButton: {
     backgroundColor: 'black',
-    borderRadius: 4,
-    paddingVertical: 6,
-    paddingHorizontal: 20,
-    marginLeft: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    width: 100,
+    height: 40,
   },
   bidButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   sellerName: {
     fontWeight: 'bold',
@@ -301,9 +320,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bidContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    width: '100%',
   },
   bidInput: {
     flex: 1,
