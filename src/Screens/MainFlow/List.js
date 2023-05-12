@@ -8,13 +8,17 @@ import {
   ScrollView,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { useSelector } from "react-redux";
+
 import PrimaryButton from '../../Components/PrimaryButton';
 import BidderApi from '../../api/BidderApi';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import FormControl from '../../Components/Form Control/FormControl';
+import SecondaryButton from '../../Components/SecondaryButton';
 
-const List = () => {
+const List = ({ navigation }) => {
+  const { userInfo: { role } } = useSelector((state) => state.auth);
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState('');
   const [subCategory, setSubCategory] = useState('');
@@ -24,6 +28,7 @@ const List = () => {
   const [price, setPrice] = useState('');
   const [subCategoryData, setSubCategoryData] = useState(null);
   const [picture, setPicture] = useState(null);
+
 
   const initial = {
     subcategoryId: '',
@@ -123,6 +128,14 @@ const List = () => {
     // console.log('useEffect: ', initial.product_picture.uri);
   }, [initial.product_picture]);
 
+  if (role == 'buyer') {
+    return (
+      <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', padding: 6, paddingBottom: 70, }}>
+        <Text style={{ fontSize: 45, fontWeight: 'bold' }}>Become seller to post your products</Text>
+        <SecondaryButton title='Go to Profile' onPress={() => navigation.navigate('Profile')} />
+      </View>
+    )
+  }
   return (
     <ScrollView style={styles.container}>
       <View style={{ paddingBottom: 30 }}>
@@ -151,12 +164,12 @@ const List = () => {
           <Picker.Item label="Select Category" value="" />
           {category != null
             ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+              <Picker.Item
+                key={Option._id}
+                label={Option.title}
+                value={Option._id}
+              />
+            ))
             : null}
         </Picker>
 
@@ -171,12 +184,12 @@ const List = () => {
           <Picker.Item label="Select sub Category" value="" />
           {subCategoryData != null
             ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+              <Picker.Item
+                key={Option._id}
+                label={Option.title}
+                value={Option._id}
+              />
+            ))
             : null}
         </Picker>
 

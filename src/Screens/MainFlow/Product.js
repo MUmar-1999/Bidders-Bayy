@@ -112,9 +112,8 @@ const Product = ({ route, navigation }) => {
               <View style={styles.BidContainer}>
                 <View
                   style={{
-                    flexDirection: "column",
-                    alignItems: "center",
-                    width: 100,
+                    justifyContent: 'flex-start',
+                    maxWidth: 100,
                   }}
                 >
                   <FormInputFieldd
@@ -259,10 +258,22 @@ const styles = StyleSheet.create({
   },
   BidContainer: {
     flexDirection: "row",
+    marginTop: -15
+  },
+  bidButton: {
+    backgroundColor: "black",
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 100,
-    marginTop: -15,
+    marginTop: 25,
+    width: 100,
+    height: 40,
+    marginLeft: 10,
+  },
+  bidButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
   commentInput: {
     borderWidth: 1,
@@ -314,42 +325,12 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  bidButton: {
-    backgroundColor: "black",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 25,
-    width: 100,
-    height: 40,
-    marginLeft: 10,
-  },
-  bidButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
   sellerName: {
     fontWeight: "bold",
     fontSize: 16,
   },
   sellerPhone: {
     fontSize: 16,
-  },
-  bidContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-  },
-  bidInput: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
-    marginRight: 10,
-    paddingHorizontal: 10,
-    width: 100,
   },
 });
 

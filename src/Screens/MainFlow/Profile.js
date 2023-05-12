@@ -19,7 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  // console.log('USER_INFO:::', JSON.stringify(userInfo, null, 2));
+  console.log('USER_INFO:::', JSON.stringify(userInfo, null, 2));
   const dispatch = useDispatch();
   // TODO: make all these states into 1 && Update IMAGE URI to display image recieved from backend
   const [firstName, setFirstName] = useState(userInfo.firstName || "");
@@ -56,8 +56,9 @@ const Profile = ({ navigation }) => {
     formData.append("lastName", lastName);
     formData.append("phoneNo", phoneNo);
     formData.append("currentCity", currentCity);
+    console.log("SAVE")
 
-    dispatch(update(formData));
+    dispatch(update({ formData, role: userInfo.role }));
   }
 
   const handleBecomeSeller = (becomeSeller) => {
@@ -94,10 +95,10 @@ const Profile = ({ navigation }) => {
           source={
             profile_picture
               ? {
-                  uri: profile_picture.dp
-                    ? normalizeImage(profile_picture.dp)
-                    : profile_picture.file,
-                }
+                uri: profile_picture.dp
+                  ? normalizeImage(profile_picture.dp)
+                  : profile_picture.file,
+              }
               : require("../../Images/dp.png")
           }
           style={styles.profileImage}

@@ -13,12 +13,23 @@ import PrimaryButton from '../../Components/PrimaryButton';
 import FormInputField from '../../Components/FormInputField';
 import BidderApi from '../../api/BidderApi';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 const BecomeSeller = ({ navigation }) => {
+  const { userInfo } = useSelector((state) => state.auth);
   const [frontImage, setFrontImage] = useState(null);
   const [backImage, setBackImage] = useState(null);
   const { control, handleSubmit } = useForm();
   const cnicRegex = /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/;
+
+  function normalizeImage(imagePath) {
+    const baseUrl = "http://192.168.10.2:5000";
+    const normalizedImagePath = imagePath
+      .replace(/\\/g, "/")
+      .replace(/^\//, "");
+    const imageUrl = `${baseUrl}/${normalizedImagePath}`;
+    return imageUrl;
+  }
 
   const pickImage = async (side) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -115,7 +126,7 @@ const BecomeSeller = ({ navigation }) => {
         <View style={styles.container}>
           <Text style={styles.heading}>Become a Seller</Text>
           <View style={styles.imageContainer}>
-            {frontImage ? (
+            {userInfo.hasOwnProperty('cnicFront') ? (
               <Image source={{ uri: frontImage }} style={styles.image} />
             ) : (
               <View style={styles.imagePlaceholder}>

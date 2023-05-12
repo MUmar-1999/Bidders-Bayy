@@ -82,27 +82,8 @@ export const getAuthToken = createAsyncThunk('auth/getAuthToken', async () => {
 
 export const update = createAsyncThunk(
   'auth/update',
-  async function (formData, { rejectWithValue }) {
-    // console.log('UPDATE DATA:::', {
-    //   profile_picture,
-    //   firstName,
-    //   lastName,
-    //   phoneNo,
-    //   currentCity,
-    // });
-    // let formData = new FormData();
-    // if (profile_picture) {
-    //   formData.append('profile_picture', {
-    //     uri: profile_picture.file,
-    //     type: 'image/jpeg',
-    //     name: 'profile.jpg',
-    //   });
-    // }
-    // formData.append('firstName', firstName);
-    // formData.append('lastName', lastName);
-    // formData.append('phoneNo', phoneNo);
-    // formData.append('currentCity', currentCity);
-
+  async function ({ formData, role }, { rejectWithValue }) {
+    console.log(role);
     const config = {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -110,8 +91,8 @@ export const update = createAsyncThunk(
     };
 
     try {
-      const { data } = await BidderApi.post('/users/edit/', formData, config);
-      // console.log('UPDATEUSERINFO:::', JSON.stringify(data, null, 2));
+      const { data } = await BidderApi.post(role === 'seller' ? '/users/edit-seller-profile/' : '/users/edit/', formData, config);
+      console.log('UPDATEUSERINFO:::', JSON.stringify(data, null, 2));
       await setItemAsync('user', JSON.stringify(data.data));
       return { user: data.data };
     } catch (error) {

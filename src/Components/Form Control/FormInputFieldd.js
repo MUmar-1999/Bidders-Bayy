@@ -24,7 +24,6 @@ const FormInputFieldd = ({
           <View
             style={[styles.container, { borderColor: error ? "red" : "black" }]}
           >
-            <Image source={icon} style={{ width: 25, height: 25 }} />
             <TextInput
               value={value}
               onChangeText={onChange}
@@ -60,9 +59,10 @@ const styles = StyleSheet.create({
     marginTop: 25,
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 5,
   },
   input: {
-    width: "70%",
+    width: "100%",
   },
   errorContainer: {
     width: "100%",

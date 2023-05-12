@@ -28,9 +28,16 @@ function MainFlowStack() {
     <Tab.Navigator
       initialRouteName="Bidders Bay"
       screenOptions={{
-        tabBarActiveTintColor: "black",
+        tabBarActiveTintColor: "white",
+        tabBarStyle: { backgroundColor: '#1F1F1F', },
         tabBarLabelStyle: { fontWeight: "bold", fontSize: 12 },
         tabBarHideOnKeyboard: true,
+        headerStyle: {
+          backgroundColor: '#1F1F1F',
+        },
+        headerTitleStyle: {
+          color: 'white'
+        }
       }}
     >
       <Tab.Screen
