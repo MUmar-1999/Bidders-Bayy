@@ -110,18 +110,20 @@ const Product = ({ route, navigation }) => {
               </Text>
               <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
               <View style={styles.BidContainer}>
-                <FormInputFieldd
-                  name={"bid"}
-                  control={control}
-                  placeholder={"Enter Bid"}
-                  keyboardType={"number-pad"}
-                  rule={{
-                    required: "Bid cannot be empty.",
-                    validate: (value) =>
-                      value > highestBid ||
-                      `Bid must be greater than Rs.${highestBid}`,
-                  }}
-                />
+                <View style={{ flexDirection: "column", alignItems: "center" }}>
+                  <FormInputFieldd
+                    name={"bid"}
+                    control={control}
+                    placeholder={"Enter Bid"}
+                    keyboardType={"number-pad"}
+                    rule={{
+                      required: "Bid cannot be empty.",
+                      validate: (value) =>
+                        value > highestBid ||
+                        `Bid must be greater than Rs.${highestBid}`,
+                    }}
+                  />
+                </View>
                 <TouchableOpacity
                   style={styles.bidButton}
                   onPress={handleSubmit(handlePlaceBid)}
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
 
   description: {
     fontSize: 16,
-    marginTop: 10,
+    marginTop: 20,
     textAlign: "left",
   },
   seller: {
@@ -254,6 +256,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginRight: 100,
+    marginTop: -15,
   },
   commentInput: {
     borderWidth: 1,

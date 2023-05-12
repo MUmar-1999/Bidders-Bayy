@@ -52,7 +52,7 @@ export default FormInputFieldd;
 
 const styles = StyleSheet.create({
   container: {
-    width: "50%",
+    width: 100,
     height: 40,
     borderWidth: 1,
     borderRadius: 10,
@@ -62,12 +62,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    width: "55%",
+    width: "70%",
   },
   errorContainer: {
-    width: "75%",
+    width: "100%",
     alignSelf: "center",
-    marginBottom: -20,
+    marginBottom: -10,
+    flexDirection: "row",
+    paddingLeft: 10,
   },
   error: {
     color: "red",
