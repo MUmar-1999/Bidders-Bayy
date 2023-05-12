@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import { useForm } from "react-hook-form";
-import FormInputField from "../../Components/FormInputField";
 import BidderApi from "../../api/BidderApi";
 import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
 const Product = ({ route, navigation }) => {

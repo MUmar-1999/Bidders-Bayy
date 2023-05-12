@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Image,
   TextInput,
   TouchableOpacity,
   StyleSheet,
@@ -9,7 +8,6 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
-import { EvilIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import Card from "../../Components/Card";

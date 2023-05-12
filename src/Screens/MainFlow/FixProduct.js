@@ -9,7 +9,6 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
-import { EvilIcons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
 

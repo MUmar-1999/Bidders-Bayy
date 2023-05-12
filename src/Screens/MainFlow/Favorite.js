@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
