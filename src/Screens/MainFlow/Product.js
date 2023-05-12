@@ -110,7 +110,13 @@ const Product = ({ route, navigation }) => {
               </Text>
               <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
               <View style={styles.BidContainer}>
-                <View style={{ flexDirection: "column", alignItems: "center" }}>
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: 100,
+                  }}
+                >
                   <FormInputFieldd
                     name={"bid"}
                     control={control}
@@ -235,7 +241,7 @@ const styles = StyleSheet.create({
 
   description: {
     fontSize: 16,
-    marginTop: 20,
+    marginTop: 15,
     textAlign: "left",
   },
   seller: {
@@ -316,7 +322,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     width: 100,
     height: 40,
-    marginLeft: 5,
+    marginLeft: 10,
   },
   bidButtonText: {
     color: "#fff",
@@ -331,7 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bidContainer: {
-    // flexDirection: 'row',
+    flexDirection: "row",
     alignItems: "center",
     width: "100%",
   },
