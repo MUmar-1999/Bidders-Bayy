@@ -65,41 +65,39 @@ const List = ({ navigation }) => {
     }
   };
   const NewPost = async (
-    title,
-    description,
-    productPrice,
-    subcategoryId,
-    ProductType,
-    images
+    // title,
+    // description,
+    // productPrice,
+    // subcategoryId,
+    // ProductType,
+    // images
+    data
   ) => {
+    postChange("title", data.title);
+    postChange("description", data.description);
+    postChange("productPrice", data.productPrice);
+
     let formData = new FormData(),
       key;
     const entries = Object.entries(postValue);
     for (const [key, value] of entries) {
-      if (key == "xsadfdsa") {
-        let images = [];
-        for (let i = 0; i < value.length; i++) {
-          images.push(value[i]);
-          formData.append("product_picture", value);
-        }
-      } else {
-        formData.append(key, value);
-      }
+      formData.append(key, value);
     }
-    for (key of entries) {
-      // console.log(key);
-    }
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    try {
-      const res = await BidderApi.post("/products/", formData, config);
-      console.log("LIST::", JSON.stringify(res.data, null, 2));
-    } catch (error) {
-      console.log(error.res);
-    }
+    console.log(formData);
+    // for (key of entries) {
+    //   // console.log(key);
+    // }
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
+    // try {
+    //   const res = await BidderApi.post("/products/", formData, config);
+    //   console.log("LIST::", JSON.stringify(res.data, null, 2));
+    // } catch (error) {
+    //   console.log(error.res);
+    // }
   };
 
   const chooseImage = async () => {
