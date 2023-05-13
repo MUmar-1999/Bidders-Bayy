@@ -52,6 +52,7 @@ const Home = ({ navigation }) => {
       console.log(error.res);
     }
   };
+
   useFocusEffect(
     React.useCallback(() => {
       getData();
@@ -60,7 +61,7 @@ const Home = ({ navigation }) => {
 
   function Header() {
     return (
-      <>
+      <View>
         <View>
           <View
             style={{
@@ -109,10 +110,10 @@ const Home = ({ navigation }) => {
           </View>
 
           <Image
-            source={require("../Images/Banner.png")}
+            source={require("../../Images/Banner1.png")}
             style={{
               width: "91.5%",
-              height: 160,
+              height: 170,
               borderRadius: 10,
               alignSelf: "center",
               marginTop: 10,
@@ -136,7 +137,7 @@ const Home = ({ navigation }) => {
           >
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require("./../Images/Bid.webp")}
+                source={require("../../Images/Bidd.png")}
                 style={{ borderRadius: 40, width: 80, height: 80 }}
               />
               <Text
@@ -162,7 +163,7 @@ const Home = ({ navigation }) => {
           >
             <View style={{ alignItems: "center" }}>
               <Image
-                source={require("./../Images/purchase.webp")}
+                source={require("../../Images/Fix.png")}
                 style={{ borderRadius: 40, width: 80, height: 80 }}
               />
               <Text
@@ -189,7 +190,7 @@ const Home = ({ navigation }) => {
         >
           Products
         </Text>
-      </>
+      </View>
     );
   }
 

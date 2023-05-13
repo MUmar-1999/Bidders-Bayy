@@ -259,11 +259,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
+    borderRadius: 5,
   },
   imageUploadContainer: {
     flexDirection: "row",

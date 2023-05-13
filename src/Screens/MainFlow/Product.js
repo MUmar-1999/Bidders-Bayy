@@ -112,7 +112,7 @@ const Product = ({ route, navigation }) => {
               <View style={styles.BidContainer}>
                 <View
                   style={{
-                    justifyContent: 'flex-start',
+                    justifyContent: "flex-start",
                     maxWidth: 100,
                   }}
                 >
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   },
   BidContainer: {
     flexDirection: "row",
-    marginTop: -15
+    marginTop: -15,
   },
   bidButton: {
     backgroundColor: "black",

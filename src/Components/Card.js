@@ -52,7 +52,7 @@ function Card({ item }) {
             <Text style={styles.cityText}>{item.userId.currentCity}</Text>
           ) : null}
           <TouchableOpacity onPress={() => addfav(item._id)}>
-            <EvilIcons name="heart" size={24} color="black" />
+            <EvilIcons name="heart" size={24} color="#44c234" />
           </TouchableOpacity>
         </View>
       </View>
@@ -64,7 +64,7 @@ export default Card;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "white",
+    backgroundColor: "#46434a",
     width: "45%",
     margin: 8,
     borderRadius: 10,
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 8,
+    color: "white",
   },
   priceContainer: {
     flexDirection: "row",
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "green",
+    color: "#44c234",
   },
   cityText: {
     fontSize: 12,
