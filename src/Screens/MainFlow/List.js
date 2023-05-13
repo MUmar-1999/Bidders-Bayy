@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   Button,
   ScrollView,
 } from "react-native";
@@ -14,7 +13,6 @@ import PrimaryButton from "../../Components/PrimaryButton";
 import BidderApi from "../../api/BidderApi";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
-import FormControl from "../../Components/Form Control/FormControl";
 import SecondaryButton from "../../Components/SecondaryButton";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
@@ -26,36 +24,22 @@ const List = ({ navigation }) => {
   } = useSelector((state) => state.auth);
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [type, setType] = useState("");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
-  const [picture, setPicture] = useState(null);
-
-  const initial = {
+  const { control, handleSubmit, reset } = useForm();
+  const [dataForm, setDataForm] = useState({
     subcategoryId: "",
-    title: "",
     productType: "",
-    productPrice: "",
-    description: "",
     product_picture: [],
-  };
-  const { control, handleSubmit } = useForm();
+  });
 
-  const { setPostValue, postValue, postChange } = FormControl(initial);
   useEffect(() => {
     axios.get("http://192.168.10.2:5000/category/").then(function (response) {
-      // console.log(response.data.data.allCategory);
       setCategory(response.data.data.allCategory);
     });
   }, []);
 
   const handleSubCategory = (value) => {
-    // console.log(value);
     setCategoryData(value);
-    // console.log(categoryData);
     if (value != "") {
       axios
         .get(`http://192.168.10.2:5000/sub-category/${value}`)
@@ -64,42 +48,36 @@ const List = ({ navigation }) => {
         });
     }
   };
-  const NewPost = async (
-    // title,
-    // description,
-    // productPrice,
-    // subcategoryId,
-    // ProductType,
-    // images
-    data
-  ) => {
-    postChange("title", data.title);
-    postChange("description", data.description);
-    postChange("productPrice", data.productPrice);
-
-    let formData = new FormData(),
-      key;
-    const entries = Object.entries(postValue);
-    for (const [key, value] of entries) {
-      formData.append(key, value);
+  const NewPost = async (data) => {
+    let formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('productType', dataForm.productType);
+    formData.append('subcategoryId', dataForm.subcategoryId);
+    formData.append('product_picture', dataForm.product_picture);
+    formData.append('description', data.description);
+    formData.append('productPrice', data.productPrice);
+    console.log("FORMDATA:::", formData)
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      const { data } = await BidderApi.post("/products/", formData, config);
+      if (data.success) {
+        setCategoryData("");
+        setDataForm({
+          subcategoryId: "",
+          productType: "",
+          product_picture: [],
+        });
+        reset();
+        navigation.navigate("Bidders Bay");
+      }
+    } catch (error) {
+      console.log("NEWPOST ERROR:::", error);
     }
-    console.log(formData);
-    // for (key of entries) {
-    //   // console.log(key);
-    // }
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
-    // try {
-    //   const res = await BidderApi.post("/products/", formData, config);
-    //   console.log("LIST::", JSON.stringify(res.data, null, 2));
-    // } catch (error) {
-    //   console.log(error.res);
-    // }
   };
-
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -107,29 +85,20 @@ const List = ({ navigation }) => {
       aspect: [9, 16],
       quality: 0.5,
     });
-
-    // console.log('total ', result.assets);
-
     if (
       result &&
       !result.canceled &&
       result.assets &&
       result.assets.length > 0
     ) {
-      // setPicture(result.assets[0].uri);
-
       const pro = {
         uri: result.assets[0].uri,
-        type: "image/jpeg", // Change the type based on your image format
+        type: "image/jpeg",
         name: "image.jpg",
       };
-      postChange("product_picture", pro);
+      setDataForm((preValue) => { return { ...preValue, product_picture: pro } });
     }
   };
-
-  useEffect(() => {
-    // console.log('useEffect: ', initial.product_picture.uri);
-  }, [initial.product_picture]);
 
   if (role == "buyer") {
     return (
@@ -158,8 +127,8 @@ const List = ({ navigation }) => {
         <View style={{ paddingBottom: 30 }}>
           <Text style={styles.label}>Type:</Text>
           <Picker
-            selectedValue={postValue.productType}
-            onValueChange={(itemValue) => postChange("productType", itemValue)}
+            selectedValue={dataForm.productType}
+            onValueChange={(itemValue) => setDataForm((preValue) => { return { ...preValue, productType: itemValue } })}
             style={styles.dropdown}
           >
             <Picker.Item label="Select type" value="" />
@@ -181,21 +150,21 @@ const List = ({ navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
           <Text style={styles.label}>Sub Category:</Text>
           <Picker
             name="subcategoryId"
-            selectedValue={postValue.subcategoryId}
+            selectedValue={dataForm.subcategoryId}
             onValueChange={(itemValue) =>
-              postChange("subcategoryId", itemValue)
+              setDataForm((preValue) => { return { ...preValue, subcategoryId: itemValue } })
             }
             style={styles.dropdown}
             onPress={() => console.log("hello")}
@@ -203,21 +172,16 @@ const List = ({ navigation }) => {
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
           <Text style={styles.label}>Title:</Text>
-          {/* <TextInput
-            style={styles.input}
-            value={postValue.title}
-            onChangeText={(text) => postChange("title", text)}
-          /> */}
           <FormInputF
             name={"title"}
             control={control}
@@ -227,11 +191,6 @@ const List = ({ navigation }) => {
           />
 
           <Text style={styles.label}>Description:</Text>
-          {/* <TextInput
-            style={styles.input}
-            value={postValue.description}
-            onChangeText={(text) => postChange("description", text)}
-          /> */}
           <FormInputF
             name={"description"}
             control={control}
@@ -241,16 +200,10 @@ const List = ({ navigation }) => {
           />
 
           <Text style={styles.label}>
-            {postValue.productType === "Bidding Item"
+            {dataForm.productType === "Bidding Item"
               ? "Base Price:"
               : "Price:"}
           </Text>
-          {/* <TextInput
-            style={styles.input}
-            value={postValue.productPrice}
-            onChangeText={(text) => postChange("productPrice", text)}
-            keyboardType="numeric"
-          /> */}
           <FormInputF
             name={"productPrice"}
             keyboardType="numeric"

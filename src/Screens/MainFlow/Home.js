@@ -5,22 +5,24 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import React, { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get("/products/bid/");
-      // console.log('HOME LSIT::', JSON.stringify(res.data, null, 2));
+      const res = await BidderApi.get('/products/bid/');
       setProducts(res.data.data.allProducts);
+      setFilteredProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
     }
@@ -31,10 +33,21 @@ const Home = ({ navigation }) => {
       getData();
     }, [navigation])
   );
-  const filteredProducts = products.filter((product) => {
-    return product.title.toLowerCase().includes(searchQuery.toLowerCase());
-  });
 
+  const filtered = (text) => {
+    if (text) {
+      const newData = products.filter(function (item) {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredProducts(newData);
+      setSearchQuery(text);
+    } else {
+      setFilteredProducts(products);
+      setSearchQuery(text);
+    }
+  };
   const handleBidPress = (bidproduct) => {
     navigation.navigate("BidProduct", { bidproduct });
   };
@@ -55,14 +68,14 @@ const Home = ({ navigation }) => {
   };
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       getData();
     }, [navigation])
   );
 
   function Header() {
     return (
-      <>
+      <View>
         <View>
           <View
             style={{
@@ -86,7 +99,9 @@ const Home = ({ navigation }) => {
             <TextInput
               placeholder="Search products..."
               value={searchQuery}
-              onChangeText={(query) => setSearchQuery(query)}
+              // onChangeText={filtered}
+              onSubmitEditing={filtered}
+              keyboardType="default"
               style={{
                 flex: 1,
                 height: 45,
@@ -191,20 +206,22 @@ const Home = ({ navigation }) => {
         >
           Products
         </Text>
-      </>
+      </View>
     );
   }
 
   return (
     <SafeArea>
-      <FlatList
-        numColumns={2}
-        data={filteredProducts}
-        ListHeaderComponent={Header}
-        renderItem={({ item }) => {
-          return <Card item={item} />;
-        }}
-      />
+      <KeyboardAvoidingView>
+        <FlatList
+          numColumns={2}
+          data={filteredProducts}
+          ListHeaderComponent={Header}
+          renderItem={({ item }) => {
+            return <Card item={item} />;
+          }}
+        />
+      </KeyboardAvoidingView>
     </SafeArea>
   );
 };

@@ -1,5 +1,4 @@
 import { View, Image, TextInput, StyleSheet, Text } from "react-native";
-
 import { Controller } from "react-hook-form";
 
 const FormInputF = ({
