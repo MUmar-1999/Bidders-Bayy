@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Home";
 import Profile from "./Profile";
 import List from "./List";
@@ -18,8 +18,8 @@ import {
   Ionicons
 } from "@expo/vector-icons";
 
-const HomeStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
+const HomeStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function MainFlowStack() {

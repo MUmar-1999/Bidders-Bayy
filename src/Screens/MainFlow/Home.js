@@ -13,6 +13,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
+import SearchBar from "../../Components/SearchBar";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -37,7 +38,7 @@ const Home = ({ navigation }) => {
   const filtered = (text) => {
     if (text) {
       const newData = products.filter(function (item) {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -77,54 +78,6 @@ const Home = ({ navigation }) => {
     return (
       <View>
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginHorizontal: 16,
-              marginTop: 10,
-              backgroundColor: "white",
-              borderRadius: 10,
-              overflow: "hidden",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 7,
-              },
-              shadowOpacity: 0.43,
-              shadowRadius: 9.51,
-              elevation: 15,
-            }}
-          >
-            <TextInput
-              placeholder="Search products..."
-              value={searchQuery}
-              // onChangeText={filtered}
-              onSubmitEditing={filtered}
-              keyboardType="default"
-              style={{
-                flex: 1,
-                height: 45,
-                paddingHorizontal: 16,
-                fontSize: 16,
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => setSearchQuery("")}
-              style={{
-                backgroundColor: "#ddd",
-                borderRadius: 5,
-                paddingHorizontal: 12,
-                paddingVertical: 8,
-                marginRight: 3,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>X</Text>
-            </TouchableOpacity>
-          </View>
-
           <Image
             source={require("../../Images/Banner1.png")}
             style={{
@@ -212,6 +165,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeArea>
+      <SearchBar value={searchQuery} onChange={filtered} />
       <KeyboardAvoidingView>
         <FlatList
           numColumns={2}
