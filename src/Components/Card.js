@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
-import { Color } from './Shared/Color'
+import { Color } from "./Shared/Color";
 
 function Card({ item }) {
   const navigation = useNavigation();
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   priceText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "bold",
     color: "#52616B",
   },

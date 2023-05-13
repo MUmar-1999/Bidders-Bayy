@@ -13,6 +13,9 @@ import {
 import { useForm } from "react-hook-form";
 import BidderApi from "../../api/BidderApi";
 import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
+import SafeArea from "../../Components/Shared/SafeArea";
+import { Color } from "../../Components/Shared/Color";
+
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
   const { product } = route.params;
@@ -83,111 +86,115 @@ const Product = ({ route, navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
-      <ScrollView>
-        <View style={styles.container}>
-          <Image
-            source={{
-              uri:
-                product.images && product.images.length > 0
-                  ? `http://192.168.10.2:5000/${product.images[0]}`
-                  : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-            }}
-            style={styles.image}
-          />
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{product.title}</Text>
-            <View style={styles.inspectionButtonContainer}>
-              <View style={styles.inspectionButton}>
-                <Text style={styles.buttonText}>Inspection</Text>
+    <SafeArea>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={styles.container}>
+            <Image
+              source={{
+                uri:
+                  product.images && product.images.length > 0
+                    ? `http://192.168.10.2:5000/${product.images[0]}`
+                    : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+              }}
+              style={styles.image}
+            />
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{product.title}</Text>
+              <View style={styles.inspectionButtonContainer}>
+                <View style={styles.inspectionButton}>
+                  <Text style={styles.buttonText}>Inspection</Text>
+                </View>
               </View>
             </View>
-          </View>
-          {product.productType === "Bidding Item" ? (
-            <View>
-              <Text style={styles.price}>
-                Base Price: Rs. {product.productPrice}
-              </Text>
-              <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
-              <View style={styles.BidContainer}>
-                <View
-                  style={{
-                    justifyContent: "flex-start",
-                    maxWidth: 100,
-                  }}
-                >
-                  <FormInputFieldd
-                    name={"bid"}
-                    control={control}
-                    placeholder={"Enter Bid"}
-                    keyboardType={"number-pad"}
-                    rule={{
-                      required: "Bid cannot be empty.",
-                      validate: (value) =>
-                        value > highestBid ||
-                        `Bid must be greater than Rs.${highestBid}`,
+            {product.productType === "Bidding Item" ? (
+              <View>
+                <Text style={styles.price}>
+                  Base Price: Rs. {product.productPrice}
+                </Text>
+                <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
+                <View style={styles.BidContainer}>
+                  <View
+                    style={{
+                      justifyContent: "flex-start",
+                      maxWidth: 100,
                     }}
-                  />
+                  >
+                    <FormInputFieldd
+                      name={"bid"}
+                      control={control}
+                      placeholder={"Enter Bid"}
+                      keyboardType={"number-pad"}
+                      rule={{
+                        required: "Bid cannot be empty.",
+                        validate: (value) =>
+                          value > highestBid ||
+                          `Bid must be greater than Rs.${highestBid}`,
+                      }}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={styles.bidButton}
+                    onPress={handleSubmit(handlePlaceBid)}
+                  >
+                    <Text style={styles.bidButtonText}>Place Bid</Text>
+                  </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  style={styles.bidButton}
-                  onPress={handleSubmit(handlePlaceBid)}
+              </View>
+            ) : (
+              <Text style={styles.price}>
+                Price: Rs. {product.productPrice}
+              </Text>
+            )}
+
+            <Text style={styles.description}>{product.description}</Text>
+            <View style={styles.sellerContainer}>
+              <View style={styles.sellerDetails}>
+                <Image
+                  source={require("../../Images/name.png")}
+                  style={styles.sellerNameIcon}
+                />
+                <Text
+                  style={styles.sellerName}
+                  onPress={() => handleSellerPress(product)}
                 >
-                  <Text style={styles.bidButtonText}>Place Bid</Text>
+                  {product.userId.firstName} {product.userId.lastName}
+                </Text>
+              </View>
+              <View style={styles.sellerDetails}>
+                <Image
+                  source={require("../../Images/phone.png")}
+                  style={styles.sellerPhoneIcon}
+                />
+                <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
+              </View>
+
+              <View style={styles.commentContainer}>
+                <TextInput
+                  style={styles.commentInput}
+                  placeholder="Add a comment"
+                  value={comment}
+                  onChangeText={setComment}
+                />
+                <TouchableOpacity
+                  style={styles.commentButton}
+                  onPress={() => handleComment(product._id, comment)}
+                >
+                  <Text style={styles.commentButtonText}>Post</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-          ) : (
-            <Text style={styles.price}>Price: Rs. {product.productPrice}</Text>
-          )}
 
-          <Text style={styles.description}>{product.description}</Text>
-          <View style={styles.sellerContainer}>
-            <View style={styles.sellerDetails}>
-              <Image
-                source={require("../../Images/name.png")}
-                style={styles.sellerNameIcon}
-              />
-              <Text
-                style={styles.sellerName}
-                onPress={() => handleSellerPress(product)}
-              >
-                {product.userId.firstName} {product.userId.lastName}
-              </Text>
+              <Text style={styles.commentTitle}>Comments:</Text>
+              {comments.map((c, index) => (
+                <Text key={index} style={styles.comment}>
+                  {c.comment}
+                </Text>
+              ))}
             </View>
-            <View style={styles.sellerDetails}>
-              <Image
-                source={require("../../Images/phone.png")}
-                style={styles.sellerPhoneIcon}
-              />
-              <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
-            </View>
-
-            <View style={styles.commentContainer}>
-              <TextInput
-                style={styles.commentInput}
-                placeholder="Add a comment"
-                value={comment}
-                onChangeText={setComment}
-              />
-              <TouchableOpacity
-                style={styles.commentButton}
-                onPress={() => handleComment(product._id, comment)}
-              >
-                <Text style={styles.commentButtonText}>Post</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.commentTitle}>Comments:</Text>
-            {comments.map((c, index) => (
-              <Text key={index} style={styles.comment}>
-                {c.comment}
-              </Text>
-            ))}
           </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeArea>
   );
 };
 const styles = StyleSheet.create({
@@ -197,6 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingHorizontal: 20,
     paddingTop: 10,
+    backgroundColor: Color.white,
   },
   image: {
     width: "100%",
@@ -307,7 +315,7 @@ const styles = StyleSheet.create({
   },
   sellerContainer: {
     marginTop: 10,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: Color.white,
     borderRadius: 10,
   },
   sellerDetails: {

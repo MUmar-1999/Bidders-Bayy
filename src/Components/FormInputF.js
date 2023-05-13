@@ -2,7 +2,7 @@ import { View, Image, TextInput, StyleSheet, Text } from "react-native";
 
 import { Controller } from "react-hook-form";
 
-const FormInputField = ({
+const FormInputF = ({
   control,
   name,
   rule,
@@ -48,28 +48,24 @@ const FormInputField = ({
   );
 };
 
-export default FormInputField;
+export default FormInputF;
 
 const styles = StyleSheet.create({
   container: {
-    width: "75%",
-    height: 40,
+    width: "100%",
+    height: 50,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 5,
     alignSelf: "center",
-    marginTop: 25,
+    marginTop: 5,
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 10,
-    paddingRight: 10,
   },
   input: {
-    marginLeft: 10,
-    marginRight: 10,
-    width: "75%",
+    width: "100%",
   },
   errorContainer: {
-    width: "75%",
+    width: "100%",
     alignSelf: "center",
     marginBottom: -20,
   },

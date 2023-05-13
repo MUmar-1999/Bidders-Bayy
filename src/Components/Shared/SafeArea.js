@@ -1,6 +1,7 @@
-import React from 'react';
-import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from "react";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Color } from "./Color";
 
 const SafeArea = ({ children }) => {
   const insets = useSafeAreaInsets();
@@ -13,7 +14,7 @@ const SafeArea = ({ children }) => {
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
-        backgroundColor: 'white',
+        backgroundColor: Color.white,
       }}
     >
       {children}

@@ -17,6 +17,7 @@ import { Feather } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import SafeArea from "../../Components/Shared/SafeArea";
+import { Color } from "../../Components/Shared/Color";
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -42,7 +43,7 @@ const Profile = ({ navigation }) => {
   function logoutHandler() {
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Bidders Bay' }],
+      routes: [{ name: "Bidders Bay" }],
     });
     dispatch(logout());
   }
@@ -100,10 +101,10 @@ const Profile = ({ navigation }) => {
             source={
               profile_picture
                 ? {
-                  uri: profile_picture.dp
-                    ? normalizeImage(profile_picture.dp)
-                    : profile_picture.file,
-                }
+                    uri: profile_picture.dp
+                      ? normalizeImage(profile_picture.dp)
+                      : profile_picture.file,
+                  }
                 : require("../../Images/dp.png")
             }
             style={styles.profileImage}
@@ -116,10 +117,16 @@ const Profile = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {userInfo.role === "buyer" ? (
-          userInfo.hasOwnProperty('cnicFront') ? <Text>Fuck U!</Text> : <SecondaryButton
-            title={"Become a Seller"}
-            onPress={handleBecomeSeller}
-          />
+          userInfo.hasOwnProperty("cnicFront") ? (
+            <Text style={{ alignSelf: "center", color: "blue" }}>
+              Under Review
+            </Text>
+          ) : (
+            <SecondaryButton
+              title={"Become a Seller"}
+              onPress={handleBecomeSeller}
+            />
+          )
         ) : (
           <SecondaryButton
             title={"My Products"}
@@ -141,7 +148,11 @@ const Profile = ({ navigation }) => {
         />
 
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} value={userInfo.email} editable={false} />
+        <TextInput
+          style={styles.input}
+          value={userInfo.email}
+          editable={false}
+        />
 
         <Text style={styles.label}>Phone Number</Text>
         <TextInput
@@ -197,7 +208,7 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "white",
+    backgroundColor: Color.white,
     padding: 20,
   },
   profileImageContainer: {

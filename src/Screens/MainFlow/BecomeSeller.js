@@ -15,6 +15,7 @@ import BidderApi from "../../api/BidderApi";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import SafeArea from "../../Components/Shared/SafeArea";
+import { Color } from "../../Components/Shared/Color";
 
 const BecomeSeller = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -116,7 +117,7 @@ const BecomeSeller = ({ navigation }) => {
 
   async function handleVerificationSubmit(data) {
     if (!frontImage && !backImage) {
-      alert("Please select Both Front & Back Images of CNIC.")
+      alert("Please select Both Front & Back Images of CNIC.");
     } else {
       cnicPost(data.cnic);
       frontPost();
@@ -146,7 +147,6 @@ const BecomeSeller = ({ navigation }) => {
                 title="Select Front Side of CNIC"
                 onPress={() => pickImage("front")}
               />
-
             </View>
             <View style={styles.imageContainer}>
               {backImage ? (
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: Color.white,
   },
   heading: {
     fontSize: 24,

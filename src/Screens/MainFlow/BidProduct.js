@@ -11,6 +11,8 @@ import BidderApi from "../../api/BidderApi";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import Card from "../../Components/Card";
+import SafeArea from "../../Components/Shared/SafeArea";
+import { Color } from "../../Components/Shared/Color";
 
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -124,7 +126,7 @@ const BidProduct = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <SafeArea>
       <FlatList
         numColumns={2}
         data={filteredProducts}
@@ -133,7 +135,7 @@ const BidProduct = ({ navigation }) => {
           return <Card item={item} />;
         }}
       />
-    </View>
+    </SafeArea>
   );
 };
 

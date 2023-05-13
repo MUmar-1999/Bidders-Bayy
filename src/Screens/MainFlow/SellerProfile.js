@@ -8,7 +8,9 @@ import {
   FlatList,
 } from "react-native";
 import BidderApi from "../../api/BidderApi";
-import { AirbnbRating } from '@rneui/themed';
+import { AirbnbRating } from "@rneui/themed";
+import { Color } from "../../Components/Shared/Color";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
@@ -17,26 +19,27 @@ const SellerProfile = ({ route, navigation }) => {
   // console.log(JSON.stringify(sellerProfile, null, 2));
   console.log("R::", rating);
 
-
   useEffect(() => {
     getData();
     getRating();
   }, []);
   async function getRating() {
     try {
-      const { data } = await BidderApi.get(`/rating/${sellerProfile.userId._id}`)
+      const { data } = await BidderApi.get(
+        `/rating/${sellerProfile.userId._id}`
+      );
       console.log("RATING:::", data);
-      setRating(data.data[0].avgRating)
+      setRating(data.data[0].avgRating);
     } catch (err) {
       console.error("Rating Error:::", err);
     }
   }
   async function setUserRating(rate) {
     try {
-      const { data } = await BidderApi.post('/rating/', {
+      const { data } = await BidderApi.post("/rating/", {
         sellerId: `${sellerProfile.userId._id}`,
-        rating: rate
-      })
+        rating: rate,
+      });
       console.log("SET::RATING:::", data);
       getRating();
     } catch (err) {
@@ -58,112 +61,120 @@ const SellerProfile = ({ route, navigation }) => {
     navigation.navigate("Product", { product });
   };
   return (
-    <View>
-      <FlatList
-        data={products}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        ListHeaderComponent={
-          <>
-            <View style={styles.container}>
-              <Image
-                source={{ uri: sellerProfile.userId.dp }}
-                style={styles.profileImage}
-              />
-              <Text style={styles.name}>
-                {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
-              </Text>
-              <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
-              <AirbnbRating defaultRating={rating} showRating={false} size={25} onFinishRating={setUserRating} />
-              {/* <Text style={styles.location}>{sellerProfile.location}</Text>
+    <SafeArea>
+      <View>
+        <FlatList
+          data={products}
+          keyExtractor={(item) => item._id}
+          numColumns={2}
+          ListHeaderComponent={
+            <>
+              <View style={styles.container}>
+                <Image
+                  source={{ uri: sellerProfile.userId.dp }}
+                  style={styles.profileImage}
+                />
+                <Text style={styles.name}>
+                  {sellerProfile.userId.firstName}{" "}
+                  {sellerProfile.userId.lastName}
+                </Text>
+                <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+                <AirbnbRating
+                  defaultRating={rating}
+                  showRating={false}
+                  size={25}
+                  onFinishRating={setUserRating}
+                />
+                {/* <Text style={styles.location}>{sellerProfile.location}</Text>
               <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
-            </View>
-            <Text
-              style={{
-                fontSize: 20,
-                marginLeft: 25,
-                fontWeight: "400",
-              }}
-            >
-              Seller Products
-            </Text>
-          </>
-        }
-        renderItem={({ item, index }) => {
-          return (
-            <View
-              style={{
-                backgroundColor: "white",
-                width: "45%",
-                margin: 8,
-                borderRadius: 10,
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 7,
-                },
-                shadowOpacity: 0.43,
-                shadowRadius: 9.51,
-                elevation: 15,
-              }}
-            >
-              <TouchableOpacity onPress={() => handleProductPress(item)}>
-                <View
-                  style={{
-                    height: 170,
-                    borderRadius: 10,
-                    overflow: "hidden",
-                  }}
-                >
-                  <Image
-                    source={{
-                      uri:
-                        item.images && item.images.length > 0
-                          ? `http://192.168.10.2:5000/${item.images[0]}`
-                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                    }}
-                    style={{ height: "100%", width: "100%" }}
-                  />
-                </View>
-                <View style={{ padding: 12 }}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      marginBottom: 8,
-                    }}
-                  >
-                    {item.title}
-                  </Text>
+              </View>
+              <Text
+                style={{
+                  fontSize: 20,
+                  marginLeft: 25,
+                  fontWeight: "400",
+                }}
+              >
+                Seller Products
+              </Text>
+            </>
+          }
+          renderItem={({ item, index }) => {
+            return (
+              <View
+                style={{
+                  backgroundColor: Color.white,
+                  width: "45%",
+                  margin: 8,
+                  borderRadius: 10,
+                  shadowColor: "black",
+                  shadowOffset: {
+                    width: 0,
+                    height: 7,
+                  },
+                  shadowOpacity: 0.43,
+                  shadowRadius: 9.51,
+                  elevation: 20,
+                }}
+              >
+                <TouchableOpacity onPress={() => handleProductPress(item)}>
                   <View
                     style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
+                      height: 170,
+                      borderRadius: 10,
+                      overflow: "hidden",
                     }}
                   >
+                    <Image
+                      source={{
+                        uri:
+                          item.images && item.images.length > 0
+                            ? `http://192.168.10.2:5000/${item.images[0]}`
+                            : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+                      }}
+                      style={{ height: "100%", width: "100%" }}
+                    />
+                  </View>
+                  <View style={{ padding: 12 }}>
                     <Text
                       style={{
-                        fontSize: 12,
+                        fontSize: 16,
                         fontWeight: "bold",
-                        color: "green",
+                        marginBottom: 8,
                       }}
                     >
-                      Rs. {item.productPrice}
+                      {item.title}
                     </Text>
-                    <Text style={{ fontSize: 12, color: "#aaa" }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: "bold",
+                          color: "green",
+                        }}
+                      >
+                        Rs. {item.productPrice}
+                      </Text>
+                      {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
                       {item.createdAt.substring(0, 10)}
-                    </Text>
-                    {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
-                            {item.currenCity}
-                          </Text> */}
+                    </Text> */}
+                      <Text style={{ fontSize: 12, color: "#aaa" }}>
+                        {item.currenCity}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          );
-        }}
-      />
-    </View>
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        />
+      </View>
+    </SafeArea>
   );
 };
 
@@ -172,6 +183,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 50,
+    backgroundColor: Color.white,
   },
   profileImage: {
     width: 150,

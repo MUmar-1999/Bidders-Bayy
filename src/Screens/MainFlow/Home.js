@@ -62,8 +62,7 @@ const Home = ({ navigation }) => {
 
   function Header() {
     return (
-
-      <View>
+      <>
         <View>
           <View
             style={{
@@ -192,7 +191,7 @@ const Home = ({ navigation }) => {
         >
           Products
         </Text>
-      </View>
+      </>
     );
   }
 

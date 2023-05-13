@@ -5,21 +5,22 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
-} from 'react-native';
-import { useEffect } from 'react';
+} from "react-native";
+import { useEffect } from "react";
 
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../Store/authActions';
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../Store/authActions";
 
-import FormGenderField from '../../Components/FormGenderField';
-import FormDateField from '../../Components/FormDateField';
-import ErrorMessage from '../../Components/ErrorMessage';
-import PrimaryButton from '../../Components/PrimaryButton';
-import SecondaryButton from '../../Components/SecondaryButton';
+import FormGenderField from "../../Components/FormGenderField";
+import FormDateField from "../../Components/FormDateField";
+import ErrorMessage from "../../Components/ErrorMessage";
+import PrimaryButton from "../../Components/PrimaryButton";
+import SecondaryButton from "../../Components/SecondaryButton";
 
-import FormInputField from '../../Components/FormInputField';
-import FormDropDown from '../../Components/FormDropDown';
+import FormInputField from "../../Components/FormInputField";
+import FormDropDown from "../../Components/FormDropDown";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const NAME_REGEX = /^[aA-zZ\s]+$/;
@@ -39,11 +40,11 @@ const Register = ({ navigation }) => {
   const dispatch = useDispatch();
   const { control, handleSubmit, watch } = useForm();
 
-  const pwd = watch('password');
+  const pwd = watch("password");
 
   useEffect(() => {
     if (success) {
-      navigation.navigate('Login');
+      navigation.navigate("Login");
     }
   }, [success]);
 
@@ -52,175 +53,180 @@ const Register = ({ navigation }) => {
   }
 
   function haveAccountHandler() {
-    navigation.navigate('Login');
+    navigation.navigate("Login");
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} enabled>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ marginTop: 50, marginBottom: 50 }}>
-          {/* Header Text */}
+    <SafeArea>
+      <KeyboardAvoidingView style={{ flex: 1 }} enabled>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{ marginTop: 50, marginBottom: 50 }}>
+            {/* Header Text */}
 
-          <Text style={styles.headerText}>Signup</Text>
-          {/* Form START */}
+            <Text style={styles.headerText}>Signup</Text>
+            {/* Form START */}
 
-          <FormInputField
-            name={'firstName'}
-            placeholder={'FirstName'}
-            control={control}
-            icon={require('../../Images/name.png')}
-            rule={{
-              required: 'Firstname cannot be empty.',
-              pattern: {
-                value: NAME_REGEX,
-                message: 'Firstname can only contain alphabets.',
-              },
-              minLength: {
-                value: 3,
-                message: 'Firstname must contain 3 characters.',
-              },
-              maxLength: {
-                value: 24,
-                message: 'Firstname cannot be greater than 24 characters.',
-              },
-            }}
-          />
+            <FormInputField
+              name={"firstName"}
+              placeholder={"FirstName"}
+              control={control}
+              icon={require("../../Images/name.png")}
+              rule={{
+                required: "Firstname cannot be empty.",
+                pattern: {
+                  value: NAME_REGEX,
+                  message: "Firstname can only contain alphabets.",
+                },
+                minLength: {
+                  value: 3,
+                  message: "Firstname must contain 3 characters.",
+                },
+                maxLength: {
+                  value: 24,
+                  message: "Firstname cannot be greater than 24 characters.",
+                },
+              }}
+            />
 
-          <FormInputField
-            name={'lastName'}
-            placeholder={'Lastname'}
-            control={control}
-            icon={require('../../Images/name.png')}
-            rule={{
-              required: 'Lastname cannot be empty.',
-              pattern: {
-                value: NAME_REGEX,
-                message: 'Lastname can only contain alphabets.',
-              },
-              minLength: {
-                value: 3,
-                message: 'Lastname must contain 3 characters.',
-              },
-              maxLength: {
-                value: 14,
-                message: 'Lastname cannot be greater than 24 characters.',
-              },
-            }}
-          />
+            <FormInputField
+              name={"lastName"}
+              placeholder={"Lastname"}
+              control={control}
+              icon={require("../../Images/name.png")}
+              rule={{
+                required: "Lastname cannot be empty.",
+                pattern: {
+                  value: NAME_REGEX,
+                  message: "Lastname can only contain alphabets.",
+                },
+                minLength: {
+                  value: 3,
+                  message: "Lastname must contain 3 characters.",
+                },
+                maxLength: {
+                  value: 14,
+                  message: "Lastname cannot be greater than 24 characters.",
+                },
+              }}
+            />
 
-          <FormGenderField
-            name={'gender'}
-            control={control}
-            rule={{
-              required: 'Select a gender.',
-            }}
-          />
+            <FormGenderField
+              name={"gender"}
+              control={control}
+              rule={{
+                required: "Select a gender.",
+              }}
+            />
 
-          <FormDateField
-            name={'dob'}
-            control={control}
-            rule={{
-              required: 'Select Date of Birth',
-              validate: (value) =>
-                parseInt(value.substr(0, 4)) < getEighteenYearsAgo() ||
-                'DOB must be older than 18 Years',
-            }}
-          />
+            <FormDateField
+              name={"dob"}
+              control={control}
+              rule={{
+                required: "Select Date of Birth",
+                validate: (value) =>
+                  parseInt(value.substr(0, 4)) < getEighteenYearsAgo() ||
+                  "DOB must be older than 18 Years",
+              }}
+            />
 
-          <FormInputField
-            name={'email'}
-            placeholder={'Email'}
-            control={control}
-            icon={require('../../Images/email.png')}
-            keyboardType={'email-address'}
-            rule={{
-              required: 'Email cannot be empty.',
-              pattern: { value: EMAIL_REGEX, message: 'Enter correct email.' },
-            }}
-          />
+            <FormInputField
+              name={"email"}
+              placeholder={"Email"}
+              control={control}
+              icon={require("../../Images/email.png")}
+              keyboardType={"email-address"}
+              rule={{
+                required: "Email cannot be empty.",
+                pattern: {
+                  value: EMAIL_REGEX,
+                  message: "Enter correct email.",
+                },
+              }}
+            />
 
-          <FormInputField
-            name={'password'}
-            placeholder={'Password'}
-            control={control}
-            icon={require('../../Images/password.png')}
-            secureTextEntry
-            rule={{
-              required: 'Password cannot be empty.',
-              minLength: {
-                value: 3,
-                message: 'Password must contain 3 characters.',
-              },
-              maxLength: {
-                value: 15,
-                message: 'Password cannot be more than 15 characters.',
-              },
-            }}
-          />
+            <FormInputField
+              name={"password"}
+              placeholder={"Password"}
+              control={control}
+              icon={require("../../Images/password.png")}
+              secureTextEntry
+              rule={{
+                required: "Password cannot be empty.",
+                minLength: {
+                  value: 3,
+                  message: "Password must contain 3 characters.",
+                },
+                maxLength: {
+                  value: 15,
+                  message: "Password cannot be more than 15 characters.",
+                },
+              }}
+            />
 
-          <FormInputField
-            name={'rePassword'}
-            placeholder={'Confirm Password'}
-            control={control}
-            icon={require('../../Images/password.png')}
-            secureTextEntry
-            rule={{
-              required: 'Password cannot be empty.',
-              validate: (value) => value === pwd || 'Password do not match.',
-            }}
-          />
+            <FormInputField
+              name={"rePassword"}
+              placeholder={"Confirm Password"}
+              control={control}
+              icon={require("../../Images/password.png")}
+              secureTextEntry
+              rule={{
+                required: "Password cannot be empty.",
+                validate: (value) => value === pwd || "Password do not match.",
+              }}
+            />
 
-          <FormInputField
-            name={'phoneNo'}
-            placeholder={'Phone Number'}
-            control={control}
-            icon={require('../../Images/phone.png')}
-            keyboardType={'phone-pad'}
-            rule={{
-              required: 'Phone Number cannot be empty.',
-              pattern: {
-                value: PHONE_REGEX,
-                message: 'Enter correct phone number.',
-              },
-              maxLength: {
-                value: 11,
-                message: 'Phone Number cannot contain more than 11 numbers.',
-              },
-            }}
-          />
+            <FormInputField
+              name={"phoneNo"}
+              placeholder={"Phone Number"}
+              control={control}
+              icon={require("../../Images/phone.png")}
+              keyboardType={"phone-pad"}
+              rule={{
+                required: "Phone Number cannot be empty.",
+                pattern: {
+                  value: PHONE_REGEX,
+                  message: "Enter correct phone number.",
+                },
+                maxLength: {
+                  value: 11,
+                  message: "Phone Number cannot contain more than 11 numbers.",
+                },
+              }}
+            />
 
-          <FormInputField
-            name={'address'}
-            placeholder={'Address'}
-            control={control}
-            icon={require('../../Images/location.png')}
-            rule={{ required: 'Address cannot be empty.' }}
-          />
+            <FormInputField
+              name={"address"}
+              placeholder={"Address"}
+              control={control}
+              icon={require("../../Images/location.png")}
+              rule={{ required: "Address cannot be empty." }}
+            />
 
-          <FormDropDown
-            name={'currentCity'}
-            control={control}
-            icon={require('../../Images/location.png')}
-            rule={{
-              required: 'Must Select a City',
-            }}
-          />
-          <PrimaryButton
-            title={'Signup'}
-            disabled={loading}
-            onPress={handleSubmit(signUpHandler)}
-          />
+            <FormDropDown
+              name={"currentCity"}
+              control={control}
+              icon={require("../../Images/location.png")}
+              rule={{
+                required: "Must Select a City",
+              }}
+            />
+            <PrimaryButton
+              title={"Signup"}
+              disabled={loading}
+              onPress={handleSubmit(signUpHandler)}
+            />
 
-          {/* Form END */}
+            {/* Form END */}
 
-          <SecondaryButton
-            title={'Already have Account?'}
-            onPress={haveAccountHandler}
-          />
-          {error && <ErrorMessage err={error} />}
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <SecondaryButton
+              title={"Already have Account?"}
+              onPress={haveAccountHandler}
+            />
+            {error && <ErrorMessage err={error} />}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeArea>
   );
 };
 
@@ -230,17 +236,17 @@ const styles = StyleSheet.create({
   logo: {
     height: 75,
     width: 75,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   headerText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   errorText: {
     marginTop: 10,
-    alignSelf: 'center',
-    color: 'red',
+    alignSelf: "center",
+    color: "red",
   },
 });

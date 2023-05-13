@@ -16,7 +16,9 @@ import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import FormControl from "../../Components/Form Control/FormControl";
 import SecondaryButton from "../../Components/SecondaryButton";
-import FormInputField from "../../Components/FormInputField";
+import SafeArea from "../../Components/Shared/SafeArea";
+import { Color } from "../../Components/Shared/Color";
+import FormInputF from "../../Components/FormInputF";
 
 const List = ({ navigation }) => {
   const {
@@ -153,94 +155,117 @@ const List = ({ navigation }) => {
     );
   }
   return (
-    <ScrollView style={styles.container}>
-      <View style={{ paddingBottom: 30 }}>
-        <Text style={styles.label}>Type:</Text>
-        <Picker
-          selectedValue={postValue.productType}
-          onValueChange={(itemValue) => postChange("productType", itemValue)}
-          style={styles.dropdown}
-        >
-          <Picker.Item label="Select type" value="" />
-          <Picker.Item label="Bidding" value="Bidding Item" />
-          <Picker.Item label="Used Item" value="Used Item" />
-        </Picker>
+    <SafeArea>
+      <ScrollView style={styles.container}>
+        <View style={{ paddingBottom: 30 }}>
+          <Text style={styles.label}>Type:</Text>
+          <Picker
+            selectedValue={postValue.productType}
+            onValueChange={(itemValue) => postChange("productType", itemValue)}
+            style={styles.dropdown}
+          >
+            <Picker.Item label="Select type" value="" />
+            <Picker.Item label="Bidding" value="Bidding Item" />
+            <Picker.Item label="Used Item" value="Used Item" />
+          </Picker>
 
-        <View style={styles.imageUploadContainer}>
-          <Text style={styles.label}>Upload Image:</Text>
-          <Button color="black" title="Choose Image" onPress={chooseImage} />
+          <View style={styles.imageUploadContainer}>
+            <Text style={styles.label}>Upload Image:</Text>
+            <Button color="black" title="Choose Image" onPress={chooseImage} />
+          </View>
+
+          <Text style={styles.label}>Category:</Text>
+          <Picker
+            selectedValue={categoryData}
+            onValueChange={handleSubCategory}
+            style={styles.dropdown}
+          >
+            <Picker.Item label="Select Category" value="" />
+            {category != null
+              ? category.map((Option) => (
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
+              : null}
+          </Picker>
+
+          <Text style={styles.label}>Sub Category:</Text>
+          <Picker
+            name="subcategoryId"
+            selectedValue={postValue.subcategoryId}
+            onValueChange={(itemValue) =>
+              postChange("subcategoryId", itemValue)
+            }
+            style={styles.dropdown}
+            onPress={() => console.log("hello")}
+          >
+            <Picker.Item label="Select sub Category" value="" />
+            {subCategoryData != null
+              ? subCategoryData.map((Option) => (
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
+              : null}
+          </Picker>
+
+          <Text style={styles.label}>Title:</Text>
+          {/* <TextInput
+            style={styles.input}
+            value={postValue.title}
+            onChangeText={(text) => postChange("title", text)}
+          /> */}
+          <FormInputF
+            name={"title"}
+            control={control}
+            rule={{
+              required: "Title cannot be empty.",
+            }}
+          />
+
+          <Text style={styles.label}>Description:</Text>
+          {/* <TextInput
+            style={styles.input}
+            value={postValue.description}
+            onChangeText={(text) => postChange("description", text)}
+          /> */}
+          <FormInputF
+            name={"description"}
+            control={control}
+            rule={{
+              required: "Description cannot be empty.",
+            }}
+          />
+
+          <Text style={styles.label}>
+            {postValue.productType === "Bidding Item"
+              ? "Base Price:"
+              : "Price:"}
+          </Text>
+          {/* <TextInput
+            style={styles.input}
+            value={postValue.productPrice}
+            onChangeText={(text) => postChange("productPrice", text)}
+            keyboardType="numeric"
+          /> */}
+          <FormInputF
+            name={"productPrice"}
+            keyboardType="numeric"
+            control={control}
+            rule={{
+              required: "Price cannot be empty.",
+            }}
+          />
+
+          <PrimaryButton title="Post" onPress={handleSubmit(NewPost)} />
         </View>
-
-        <Text style={styles.label}>Category:</Text>
-        <Picker
-          selectedValue={categoryData}
-          onValueChange={handleSubCategory}
-          style={styles.dropdown}
-        >
-          <Picker.Item label="Select Category" value="" />
-          {category != null
-            ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
-            : null}
-        </Picker>
-
-        <Text style={styles.label}>Sub Category:</Text>
-        <Picker
-          name="subcategoryId"
-          selectedValue={postValue.subcategoryId}
-          onValueChange={(itemValue) => postChange("subcategoryId", itemValue)}
-          style={styles.dropdown}
-          onPress={() => console.log("hello")}
-        >
-          <Picker.Item label="Select sub Category" value="" />
-          {subCategoryData != null
-            ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
-            : null}
-        </Picker>
-
-        <Text style={styles.label}>Title:</Text>
-        <TextInput
-          style={styles.input}
-          value={postValue.title}
-          onChangeText={(text) => postChange("title", text)}
-        />
-
-        <Text style={styles.label}>Description:</Text>
-        <TextInput
-          style={styles.input}
-          value={postValue.description}
-          onChangeText={(text) => postChange("description", text)}
-        />
-
-        <Text style={styles.label}>
-          {postValue.productType === "Bidding Item" ? "Base Price:" : "Price:"}
-        </Text>
-        <TextInput
-          style={styles.input}
-          value={postValue.productPrice}
-          onChangeText={(text) => postChange("productPrice", text)}
-          keyboardType="numeric"
-        />
-
-        <PrimaryButton
-          title="Post"
-          onPress={() =>
-            NewPost(title, description, price, subCategory, type, picture)
-          }
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeArea>
   );
 };
 
@@ -248,12 +273,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: Color.white,
   },
   label: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
+    marginTop: 15,
   },
   dropdown: {
     marginBottom: 10,

@@ -11,6 +11,7 @@ import React, { useEffect, useState } from "react";
 import BidderApi from "../../api/BidderApi";
 import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const FixProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -125,7 +126,7 @@ const FixProduct = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <SafeArea>
       <FlatList
         numColumns={2}
         data={filteredProducts}
@@ -134,7 +135,7 @@ const FixProduct = ({ navigation }) => {
           return <Card item={item} />;
         }}
       />
-    </View>
+    </SafeArea>
   );
 };
 

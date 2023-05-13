@@ -4,18 +4,19 @@ import {
   Image,
   StyleSheet,
   KeyboardAvoidingView,
-} from 'react-native';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../Store/authActions';
+} from "react-native";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../../Store/authActions";
 
-import FormInputField from '../../Components/FormInputField';
-import ErrorMessage from '../../Components/ErrorMessage';
-import PrimaryButton from '../../Components/PrimaryButton';
-import SecondaryButton from '../../Components/SecondaryButton';
+import FormInputField from "../../Components/FormInputField";
+import ErrorMessage from "../../Components/ErrorMessage";
+import PrimaryButton from "../../Components/PrimaryButton";
+import SecondaryButton from "../../Components/SecondaryButton";
 
-import Loader from '../../Custom/Loader';
+import Loader from "../../Custom/Loader";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -34,68 +35,76 @@ const Login = ({ navigation }) => {
   };
 
   function newAccountHandler() {
-    navigation.navigate('Signup');
+    navigation.navigate("Signup");
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} enabled>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        {/* Header Image and Title */}
-        <Image source={require('../../Images/logo.png')} style={styles.logo} />
-        <Text style={styles.headerText}>Login</Text>
+    <SafeArea>
+      <KeyboardAvoidingView style={{ flex: 1 }} enabled>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          {/* Header Image and Title */}
+          <Image
+            source={require("../../Images/logo.png")}
+            style={styles.logo}
+          />
+          <Text style={styles.headerText}>Login</Text>
 
-        {/* Form Start */}
-        <FormInputField
-          name={'email'}
-          control={control}
-          placeholder={'Email'}
-          icon={require('../../Images/email.png')}
-          rule={{
-            required: 'Email cannot be empty.',
-            pattern: { value: EMAIL_REGEX, message: 'Enter correct email.' },
-          }}
-        />
+          {/* Form Start */}
+          <FormInputField
+            name={"email"}
+            control={control}
+            placeholder={"Email"}
+            icon={require("../../Images/email.png")}
+            rule={{
+              required: "Email cannot be empty.",
+              pattern: { value: EMAIL_REGEX, message: "Enter correct email." },
+            }}
+          />
 
-        <FormInputField
-          name={'password'}
-          control={control}
-          rule={{
-            required: 'Password cannot be empty.',
-            minLength: {
-              value: 3,
-              message: 'Password must contain 3 characters.',
-            },
-            maxLength: {
-              value: 15,
-              message: 'Password cannot be more than 15 characters.',
-            },
-          }}
-          placeholder={'Password'}
-          icon={require('../../Images/password.png')}
-          secureTextEntry
-        />
+          <FormInputField
+            name={"password"}
+            control={control}
+            rule={{
+              required: "Password cannot be empty.",
+              minLength: {
+                value: 3,
+                message: "Password must contain 3 characters.",
+              },
+              maxLength: {
+                value: 15,
+                message: "Password cannot be more than 15 characters.",
+              },
+            }}
+            placeholder={"Password"}
+            icon={require("../../Images/password.png")}
+            secureTextEntry
+          />
 
-        <Text
-          style={styles.forgetText}
-          onPress={() => console.log('Forget Pressed!!!')}
-        >
-          Forgot Password?
-        </Text>
+          <Text
+            style={styles.forgetText}
+            onPress={() => console.log("Forget Pressed!!!")}
+          >
+            Forgot Password?
+          </Text>
 
-        <PrimaryButton
-          title={'LogIn'}
-          disabled={loading}
-          onPress={handleSubmit(loginPressHandler)}
-        />
-        {/* Form End */}
-        <SecondaryButton
-          title={'Create New Account'}
-          onPress={newAccountHandler}
-        />
-        {error && <ErrorMessage err={error} />}
-        <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      </View>
-    </KeyboardAvoidingView>
+          <PrimaryButton
+            title={"LogIn"}
+            disabled={loading}
+            onPress={handleSubmit(loginPressHandler)}
+          />
+          {/* Form End */}
+          <SecondaryButton
+            title={"Create New Account"}
+            onPress={newAccountHandler}
+          />
+          {error && <ErrorMessage err={error} />}
+          <Loader
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </SafeArea>
   );
 };
 
@@ -105,24 +114,24 @@ const styles = StyleSheet.create({
   logo: {
     height: 125,
     width: 125,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   headerText: {
     marginTop: 25,
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 26,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   errorText: {
     marginTop: 10,
-    alignSelf: 'center',
-    color: 'red',
+    alignSelf: "center",
+    color: "red",
   },
   forgetText: {
     fontSize: 15,
-    color: '#566573',
-    fontWeight: 'bold',
+    color: "#566573",
+    fontWeight: "bold",
     marginTop: 15,
     marginLeft: 50,
   },
