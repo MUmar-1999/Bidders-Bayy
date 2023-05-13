@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,42 +6,45 @@ import {
   TextInput,
   Button,
   ScrollView,
-} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
-
-import PrimaryButton from '../../Components/PrimaryButton';
-import BidderApi from '../../api/BidderApi';
-import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
-import FormControl from '../../Components/Form Control/FormControl';
-import SecondaryButton from '../../Components/SecondaryButton';
+import { useForm } from "react-hook-form";
+import PrimaryButton from "../../Components/PrimaryButton";
+import BidderApi from "../../api/BidderApi";
+import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
+import FormControl from "../../Components/Form Control/FormControl";
+import SecondaryButton from "../../Components/SecondaryButton";
+import FormInputField from "../../Components/FormInputField";
 
 const List = ({ navigation }) => {
-  const { userInfo: { role } } = useSelector((state) => state.auth);
+  const {
+    userInfo: { role },
+  } = useSelector((state) => state.auth);
   const [category, setCategory] = useState(null);
-  const [categoryData, setCategoryData] = useState('');
-  const [subCategory, setSubCategory] = useState('');
-  const [type, setType] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [categoryData, setCategoryData] = useState("");
+  const [subCategory, setSubCategory] = useState("");
+  const [type, setType] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
   const [picture, setPicture] = useState(null);
 
-
   const initial = {
-    subcategoryId: '',
-    title: '',
-    productType: '',
-    productPrice: '',
-    description: '',
+    subcategoryId: "",
+    title: "",
+    productType: "",
+    productPrice: "",
+    description: "",
     product_picture: [],
   };
+  const { control, handleSubmit } = useForm();
 
   const { setPostValue, postValue, postChange } = FormControl(initial);
   useEffect(() => {
-    axios.get('http://192.168.10.2:5000/category/').then(function (response) {
+    axios.get("http://192.168.10.2:5000/category/").then(function (response) {
       // console.log(response.data.data.allCategory);
       setCategory(response.data.data.allCategory);
     });
@@ -51,7 +54,7 @@ const List = ({ navigation }) => {
     // console.log(value);
     setCategoryData(value);
     // console.log(categoryData);
-    if (value != '') {
+    if (value != "") {
       axios
         .get(`http://192.168.10.2:5000/sub-category/${value}`)
         .then(function (response) {
@@ -71,11 +74,11 @@ const List = ({ navigation }) => {
       key;
     const entries = Object.entries(postValue);
     for (const [key, value] of entries) {
-      if (key == 'xsadfdsa') {
+      if (key == "xsadfdsa") {
         let images = [];
         for (let i = 0; i < value.length; i++) {
           images.push(value[i]);
-          formData.append('product_picture', value);
+          formData.append("product_picture", value);
         }
       } else {
         formData.append(key, value);
@@ -86,12 +89,12 @@ const List = ({ navigation }) => {
     }
     const config = {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     };
     try {
-      const res = await BidderApi.post('/products/', formData, config);
-      console.log('LIST::', JSON.stringify(res.data, null, 2));
+      const res = await BidderApi.post("/products/", formData, config);
+      console.log("LIST::", JSON.stringify(res.data, null, 2));
     } catch (error) {
       console.log(error.res);
     }
@@ -117,10 +120,10 @@ const List = ({ navigation }) => {
 
       const pro = {
         uri: result.assets[0].uri,
-        type: 'image/jpeg', // Change the type based on your image format
-        name: 'image.jpg',
+        type: "image/jpeg", // Change the type based on your image format
+        name: "image.jpg",
       };
-      postChange('product_picture', pro);
+      postChange("product_picture", pro);
     }
   };
 
@@ -128,13 +131,26 @@ const List = ({ navigation }) => {
     // console.log('useEffect: ', initial.product_picture.uri);
   }, [initial.product_picture]);
 
-  if (role == 'buyer') {
+  if (role == "buyer") {
     return (
-      <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', padding: 6, paddingBottom: 70, }}>
-        <Text style={{ fontSize: 45, fontWeight: 'bold' }}>Become seller to post your products</Text>
-        <SecondaryButton title='Go to Profile' onPress={() => navigation.navigate('Profile')} />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          padding: 6,
+          paddingBottom: 70,
+        }}
+      >
+        <Text style={{ fontSize: 45, fontWeight: "bold" }}>
+          Become seller to post your products
+        </Text>
+        <SecondaryButton
+          title="Go to Profile"
+          onPress={() => navigation.navigate("Profile")}
+        />
       </View>
-    )
+    );
   }
   return (
     <ScrollView style={styles.container}>
@@ -142,7 +158,7 @@ const List = ({ navigation }) => {
         <Text style={styles.label}>Type:</Text>
         <Picker
           selectedValue={postValue.productType}
-          onValueChange={(itemValue) => postChange('productType', itemValue)}
+          onValueChange={(itemValue) => postChange("productType", itemValue)}
           style={styles.dropdown}
         >
           <Picker.Item label="Select type" value="" />
@@ -152,7 +168,7 @@ const List = ({ navigation }) => {
 
         <View style={styles.imageUploadContainer}>
           <Text style={styles.label}>Upload Image:</Text>
-          <Button title="Choose Image" onPress={chooseImage} />
+          <Button color="black" title="Choose Image" onPress={chooseImage} />
         </View>
 
         <Text style={styles.label}>Category:</Text>
@@ -164,12 +180,12 @@ const List = ({ navigation }) => {
           <Picker.Item label="Select Category" value="" />
           {category != null
             ? category.map((Option) => (
-              <Picker.Item
-                key={Option._id}
-                label={Option.title}
-                value={Option._id}
-              />
-            ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
             : null}
         </Picker>
 
@@ -177,19 +193,19 @@ const List = ({ navigation }) => {
         <Picker
           name="subcategoryId"
           selectedValue={postValue.subcategoryId}
-          onValueChange={(itemValue) => postChange('subcategoryId', itemValue)}
+          onValueChange={(itemValue) => postChange("subcategoryId", itemValue)}
           style={styles.dropdown}
-          onPress={() => console.log('hello')}
+          onPress={() => console.log("hello")}
         >
           <Picker.Item label="Select sub Category" value="" />
           {subCategoryData != null
             ? subCategoryData.map((Option) => (
-              <Picker.Item
-                key={Option._id}
-                label={Option.title}
-                value={Option._id}
-              />
-            ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
             : null}
         </Picker>
 
@@ -197,23 +213,23 @@ const List = ({ navigation }) => {
         <TextInput
           style={styles.input}
           value={postValue.title}
-          onChangeText={(text) => postChange('title', text)}
+          onChangeText={(text) => postChange("title", text)}
         />
 
         <Text style={styles.label}>Description:</Text>
         <TextInput
           style={styles.input}
           value={postValue.description}
-          onChangeText={(text) => postChange('description', text)}
+          onChangeText={(text) => postChange("description", text)}
         />
 
         <Text style={styles.label}>
-          {postValue.productType === 'Bidding Item' ? 'Base Price:' : 'Price:'}
+          {postValue.productType === "Bidding Item" ? "Base Price:" : "Price:"}
         </Text>
         <TextInput
           style={styles.input}
           value={postValue.productPrice}
-          onChangeText={(text) => postChange('productPrice', text)}
+          onChangeText={(text) => postChange("productPrice", text)}
           keyboardType="numeric"
         />
 
@@ -232,11 +248,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   dropdown: {
@@ -244,15 +260,15 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
   },
   imageUploadContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
 });
