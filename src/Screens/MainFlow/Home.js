@@ -11,6 +11,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
+import SafeArea from "../../Components/Shared/SafeArea";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -61,6 +62,7 @@ const Home = ({ navigation }) => {
 
   function Header() {
     return (
+
       <View>
         <View>
           <View
@@ -195,7 +197,7 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <SafeArea>
       <FlatList
         numColumns={2}
         data={filteredProducts}
@@ -204,7 +206,7 @@ const Home = ({ navigation }) => {
           return <Card item={item} />;
         }}
       />
-    </View>
+    </SafeArea>
   );
 };
 

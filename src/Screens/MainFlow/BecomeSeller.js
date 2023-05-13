@@ -14,6 +14,7 @@ import FormInputField from "../../Components/FormInputField";
 import BidderApi from "../../api/BidderApi";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const BecomeSeller = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -114,76 +115,83 @@ const BecomeSeller = ({ navigation }) => {
   }
 
   async function handleVerificationSubmit(data) {
-    cnicPost(data.cnic);
-    frontPost();
-    backPost();
-    navigation.goBack();
+    if (!frontImage && !backImage) {
+      alert("Please select Both Front & Back Images of CNIC.")
+    } else {
+      cnicPost(data.cnic);
+      frontPost();
+      backPost();
+      navigation.goBack();
+    }
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <Text style={styles.heading}>Become a Seller</Text>
-          <View style={styles.imageContainer}>
-            {userInfo.hasOwnProperty("cnicFront") ? (
-              <Image source={{ uri: frontImage }} style={styles.image} />
-            ) : (
-              <View style={styles.imagePlaceholder}>
-                <Text style={styles.imagePlaceholderText}>
-                  Select Front Side of CNIC
-                </Text>
-              </View>
-            )}
+    <SafeArea>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <Text style={styles.heading}>Become a Seller</Text>
+            <View style={styles.imageContainer}>
+              {frontImage ? (
+                <Image source={{ uri: frontImage }} style={styles.image} />
+              ) : (
+                <View style={styles.imagePlaceholder}>
+                  <Text style={styles.imagePlaceholderText}>
+                    Select Front Side of CNIC
+                  </Text>
+                </View>
+              )}
+              <Button
+                color="black"
+                title="Select Front Side of CNIC"
+                onPress={() => pickImage("front")}
+              />
 
-            <Button
-              color="black"
-              title="Select Front Side of CNIC"
-              onPress={() => pickImage("front")}
+            </View>
+            <View style={styles.imageContainer}>
+              {backImage ? (
+                <Image source={{ uri: backImage }} style={styles.image} />
+              ) : (
+                <View style={styles.imagePlaceholder}>
+                  <Text style={styles.imagePlaceholderText}>
+                    Select Back Side of CNIC
+                  </Text>
+                </View>
+              )}
+
+              <Button
+                color="black"
+                title="Select Back Side of CNIC"
+                onPress={() => pickImage("back")}
+              />
+            </View>
+
+            <FormInputField
+              name={"cnic"}
+              control={control}
+              keyboardType={"number-pad"}
+              placeholder={"Enter your CNIC"}
+              rule={{
+                required: "CNIC cannot be empty.",
+                pattern: {
+                  value: cnicRegex,
+                  message: "Enter correct cnic i.e XXXXX-XXXXXXX-X.",
+                },
+                maxLength: {
+                  value: 15,
+                  message: "CNIC cannot be more than 13 numbers.",
+                },
+              }}
+            />
+
+            <PrimaryButton
+              title={"Apply for Verification"}
+              onPress={handleSubmit(handleVerificationSubmit)}
             />
           </View>
-          <View style={styles.imageContainer}>
-            {backImage ? (
-              <Image source={{ uri: backImage }} style={styles.image} />
-            ) : (
-              <View style={styles.imagePlaceholder}>
-                <Text style={styles.imagePlaceholderText}>
-                  Select Back Side of CNIC
-                </Text>
-              </View>
-            )}
-            <Button
-              color="black"
-              title="Select Back Side of CNIC"
-              onPress={() => pickImage("back")}
-            />
-          </View>
-
-          <FormInputField
-            name={"cnic"}
-            control={control}
-            keyboardType={"number-pad"}
-            placeholder={"Enter your CNIC"}
-            rule={{
-              required: "CNIC cannot be empty.",
-              pattern: {
-                value: cnicRegex,
-                message: "Enter correct cnic i.e XXXXX-XXXXXXX-X.",
-              },
-              maxLength: {
-                value: 15,
-                message: "CNIC cannot be more than 13 numbers.",
-              },
-            }}
-          />
-
-          <PrimaryButton
-            title={"Apply for Verification"}
-            onPress={handleSubmit(handleVerificationSubmit)}
-          />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeArea>
   );
 };
 

@@ -16,6 +16,7 @@ import SecondaryButton from "../../Components/SecondaryButton";
 import { Feather } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -39,7 +40,10 @@ const Profile = ({ navigation }) => {
   }
 
   function logoutHandler() {
-    // console.log('LOGOUT PRESSED!!!');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Bidders Bay' }],
+    });
     dispatch(logout());
   }
 
@@ -89,100 +93,102 @@ const Profile = ({ navigation }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.profileImageContainer}>
-        <Image
-          source={
-            profile_picture
-              ? {
+    <SafeArea>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.profileImageContainer}>
+          <Image
+            source={
+              profile_picture
+                ? {
                   uri: profile_picture.dp
                     ? normalizeImage(profile_picture.dp)
                     : profile_picture.file,
                 }
-              : require("../../Images/dp.png")
-          }
-          style={styles.profileImage}
+                : require("../../Images/dp.png")
+            }
+            style={styles.profileImage}
+          />
+          <TouchableOpacity
+            style={{ marginLeft: -10, alignSelf: "flex-end" }}
+            onPress={chooseImage}
+          >
+            <Feather name="upload" size={34} color="black" />
+          </TouchableOpacity>
+        </View>
+        {userInfo.role === "buyer" ? (
+          userInfo.hasOwnProperty('cnicFront') ? <Text>Fuck U!</Text> : <SecondaryButton
+            title={"Become a Seller"}
+            onPress={handleBecomeSeller}
+          />
+        ) : (
+          <SecondaryButton
+            title={"My Products"}
+            onPress={() => handleSellerPress({ userId: userInfo })}
+          />
+        )}
+        <Text style={styles.label}>First Name</Text>
+        <TextInput
+          style={styles.input}
+          value={firstName}
+          onChangeText={(text) => setFirstName(text)}
         />
-        <TouchableOpacity
-          style={{ marginLeft: -10, alignSelf: "flex-end" }}
-          onPress={chooseImage}
-        >
-          <Feather name="upload" size={34} color="black" />
-        </TouchableOpacity>
-      </View>
-      {userInfo.role === "buyer" ? (
-        <SecondaryButton
-          title={"Become a Seller"}
-          onPress={handleBecomeSeller}
+
+        <Text style={styles.label}>Last Name</Text>
+        <TextInput
+          style={styles.input}
+          value={lastName}
+          onChangeText={(text) => setLastName(text)}
         />
-      ) : (
-        <SecondaryButton
-          title={"My Products"}
-          onPress={() => handleSellerPress({ userId: userInfo })}
+
+        <Text style={styles.label}>Email</Text>
+        <TextInput style={styles.input} value={userInfo.email} editable={false} />
+
+        <Text style={styles.label}>Phone Number</Text>
+        <TextInput
+          style={styles.input}
+          value={phoneNo}
+          onChangeText={(text) => setPhoneNo(text)}
         />
-      )}
-      <Text style={styles.label}>First Name</Text>
-      <TextInput
-        style={styles.input}
-        value={firstName}
-        onChangeText={(text) => setFirstName(text)}
-      />
 
-      <Text style={styles.label}>Last Name</Text>
-      <TextInput
-        style={styles.input}
-        value={lastName}
-        onChangeText={(text) => setLastName(text)}
-      />
+        <Text style={styles.label}>Gender</Text>
+        <TextInput
+          style={styles.input}
+          value={userInfo.gender}
+          editable={false}
+        />
 
-      <Text style={styles.label}>Email</Text>
-      <TextInput style={styles.input} value={userInfo.email} editable={false} />
+        <Text style={styles.label}>Date of Birth</Text>
+        <TextInput
+          style={styles.input}
+          value={userInfo.dob.substring(0, 10)}
+          editable={false}
+        />
 
-      <Text style={styles.label}>Phone Number</Text>
-      <TextInput
-        style={styles.input}
-        value={phoneNo}
-        onChangeText={(text) => setPhoneNo(text)}
-      />
-
-      <Text style={styles.label}>Gender</Text>
-      <TextInput
-        style={styles.input}
-        value={userInfo.gender}
-        editable={false}
-      />
-
-      <Text style={styles.label}>Date of Birth</Text>
-      <TextInput
-        style={styles.input}
-        value={userInfo.dob.substring(0, 10)}
-        editable={false}
-      />
-
-      <Text style={styles.label}>City</Text>
-      <View style={[styles.input, { padding: 0 }]}>
-        <Picker
-          selectedValue={currentCity}
-          onValueChange={(itemValue) => setCurrentCity(itemValue)}
-          mode="dropdown"
-          style={{ flex: 1 }}
-        >
-          <Picker.Item label="Select type" value="" />
-          <Picker.Item label="Lahore" value="Lahore" />
-          <Picker.Item label="Karachi" value="Karachi" />
-          <Picker.Item label="Faisalabad" value="Faisalabad" />
-          <Picker.Item label="Islamabad" value="Islamabad" />
-          <Picker.Item label="Gujranwala" value="Gujranwala" />
-          <Picker.Item label="Rawalpindi" value="Rawalpindi" />
-          <Picker.Item label="Hyderabad" value="Hyderabad" />
-          <Picker.Item label="Multan" value="Multan" />
-          <Picker.Item label="Peshawar" value="Peshawar" />
-          <Picker.Item label="Quetta" value="Quetta" />
-        </Picker>
-      </View>
-      <SecondaryButton title={"Save"} onPress={saveHandler} />
-      <PrimaryButton title={"Logout"} onPress={logoutHandler} />
-    </ScrollView>
+        <Text style={styles.label}>City</Text>
+        <View style={[styles.input, { padding: 0 }]}>
+          <Picker
+            selectedValue={currentCity}
+            onValueChange={(itemValue) => setCurrentCity(itemValue)}
+            mode="dropdown"
+            style={{ flex: 1 }}
+          >
+            <Picker.Item label="Select type" value="" />
+            <Picker.Item label="Lahore" value="Lahore" />
+            <Picker.Item label="Karachi" value="Karachi" />
+            <Picker.Item label="Faisalabad" value="Faisalabad" />
+            <Picker.Item label="Islamabad" value="Islamabad" />
+            <Picker.Item label="Gujranwala" value="Gujranwala" />
+            <Picker.Item label="Rawalpindi" value="Rawalpindi" />
+            <Picker.Item label="Hyderabad" value="Hyderabad" />
+            <Picker.Item label="Multan" value="Multan" />
+            <Picker.Item label="Peshawar" value="Peshawar" />
+            <Picker.Item label="Quetta" value="Quetta" />
+          </Picker>
+        </View>
+        <SecondaryButton title={"Save"} onPress={saveHandler} />
+        <PrimaryButton title={"Logout"} onPress={logoutHandler} />
+      </ScrollView>
+    </SafeArea>
   );
 };
 

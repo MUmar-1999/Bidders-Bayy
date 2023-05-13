@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Color } from './Shared/Color';
 
 const SecondaryButton = ({ onPress, title, disabled }) => {
   return (
@@ -18,7 +19,7 @@ export default SecondaryButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'white',
+    backgroundColor: Color.white,
     justifyContent: 'center',
     alignItems: 'center',
     width: '75%',
@@ -27,9 +28,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 25,
     borderWidth: 2,
+    borderColor: Color.black,
+    elevation: 5,
   },
   text: {
-    color: 'black',
+    color: Color.black,
     fontWeight: 'bold',
     fontSize: 18,
   },

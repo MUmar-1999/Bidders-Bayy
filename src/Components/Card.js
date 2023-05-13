@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
+import { Color } from './Shared/Color'
 
 function Card({ item }) {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ function Card({ item }) {
             <Text style={styles.cityText}>{item.userId.currentCity}</Text>
           ) : null}
           <TouchableOpacity onPress={() => addfav(item._id)}>
-            <EvilIcons name="heart" size={24} color="#44c234" />
+            <EvilIcons name="heart" size={24} color={Color.black} />
           </TouchableOpacity>
         </View>
       </View>
@@ -64,7 +65,7 @@ export default Card;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "#46434a",
+    backgroundColor: Color.white,
     width: "45%",
     margin: 8,
     borderRadius: 10,
@@ -90,16 +91,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 8,
-    color: "white",
+    color: Color.black,
   },
   priceContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   priceText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "bold",
-    color: "#44c234",
+    color: "#52616B",
   },
   cityText: {
     fontSize: 12,

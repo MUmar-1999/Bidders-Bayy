@@ -8,15 +8,41 @@ import {
   FlatList,
 } from "react-native";
 import BidderApi from "../../api/BidderApi";
+import { AirbnbRating } from '@rneui/themed';
 
 const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
+  const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
-  // console.log(sellerProfile);
+  // console.log(JSON.stringify(sellerProfile, null, 2));
+  console.log("R::", rating);
+
+
   useEffect(() => {
     getData();
+    getRating();
   }, []);
-
+  async function getRating() {
+    try {
+      const { data } = await BidderApi.get(`/rating/${sellerProfile.userId._id}`)
+      console.log("RATING:::", data);
+      setRating(data.data[0].avgRating)
+    } catch (err) {
+      console.error("Rating Error:::", err);
+    }
+  }
+  async function setUserRating(rate) {
+    try {
+      const { data } = await BidderApi.post('/rating/', {
+        sellerId: `${sellerProfile.userId._id}`,
+        rating: rate
+      })
+      console.log("SET::RATING:::", data);
+      getRating();
+    } catch (err) {
+      console.error("SET::Rating Error:::", err);
+    }
+  }
   const getData = async () => {
     try {
       const res = await BidderApi.get(
@@ -48,6 +74,7 @@ const SellerProfile = ({ route, navigation }) => {
                 {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
               <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+              <AirbnbRating defaultRating={rating} showRating={false} size={25} onFinishRating={setUserRating} />
               {/* <Text style={styles.location}>{sellerProfile.location}</Text>
               <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
             </View>

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import { Color } from './Shared/Color';
 
 const PrimaryButton = ({ onPress, title, disabled }) => (
   <TouchableOpacity
@@ -26,7 +27,7 @@ export default PrimaryButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'black',
+    backgroundColor: Color.black,
     justifyContent: 'center',
     alignItems: 'center',
     width: '75%',
@@ -34,10 +35,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
     marginTop: 25,
-    borderWidth: 2,
+    elevation: 5,
   },
   text: {
-    color: 'white',
+    color: Color.white,
     fontWeight: 'bold',
     fontSize: 18,
   },

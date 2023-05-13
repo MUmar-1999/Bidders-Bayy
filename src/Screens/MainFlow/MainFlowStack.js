@@ -7,17 +7,16 @@ import BidProduct from "./BidProduct";
 import FixProduct from "./FixProduct";
 import MyProducts from "./MyProducts";
 import Favorite from "./Favorite";
-import { Ionicons } from "@expo/vector-icons";
-import {
-  FontAwesome5,
-  EvilIcons,
-  Feather,
-  AntDesign,
-  Fontisto,
-} from "@expo/vector-icons";
 import Product from "./Product";
 import SellerProfile from "./SellerProfile";
 import BecomeSeller from "./BecomeSeller";
+import { Color } from '../../Components/Shared/Color'
+import {
+  FontAwesome5,
+  Feather,
+  Fontisto,
+  Ionicons
+} from "@expo/vector-icons";
 
 const HomeStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
@@ -29,14 +28,17 @@ function MainFlowStack() {
       initialRouteName="Bidders Bay"
       screenOptions={{
         tabBarActiveTintColor: "white",
-        tabBarStyle: { backgroundColor: '#1F1F1F', },
-        tabBarLabelStyle: { fontWeight: "bold", fontSize: 12 },
+        tabBarStyle: { backgroundColor: Color.black, },
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: Color.white,
+        headerTitleAlign: 'center',
+        headerShown: false,
         tabBarHideOnKeyboard: true,
         headerStyle: {
-          backgroundColor: '#1F1F1F',
+          backgroundColor: Color.black,
         },
         headerTitleStyle: {
-          color: 'white'
+          color: Color.white
         }
       }}
     >
