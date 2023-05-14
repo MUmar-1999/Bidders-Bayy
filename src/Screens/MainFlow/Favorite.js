@@ -17,7 +17,7 @@ const Favorite = ({ navigation }) => {
     // console.log("mein chal rha hun");
     try {
       const res = await BidderApi.get("/favorite/");
-      console.log("Fav::", JSON.stringify(res.data.FavoritePosts, null, 2));
+      // console.log("Fav::", JSON.stringify(res.data.FavoritePosts, null, 2));
       setProducts(res.data.FavoritePosts);
     } catch (error) {
       console.log(error);
@@ -38,10 +38,11 @@ const Favorite = ({ navigation }) => {
           ListHeaderComponent={
             <Text
               style={{
-                fontSize: 20,
-                marginLeft: 20,
+                fontSize: 30,
+                marginTop: 20,
+                marginBottom: 20,
                 fontWeight: "bold",
-                marginTop: 10,
+                textAlign: 'center'
               }}
             >
               My Favorites
