@@ -9,6 +9,7 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+
 import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
@@ -46,7 +47,7 @@ const Home = ({ navigation }) => {
     } else {
       setFilteredProducts(products);
     }
-  };
+  }
   const handleBidPress = (bidproduct) => {
     navigation.navigate("BidProduct", { bidproduct });
   };
@@ -68,24 +69,16 @@ const Home = ({ navigation }) => {
           source={require("../../Images/Banner1.png")}
           style={styles.banner}
         />
-        <View
-          style={styles.segmentContainer}
-        >
+        <View style={styles.segmentContainer}>
           <TouchableOpacity
             onPress={() => handleBidPress()}
             style={styles.segmentButton}
           >
-
             <Image
               source={require("../../Images/Bidd.png")}
               style={styles.buttonImage}
             />
-            <Text
-              style={styles.buttonText}
-            >
-              Bidding Products
-            </Text>
-
+            <Text style={styles.buttonText}>Bidding Products</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleFixPress()}
@@ -95,11 +88,7 @@ const Home = ({ navigation }) => {
               source={require("../../Images/Fix.png")}
               style={styles.buttonImage}
             />
-            <Text
-              style={styles.buttonText}
-            >
-              Fix Price Products
-            </Text>
+            <Text style={styles.buttonText}>Fix Price Products</Text>
           </TouchableOpacity>
         </View>
 
@@ -155,12 +144,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     marginHorizontal: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonImage: {
     borderRadius: 40,
     width: 80,
-    height: 80
+    height: 80,
   },
   buttonText: {
     marginTop: 10,
@@ -168,5 +157,5 @@ const styles = StyleSheet.create({
     color: "#444",
     marginBottom: 5,
     fontWeight: "300",
-  }
+  },
 });

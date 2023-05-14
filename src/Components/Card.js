@@ -3,8 +3,15 @@ import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
 import { Color } from "./Shared/Color";
 import { normalizeImage } from "../Utils/functions";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Card({ item }) {
+  const MAX_TITLE_LENGTH = 15;
+  const truncatedTitle =
+    item.title.length > MAX_TITLE_LENGTH
+      ? `${item.title.substring(0, MAX_TITLE_LENGTH)}...`
+      : item.title;
   const navigation = useNavigation();
 
   const handleProductPress = (product) => {
@@ -12,6 +19,32 @@ function Card({ item }) {
   };
   // console.log('IMAGE:::', JSON.stringify(item.postId, null, 2));
 
+  const [favorites, setFavorites] = useState([]);
+  const [check, setCheck] = useState(0);
+  useEffect(() => {
+    setCheck(0);
+    getData(item);
+  }, [item]);
+
+  const getData = async (p) => {
+    // console.log("mein chal rha hun");
+    try {
+      const res = await BidderApi.get("/favorite/");
+      // console.log("Fav::", JSON.stringify(res.data.FavoritePosts, null, 2));
+      setFavorites(res.data.FavoritePosts);
+      if (res) {
+        favorites.map((item) => {
+          if (item.postId._id == p._id) {
+            console.log("mae chala");
+            console.log(p.title);
+            setCheck(1);
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const addfav = async (postId) => {
     try {
@@ -39,7 +72,7 @@ function Card({ item }) {
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.titleText}>{item.title}</Text>
+        <Text style={styles.titleText}>{truncatedTitle}</Text>
         <View style={styles.priceContainer}>
           <Text style={styles.priceText}>Rs. {item.productPrice}</Text>
 
@@ -47,7 +80,11 @@ function Card({ item }) {
             <Text style={styles.cityText}>{item.userId.currentCity}</Text>
           ) : null}
           <TouchableOpacity onPress={() => addfav(item._id)}>
-            <EvilIcons name="heart" size={24} color={Color.black} />
+            {check !== 0 ? (
+              <EvilIcons name="heart" size={24} color="red" />
+            ) : (
+              <EvilIcons name="heart" size={24} color={Color.black} />
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -59,7 +96,7 @@ export default Card;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: Color.white,
+    backgroundColor: "white",
     width: "45%",
     margin: 8,
     borderRadius: 10,

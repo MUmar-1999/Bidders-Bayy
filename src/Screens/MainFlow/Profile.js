@@ -94,10 +94,10 @@ const Profile = ({ navigation }) => {
             source={
               profile_picture
                 ? {
-                  uri: profile_picture.dp
-                    ? normalizeImage(profile_picture.dp)
-                    : profile_picture.file,
-                }
+                    uri: profile_picture.dp
+                      ? normalizeImage(profile_picture.dp)
+                      : profile_picture.file,
+                  }
                 : require("../../Images/dp.png")
             }
             style={styles.profileImage}

@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -42,22 +36,20 @@ const List = ({ navigation }) => {
   const handleSubCategory = (value) => {
     setCategoryData(value);
     if (value != "") {
-      axios
-        .get(`${BASE_URL}/sub-category/${value}`)
-        .then(function (response) {
-          setSubCategoryData(response.data.data);
-        });
+      axios.get(`${BASE_URL}/sub-category/${value}`).then(function (response) {
+        setSubCategoryData(response.data.data);
+      });
     }
   };
   const NewPost = async (data) => {
     let formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('productType', dataForm.productType);
-    formData.append('subcategoryId', dataForm.subcategoryId);
-    formData.append('product_picture', dataForm.product_picture);
-    formData.append('description', data.description);
-    formData.append('productPrice', data.productPrice);
-    console.log("FORMDATA:::", formData)
+    formData.append("title", data.title);
+    formData.append("productType", dataForm.productType);
+    formData.append("subcategoryId", dataForm.subcategoryId);
+    formData.append("product_picture", dataForm.product_picture);
+    formData.append("description", data.description);
+    formData.append("productPrice", data.productPrice);
+    console.log("FORMDATA:::", formData);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -97,7 +89,9 @@ const List = ({ navigation }) => {
         type: "image/jpeg",
         name: "image.jpg",
       };
-      setDataForm((preValue) => { return { ...preValue, product_picture: pro } });
+      setDataForm((preValue) => {
+        return { ...preValue, product_picture: pro };
+      });
     }
   };
 
@@ -129,7 +123,11 @@ const List = ({ navigation }) => {
           <Text style={styles.label}>Type:</Text>
           <Picker
             selectedValue={dataForm.productType}
-            onValueChange={(itemValue) => setDataForm((preValue) => { return { ...preValue, productType: itemValue } })}
+            onValueChange={(itemValue) =>
+              setDataForm((preValue) => {
+                return { ...preValue, productType: itemValue };
+              })
+            }
             style={styles.dropdown}
           >
             <Picker.Item label="Select type" value="" />
@@ -151,12 +149,12 @@ const List = ({ navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -165,7 +163,9 @@ const List = ({ navigation }) => {
             name="subcategoryId"
             selectedValue={dataForm.subcategoryId}
             onValueChange={(itemValue) =>
-              setDataForm((preValue) => { return { ...preValue, subcategoryId: itemValue } })
+              setDataForm((preValue) => {
+                return { ...preValue, subcategoryId: itemValue };
+              })
             }
             style={styles.dropdown}
             onPress={() => console.log("hello")}
@@ -173,12 +173,12 @@ const List = ({ navigation }) => {
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -201,9 +201,7 @@ const List = ({ navigation }) => {
           />
 
           <Text style={styles.label}>
-            {dataForm.productType === "Bidding Item"
-              ? "Base Price:"
-              : "Price:"}
+            {dataForm.productType === "Bidding Item" ? "Base Price:" : "Price:"}
           </Text>
           <FormInputF
             name={"productPrice"}
@@ -211,6 +209,8 @@ const List = ({ navigation }) => {
             control={control}
             rule={{
               required: "Price cannot be empty.",
+              validate: (value) =>
+                value > 0 || `Price must be greater than Rs 0`,
             }}
           />
 

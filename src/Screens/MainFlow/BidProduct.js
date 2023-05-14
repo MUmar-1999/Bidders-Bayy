@@ -1,152 +1,87 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { useEffect, useState } from "react";
-import BidderApi from "../../api/BidderApi";
 import { useFocusEffect } from "@react-navigation/native";
-import React from "react";
 import Card from "../../Components/Card";
+import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
-import { Color } from "../../Components/Shared/Color";
+import SearchBar from "../../Components/SearchBar";
 
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [value, setValue] = useState("");
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const getData = async () => {
     try {
       const res = await BidderApi.get("/products/bid/");
-      // console.log(
-      //   "HOME LSIT::",
-      //   JSON.stringify(res.data.data.allProducts[0], null, 2)
-      // );
       setProducts(res.data.data.allProducts);
+      setFilteredProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const filteredProducts = products.filter((product) => {
-    return product.title.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-
-  const handleProductPress = (product) => {
-    navigation.navigate("Product", { product });
-  };
-
-  const addfav = async (postId) => {
-    try {
-      const res = await BidderApi.post("/favorite/", { postId });
-      // console.log("Fav::", JSON.stringify(res, null, 2));
-      if (res) {
-        getData();
-      }
-    } catch (error) {
-      console.log(error.res);
+  const filtered = (text) => {
+    if (text) {
+      const newData = products.filter(function (item) {
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredProducts(newData);
+    } else {
+      setFilteredProducts(products);
     }
   };
+
+  const Header = () => {
+    return (
+      <View>
+        <SearchBar onChange={(txt) => filtered(txt)} />
+        <Text style={styles.headerText}>Bidding Items</Text>
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       getData();
     }, [navigation])
   );
-  function Header() {
-    return (
-      <>
-        <View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginHorizontal: 16,
-              marginTop: 10,
-              backgroundColor: "white",
-              borderRadius: 10,
-              overflow: "hidden",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 7,
-              },
-              shadowOpacity: 0.43,
-              shadowRadius: 9.51,
-              elevation: 15,
-            }}
-          >
-            <TextInput
-              placeholder="Search products..."
-              value={searchQuery}
-              onChangeText={(query) => setSearchQuery(query)}
-              style={{
-                flex: 1,
-                height: 45,
-                paddingHorizontal: 16,
-                fontSize: 16,
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => setSearchQuery("")}
-              style={{
-                backgroundColor: "#ddd",
-                borderRadius: 5,
-                paddingHorizontal: 12,
-                paddingVertical: 8,
-                marginRight: 3,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>X</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <Text
-          style={{
-            fontSize: 20,
-            marginLeft: 20,
-            fontWeight: "bold",
-            marginTop: 10,
-          }}
-        >
-          Bidding Items
-        </Text>
-      </>
-    );
-  }
 
   return (
     <SafeArea>
-      <FlatList
-        numColumns={2}
-        data={filteredProducts}
-        ListHeaderComponent={Header}
-        renderItem={({ item }) => {
-          return <Card item={item} />;
-        }}
-      />
+      <KeyboardAvoidingView style={styles.container}>
+        <FlatList
+          numColumns={2}
+          style={styles.container}
+          data={filteredProducts}
+          ListHeaderComponent={Header}
+          renderItem={({ item }) => {
+            return <Card item={item} />;
+          }}
+        />
+      </KeyboardAvoidingView>
     </SafeArea>
   );
 };
 
-export default BidProduct;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    marginTop: 15,
-    marginLeft: 10,
-    marginRight: 10,
+  },
+  headerText: {
+    fontSize: 20,
+    marginLeft: 20,
+    fontWeight: "bold",
+    marginTop: 10,
   },
 });
+
+export default BidProduct;

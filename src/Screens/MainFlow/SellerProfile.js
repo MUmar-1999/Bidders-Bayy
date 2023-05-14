@@ -17,7 +17,7 @@ const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
-  // console.log(JSON.stringify(sellerProfile, null, 2));
+  console.log(JSON.stringify(sellerProfile, null, 2));
   console.log("R::", rating);
 
   useEffect(() => {
@@ -86,6 +86,7 @@ const SellerProfile = ({ route, navigation }) => {
                   size={25}
                   onFinishRating={setUserRating}
                 />
+
                 {/* <Text style={styles.location}>{sellerProfile.location}</Text>
               <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
               </View>
@@ -104,7 +105,7 @@ const SellerProfile = ({ route, navigation }) => {
             return (
               <View
                 style={{
-                  backgroundColor: Color.white,
+                  backgroundColor: "white",
                   width: "45%",
                   margin: 8,
                   borderRadius: 10,
@@ -165,7 +166,7 @@ const SellerProfile = ({ route, navigation }) => {
                       {item.createdAt.substring(0, 10)}
                     </Text> */}
                       <Text style={{ fontSize: 12, color: "#aaa" }}>
-                        {item.currenCity}
+                        {sellerProfile.userId.currentCity}
                       </Text>
                     </View>
                   </View>

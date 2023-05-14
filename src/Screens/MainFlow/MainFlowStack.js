@@ -10,13 +10,8 @@ import Favorite from "./Favorite";
 import Product from "./Product";
 import SellerProfile from "./SellerProfile";
 import BecomeSeller from "./BecomeSeller";
-import { Color } from '../../Components/Shared/Color'
-import {
-  FontAwesome5,
-  Feather,
-  Fontisto,
-  Ionicons
-} from "@expo/vector-icons";
+import { Color } from "../../Components/Shared/Color";
+import { FontAwesome5, Feather, Fontisto, Ionicons } from "@expo/vector-icons";
 
 const HomeStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -28,18 +23,18 @@ function MainFlowStack() {
       initialRouteName="Bidders Bay"
       screenOptions={{
         tabBarActiveTintColor: "white",
-        tabBarStyle: { backgroundColor: Color.black, },
+        tabBarStyle: { backgroundColor: Color.black },
         tabBarShowLabel: false,
         tabBarActiveTintColor: Color.white,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "center",
         headerShown: false,
         tabBarHideOnKeyboard: true,
         headerStyle: {
           backgroundColor: Color.black,
         },
         headerTitleStyle: {
-          color: Color.white
-        }
+          color: Color.white,
+        },
       }}
     >
       <Tab.Screen
@@ -73,16 +68,6 @@ function MainFlowStack() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="My Products"
-        component={MyProducts}
-        options={{
-          tabBarLabel: "My Products",
-          tabBarIcon: ({ color }) => (
-            <Fontisto name="shopping-bag-1" size={26} color={color} />
-          ),
-        }}
-      /> */}
 
       <Tab.Screen
         name="Profile"
