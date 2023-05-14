@@ -15,6 +15,7 @@ import BidderApi from "../../api/BidderApi";
 import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -112,7 +113,25 @@ const Product = ({ route, navigation }) => {
                 <Text style={styles.price}>
                   Base Price: Rs. {product.productPrice}
                 </Text>
-                <Text style={styles.price}>Highest Bid: Rs. {highestBid}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={styles.price}>
+                    Highest Bid: Rs. {highestBid}
+                  </Text>
+
+                  <Text style={styles.time}>
+                    <MaterialCommunityIcons
+                      name="clock-outline"
+                      size={16}
+                      color="black"
+                    />{" "}
+                    6d 01:13:04
+                  </Text>
+                </View>
                 <View style={styles.BidContainer}>
                   <View
                     style={{
@@ -244,6 +263,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "green",
     fontWeight: "bold",
+  },
+
+  time: {
+    fontSize: 16,
+    color: "black",
+    fontWeight: "bold",
+    justifyContent: "space-between",
   },
 
   description: {
