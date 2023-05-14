@@ -93,8 +93,8 @@ export const update = createAsyncThunk(
     try {
       const { data } = await BidderApi.post(role === 'seller' ? '/users/edit-seller-profile/' : '/users/edit/', formData, config);
       console.log('UPDATEUSERINFO:::', JSON.stringify(data, null, 2));
-      await setItemAsync('user', JSON.stringify(data.data));
-      return { user: data.data };
+      // await setItemAsync('user', JSON.stringify(data.data));
+      // return { user: data.data };
     } catch (error) {
       console.error('ERRUPDATE', error.status);
       if (error.response && error.response.data.message) {

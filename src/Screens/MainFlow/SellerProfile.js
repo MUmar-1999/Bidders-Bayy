@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -10,6 +10,7 @@ import {
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
 import { Color } from "../../Components/Shared/Color";
+import { BASE_URL } from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 
 const SellerProfile = ({ route, navigation }) => {
@@ -99,7 +100,7 @@ const SellerProfile = ({ route, navigation }) => {
               </Text>
             </>
           }
-          renderItem={({ item, index }) => {
+          renderItem={({ item }) => {
             return (
               <View
                 style={{
@@ -129,7 +130,7 @@ const SellerProfile = ({ route, navigation }) => {
                       source={{
                         uri:
                           item.images && item.images.length > 0
-                            ? `http://192.168.10.2:5000/${item.images[0]}`
+                            ? `${BASE_URL}/${item.images[0]}`
                             : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
                       }}
                       style={{ height: "100%", width: "100%" }}

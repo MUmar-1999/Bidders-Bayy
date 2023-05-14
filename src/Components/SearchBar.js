@@ -1,27 +1,35 @@
-import React from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-function SearchBar({ value, onChange }) {
+function SearchBar({ onChange }) {
+    const [search, setSearch] = useState('');
+
+    const handleEndEditing = () => {
+        onChange(search);
+        setSearch('')
+    };
+    const handleClear = () => {
+        onChange('');
+    };
 
     return (
-
         <View
             style={styles.container}
         >
             <TextInput
                 placeholder="Search products..."
-                value={value}
-                onChangeText={onChange}
+                value={search}
+                onChangeText={setSearch}
+                onEndEditing={handleEndEditing}
                 style={styles.input}
             />
             <TouchableOpacity
-                onPress={() => setSearchQuery("")}
+                onPress={handleClear}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>X</Text>
             </TouchableOpacity>
         </View>
-
     );
 };
 

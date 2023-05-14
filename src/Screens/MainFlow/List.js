@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import SecondaryButton from "../../Components/SecondaryButton";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
+import { BASE_URL } from "../../api/BidderApi";
 import FormInputF from "../../Components/FormInputF";
 
 const List = ({ navigation }) => {
@@ -33,7 +34,7 @@ const List = ({ navigation }) => {
   });
 
   useEffect(() => {
-    axios.get("http://192.168.10.2:5000/category/").then(function (response) {
+    axios.get(`${BASE_URL}/category/`).then(function (response) {
       setCategory(response.data.data.allCategory);
     });
   }, []);
@@ -42,7 +43,7 @@ const List = ({ navigation }) => {
     setCategoryData(value);
     if (value != "") {
       axios
-        .get(`http://192.168.10.2:5000/sub-category/${value}`)
+        .get(`${BASE_URL}/sub-category/${value}`)
         .then(function (response) {
           setSubCategoryData(response.data.data);
         });

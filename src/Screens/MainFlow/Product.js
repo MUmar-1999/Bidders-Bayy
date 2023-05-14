@@ -94,7 +94,7 @@ const Product = ({ route, navigation }) => {
               source={{
                 uri:
                   product.images && product.images.length > 0
-                    ? `http://192.168.10.2:5000/${product.images[0]}`
+                    ? `${BASE_URL}/${product.images[0]}`
                     : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
               }}
               style={styles.image}
