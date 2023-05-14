@@ -19,7 +19,7 @@ const Home = ({ navigation }) => {
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get('/products/bid/');
+      const res = await BidderApi.get("/products/bid/");
       setProducts(res.data.data.allProducts);
       setFilteredProducts(res.data.data.allProducts);
     } catch (error) {
@@ -36,7 +36,9 @@ const Home = ({ navigation }) => {
   function filtered(text) {
     if (text) {
       const newData = products.filter(function (item) {
-        const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+        const itemData = item.title
+          ? item.title.toUpperCase()
+          : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
