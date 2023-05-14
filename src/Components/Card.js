@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons } from "@expo/vector-icons";
 import { Color } from "./Shared/Color";
+import { normalizeImage } from "../Utils/functions";
 
 function Card({ item }) {
   const navigation = useNavigation();
@@ -9,20 +10,13 @@ function Card({ item }) {
   const handleProductPress = (product) => {
     navigation.navigate("Product", { product });
   };
-  // console.log('IMAGE:::', item.images);
-  function normalizeImage(imagePath) {
-    const baseUrl = "http://192.168.10.2:5000";
-    const normalizedImagePath = imagePath
-      .replace(/\\/g, "/")
-      .replace(/^\//, "");
-    const imageUrl = `${baseUrl}/${normalizedImagePath}`;
-    return imageUrl;
-  }
+  // console.log('IMAGE:::', JSON.stringify(item.postId, null, 2));
+
 
   const addfav = async (postId) => {
     try {
       const res = await BidderApi.post("/favorite/", { postId });
-      console.log("Fav::", JSON.stringify(res, null, 2));
+      // console.log("Fav::", JSON.stringify(res, null, 2));
     } catch (error) {
       console.log(error.res);
     }
@@ -73,7 +67,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.43,
     shadowRadius: 9.51,
-    elevation: 15,
+    elevation: 3,
   },
   imageContainer: {
     height: 170,

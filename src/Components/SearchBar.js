@@ -1,33 +1,38 @@
-import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { useEffect, useState, useCallback } from "react";
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
-function SearchBar({ value, onChange }) {
-  const [searchQuery, setSearchQuery] = useState("");
+function SearchBar({ onChange }) {
+    const [search, setSearch] = useState('');
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        placeholder="Search products..."
-        value={value}
-        onChangeText={onChange}
-        style={styles.input}
-      />
-      <TouchableOpacity
-        onPress={() => setSearchQuery("")}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>X</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
+    const handleEndEditing = () => {
+        onChange(search);
+        setSearch('')
+    };
+    const handleClear = () => {
+        onChange('');
+    };
+
+    return (
+        <View
+            style={styles.container}
+        >
+            <TextInput
+                placeholder="Search products..."
+                value={search}
+                onChangeText={setSearch}
+                onEndEditing={handleEndEditing}
+                style={styles.input}
+            />
+            <TouchableOpacity
+                onPress={handleClear}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>X</Text>
+            </TouchableOpacity>
+        </View>
+    );
+};
+
 
 export default SearchBar;
 

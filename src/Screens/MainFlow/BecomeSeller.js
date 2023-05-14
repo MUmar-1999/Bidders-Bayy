@@ -24,15 +24,6 @@ const BecomeSeller = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
   const cnicRegex = /^[0-9]{5}-[0-9]{7}-[0-9]{1}$/;
 
-  function normalizeImage(imagePath) {
-    const baseUrl = "http://192.168.10.2:5000";
-    const normalizedImagePath = imagePath
-      .replace(/\\/g, "/")
-      .replace(/^\//, "");
-    const imageUrl = `${baseUrl}/${normalizedImagePath}`;
-    return imageUrl;
-  }
-
   const pickImage = async (side) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

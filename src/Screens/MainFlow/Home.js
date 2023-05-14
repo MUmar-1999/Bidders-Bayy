@@ -2,7 +2,6 @@ import {
   View,
   Text,
   Image,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
@@ -17,7 +16,6 @@ import SearchBar from "../../Components/SearchBar";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const getData = async () => {
     try {
@@ -35,7 +33,7 @@ const Home = ({ navigation }) => {
     }, [navigation])
   );
 
-  const filtered = (text) => {
+  function filtered(text) {
     if (text) {
       const newData = products.filter(function (item) {
         const itemData = item.title
@@ -45,10 +43,8 @@ const Home = ({ navigation }) => {
         return itemData.indexOf(textData) > -1;
       });
       setFilteredProducts(newData);
-      setSearchQuery(text);
     } else {
       setFilteredProducts(products);
-      setSearchQuery(text);
     }
   };
   const handleBidPress = (bidproduct) => {
@@ -56,18 +52,6 @@ const Home = ({ navigation }) => {
   };
   const handleFixPress = (fixproduct) => {
     navigation.navigate("FixProduct", { fixproduct });
-  };
-
-  const addfav = async (postId) => {
-    try {
-      const res = await BidderApi.post("/favorite/", { postId });
-      // console.log('Fav::', JSON.stringify(res, null, 2));
-      if (res) {
-        getData();
-      }
-    } catch (error) {
-      console.log(error.res);
-    }
   };
 
   useFocusEffect(
@@ -79,76 +63,43 @@ const Home = ({ navigation }) => {
   function Header() {
     return (
       <View>
-        <View>
-          <Image
-            source={require("../../Images/Banner1.png")}
-            style={{
-              width: "91.5%",
-              height: 170,
-              borderRadius: 10,
-              alignSelf: "center",
-              marginTop: 10,
-            }}
-          />
-        </View>
+        <SearchBar onChange={(txt) => filtered(txt)} />
+        <Image
+          source={require("../../Images/Banner1.png")}
+          style={styles.banner}
+        />
         <View
-          style={{
-            marginHorizontal: 10,
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
+          style={styles.segmentContainer}
         >
           <TouchableOpacity
             onPress={() => handleBidPress()}
-            style={{
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-              marginHorizontal: 10,
-            }}
+            style={styles.segmentButton}
           >
-            <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("../../Images/Bidd.png")}
-                style={{ borderRadius: 40, width: 80, height: 80 }}
-              />
-              <Text
-                style={{
-                  marginTop: 10,
-                  fontSize: 13,
-                  color: "#444",
-                  marginBottom: 5,
-                  fontWeight: "300",
-                }}
-              >
-                Bidding Products
-              </Text>
-            </View>
+
+            <Image
+              source={require("../../Images/Bidd.png")}
+              style={styles.buttonImage}
+            />
+            <Text
+              style={styles.buttonText}
+            >
+              Bidding Products
+            </Text>
+
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleFixPress()}
-            style={{
-              paddingVertical: 10,
-              paddingHorizontal: 10,
-              marginHorizontal: 10,
-            }}
+            style={styles.segmentButton}
           >
-            <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("../../Images/Fix.png")}
-                style={{ borderRadius: 40, width: 80, height: 80 }}
-              />
-              <Text
-                style={{
-                  marginTop: 10,
-                  fontSize: 13,
-                  color: "#444",
-                  marginBottom: 5,
-                  fontWeight: "300",
-                }}
-              >
-                Fix Price Products
-              </Text>
-            </View>
+            <Image
+              source={require("../../Images/Fix.png")}
+              style={styles.buttonImage}
+            />
+            <Text
+              style={styles.buttonText}
+            >
+              Fix Price Products
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -167,10 +118,10 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeArea>
-      <SearchBar value={searchQuery} onChange={filtered} />
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView style={styles.container}>
         <FlatList
           numColumns={2}
+          style={styles.container}
           data={filteredProducts}
           ListHeaderComponent={Header}
           renderItem={({ item }) => {
@@ -187,9 +138,35 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    marginTop: 15,
-    marginLeft: 10,
-    marginRight: 10,
   },
+  banner: {
+    width: "91.5%",
+    height: 170,
+    borderRadius: 10,
+    alignSelf: "center",
+    marginTop: 10,
+  },
+  segmentContainer: {
+    marginHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  segmentButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    alignItems: 'center',
+  },
+  buttonImage: {
+    borderRadius: 40,
+    width: 80,
+    height: 80
+  },
+  buttonText: {
+    marginTop: 10,
+    fontSize: 13,
+    color: "#444",
+    marginBottom: 5,
+    fontWeight: "300",
+  }
 });

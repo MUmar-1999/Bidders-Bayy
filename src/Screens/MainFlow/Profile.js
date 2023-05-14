@@ -18,6 +18,7 @@ import { Picker } from "@react-native-picker/picker";
 import * as ImagePicker from "expo-image-picker";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
+import { normalizeImage } from "../../Utils/functions";
 
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -31,14 +32,6 @@ const Profile = ({ navigation }) => {
   const [profile_picture, setProfilePicture] = useState(
     userInfo.dp === "" ? null : { dp: userInfo.dp }
   );
-  function normalizeImage(imagePath) {
-    const baseUrl = "http://192.168.10.2:5000";
-    const normalizedImagePath = imagePath
-      .replace(/\\/g, "/")
-      .replace(/^\//, "");
-    const imageUrl = `${baseUrl}/${normalizedImagePath}`;
-    return imageUrl;
-  }
 
   function logoutHandler() {
     navigation.reset({
@@ -101,10 +94,10 @@ const Profile = ({ navigation }) => {
             source={
               profile_picture
                 ? {
-                    uri: profile_picture.dp
-                      ? normalizeImage(profile_picture.dp)
-                      : profile_picture.file,
-                  }
+                  uri: profile_picture.dp
+                    ? normalizeImage(profile_picture.dp)
+                    : profile_picture.file,
+                }
                 : require("../../Images/dp.png")
             }
             style={styles.profileImage}
