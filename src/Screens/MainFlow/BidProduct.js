@@ -6,6 +6,7 @@ import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
+import { FontAwesome } from "@expo/vector-icons";
 
 const BidProduct = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -58,15 +59,30 @@ const BidProduct = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
-        <FlatList
-          numColumns={2}
-          style={styles.container}
-          data={filteredProducts}
-          ListHeaderComponent={Header}
-          renderItem={({ item }) => {
-            return <Card item={item} />;
-          }}
-        />
+        {filteredProducts.length === 0 ? (
+          <View style={styles.centeredContainer}>
+            <View style={styles.notAvailableContainer}>
+              <FontAwesome
+                name="exclamation-triangle"
+                size={40}
+                color="#C62828"
+              />
+              <Text style={styles.notAvailableText}>
+                Sorry, we couldn't find any products.
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <FlatList
+            numColumns={2}
+            style={styles.container}
+            data={filteredProducts}
+            ListHeaderComponent={Header}
+            renderItem={({ item }) => {
+              return <Card item={item} />;
+            }}
+          />
+        )}
       </KeyboardAvoidingView>
     </SafeArea>
   );
@@ -81,6 +97,24 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontWeight: "bold",
     marginTop: 10,
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  notAvailableContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FBE9E7",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  notAvailableText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: "#C62828",
   },
 });
 
