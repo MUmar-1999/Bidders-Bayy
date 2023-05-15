@@ -2,35 +2,35 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 
 function SearchBar({ onChange }) {
-    const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');
 
-    const handleEndEditing = () => {
-        onChange(search);
-        setSearch('')
-    };
-    const handleClear = () => {
-        onChange('');
-    };
+  const handleEndEditing = () => {
+    onChange(search);
+    setSearch('')
+  };
+  const handleClear = () => {
+    onChange('');
+  };
 
-    return (
-        <View
-            style={styles.container}
-        >
-            <TextInput
-                placeholder="Search products..."
-                value={search}
-                onChangeText={setSearch}
-                onEndEditing={handleEndEditing}
-                style={styles.input}
-            />
-            <TouchableOpacity
-                onPress={handleClear}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>X</Text>
-            </TouchableOpacity>
-        </View>
-    );
+  return (
+    <View
+      style={styles.container}
+    >
+      <TextInput
+        placeholder="Search products..."
+        value={search}
+        onChangeText={setSearch}
+        onEndEditing={handleEndEditing}
+        style={styles.input}
+      />
+      <TouchableOpacity
+        onPress={handleClear}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>X</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 

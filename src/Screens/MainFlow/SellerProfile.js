@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState, useLayoutEffect } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Image,
-  TouchableOpacity,
   FlatList,
 } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
 import { Color } from "../../Components/Shared/Color";
-import { BASE_URL } from "../../api/BidderApi";
+import Card from '../../Components/Card'
 import SafeArea from "../../Components/Shared/SafeArea";
 
 const SellerProfile = ({ route, navigation }) => {
@@ -20,10 +19,11 @@ const SellerProfile = ({ route, navigation }) => {
   console.log(JSON.stringify(sellerProfile, null, 2));
   console.log("R::", rating);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getData();
     getRating();
   }, []);
+
   async function getRating() {
     try {
       const { data } = await BidderApi.get(
@@ -58,122 +58,44 @@ const SellerProfile = ({ route, navigation }) => {
       console.log(error);
     }
   };
-  const handleProductPress = (product) => {
-    navigation.navigate("Product", { product });
-  };
   return (
     <SafeArea>
-      <View>
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item._id}
-          numColumns={2}
-          ListHeaderComponent={
-            <>
-              <View style={styles.container}>
-                <Image
-                  source={{ uri: sellerProfile.userId.dp }}
-                  style={styles.profileImage}
-                />
-                <Text style={styles.name}>
-                  {sellerProfile.userId.firstName}{" "}
-                  {sellerProfile.userId.lastName}
-                </Text>
-                <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
-                <AirbnbRating
-                  defaultRating={rating}
-                  showRating={false}
-                  size={25}
-                  onFinishRating={setUserRating}
-                />
-
-                {/* <Text style={styles.location}>{sellerProfile.location}</Text>
-              <Text style={styles.rating}>Rating: {sellerProfile.rating}</Text> */}
-              </View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  marginLeft: 25,
-                  fontWeight: "400",
-                }}
-              >
-                Seller Products
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item._id}
+        numColumns={2}
+        ListHeaderComponent={
+          <>
+            <View style={styles.container}>
+              <Image
+                source={{ uri: sellerProfile.userId.dp }}
+                style={styles.profileImage}
+              />
+              <Text style={styles.name}>
+                {sellerProfile.userId.firstName}{" "}
+                {sellerProfile.userId.lastName}
               </Text>
-            </>
-          }
-          renderItem={({ item }) => {
-            return (
-              <View
-                style={{
-                  backgroundColor: "white",
-                  width: "45%",
-                  margin: 8,
-                  borderRadius: 10,
-                  shadowColor: "black",
-                  shadowOffset: {
-                    width: 0,
-                    height: 7,
-                  },
-                  shadowOpacity: 0.43,
-                  shadowRadius: 9.51,
-                  elevation: 20,
-                }}
-              >
-                <TouchableOpacity onPress={() => handleProductPress(item)}>
-                  <View
-                    style={{
-                      height: 170,
-                      borderRadius: 10,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Image
-                      source={{
-                        uri:
-                          item.images && item.images.length > 0
-                            ? `${BASE_URL}/${item.images[0]}`
-                            : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                      }}
-                      style={{ height: "100%", width: "100%" }}
-                    />
-                  </View>
-                  <View style={{ padding: 12 }}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontWeight: "bold",
-                        marginBottom: 8,
-                      }}
-                    >
-                      {item.title}
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          fontWeight: "bold",
-                          color: Color.black,
-                        }}
-                      >
-                        Rs. {item.productPrice}
-                      </Text>
-
-                      <Text style={{ fontSize: 10, color: "#aaa" }}>
-                        {sellerProfile.userId.currentCity}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        />
-      </View>
+              <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+              <AirbnbRating
+                defaultRating={rating}
+                showRating={false}
+                size={25}
+                onFinishRating={setUserRating}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 20,
+                marginLeft: 25,
+                fontWeight: "400",
+              }}
+            >
+              Seller Products
+            </Text>
+          </>
+        }
+        renderItem={({ item }) => <Card item={item} />}
+      />
     </SafeArea>
   );
 };

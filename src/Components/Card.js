@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { EvilIcons } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import { Color } from "./Shared/Color";
 import { normalizeImage } from "../Utils/functions";
 import { useEffect } from "react";
@@ -75,9 +75,9 @@ function Card({ item }) {
           <View style={{ width: "20%", marginTop: 1.2 }}>
             <TouchableOpacity onPress={() => addfav(item._id)}>
               {check !== 0 ? (
-                <EvilIcons name="heart" size={24} color="red" />
+                <AntDesign name="heart" size={24} color={Color.black} />
               ) : (
-                <EvilIcons name="heart" size={24} color={Color.black} />
+                <AntDesign name="hearto" size={24} color={Color.black} />
               )}
             </TouchableOpacity>
           </View>

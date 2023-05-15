@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
-
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import BidderApi from "../../api/BidderApi";
 import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
@@ -24,8 +24,7 @@ const Product = ({ route, navigation }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
-
-  console.log("PRODUCT:::", product._id);
+  const { userInfo } = useSelector((state) => state.auth);
   const getComments = async () => {
     try {
       const res = await BidderApi.get(`/comment/${product._id}`);
@@ -109,7 +108,7 @@ const Product = ({ route, navigation }) => {
                 </View>
               </View>
             </View>
-            {product.productType === "Bidding Item" ? (
+            {product.productType === "Bidding Item" && product.userId._id !== userInfo._id ? (
               <View>
                 <Text style={styles.price}>
                   Base Price: Rs. {product.productPrice}
@@ -156,8 +155,8 @@ const Product = ({ route, navigation }) => {
                       rule={{
                         required: "Bid cannot be empty.",
                         validate: (value) =>
-                          value > highestBid ||
-                          `Bid must be greater than Rs.${highestBid}`,
+                          highestBid === 0 ? value > product.productPrice || `Bid must be greater than Rs.${product.productPrice}` : value > highestBid ||
+                            `Bid must be greater than Rs.${highestBid}`,
                       }}
                     />
                   </View>

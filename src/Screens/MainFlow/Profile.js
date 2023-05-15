@@ -94,10 +94,10 @@ const Profile = ({ navigation }) => {
             source={
               profile_picture
                 ? {
-                    uri: profile_picture.dp
-                      ? normalizeImage(profile_picture.dp)
-                      : profile_picture.file,
-                  }
+                  uri: profile_picture.dp
+                    ? normalizeImage(profile_picture.dp)
+                    : profile_picture.file,
+                }
                 : require("../../Images/dp.png")
             }
             style={styles.profileImage}
@@ -130,6 +130,7 @@ const Profile = ({ navigation }) => {
         <TextInput
           style={styles.input}
           value={firstName}
+          editable={userInfo.role === 'seller' ? false : true}
           onChangeText={(text) => setFirstName(text)}
         />
 
@@ -137,6 +138,7 @@ const Profile = ({ navigation }) => {
         <TextInput
           style={styles.input}
           value={lastName}
+          editable={userInfo.role === 'seller' ? false : true}
           onChangeText={(text) => setLastName(text)}
         />
 
