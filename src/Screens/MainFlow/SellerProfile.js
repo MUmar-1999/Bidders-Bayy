@@ -1,15 +1,9 @@
 import { useState, useLayoutEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
 import { Color } from "../../Components/Shared/Color";
-import Card from '../../Components/Card'
+import Card from "../../Components/Card";
 import SafeArea from "../../Components/Shared/SafeArea";
 
 const SellerProfile = ({ route, navigation }) => {
@@ -72,8 +66,7 @@ const SellerProfile = ({ route, navigation }) => {
                 style={styles.profileImage}
               />
               <Text style={styles.name}>
-                {sellerProfile.userId.firstName}{" "}
-                {sellerProfile.userId.lastName}
+                {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
               <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
               <AirbnbRating
