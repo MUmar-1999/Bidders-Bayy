@@ -155,17 +155,15 @@ const SellerProfile = ({ route, navigation }) => {
                     >
                       <Text
                         style={{
-                          fontSize: 12,
+                          fontSize: 10,
                           fontWeight: "bold",
-                          color: "green",
+                          color: Color.black,
                         }}
                       >
                         Rs. {item.productPrice}
                       </Text>
-                      {/* <Text style={{ fontSize: 12, color: "#aaa" }}>
-                      {item.createdAt.substring(0, 10)}
-                    </Text> */}
-                      <Text style={{ fontSize: 12, color: "#aaa" }}>
+
+                      <Text style={{ fontSize: 10, color: "#aaa" }}>
                         {sellerProfile.userId.currentCity}
                       </Text>
                     </View>

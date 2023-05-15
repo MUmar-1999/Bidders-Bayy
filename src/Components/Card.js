@@ -129,12 +129,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   priceText: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "bold",
     color: "#52616B",
   },
   cityText: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#aaa",
   },
 });

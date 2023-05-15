@@ -176,7 +176,7 @@ const Profile = ({ navigation }) => {
             mode="dropdown"
             style={{ flex: 1 }}
           >
-            <Picker.Item label="Select type" value="" />
+            <Picker.Item label="Select City" value="" />
             <Picker.Item label="Lahore" value="Lahore" />
             <Picker.Item label="Karachi" value="Karachi" />
             <Picker.Item label="Faisalabad" value="Faisalabad" />
