@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
 import { Color } from "../../Components/Shared/Color";
+import { normalizeImage } from "../../Utils/functions";
 import Card from "../../Components/Card";
 import SafeArea from "../../Components/Shared/SafeArea";
 
@@ -10,7 +11,7 @@ const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
-  console.log(JSON.stringify(sellerProfile, null, 2));
+  console.log(JSON.stringify(sellerProfile.userId.dp, null, 2));
   console.log("R::", rating);
 
   useLayoutEffect(() => {
@@ -62,9 +63,10 @@ const SellerProfile = ({ route, navigation }) => {
           <>
             <View style={styles.container}>
               <Image
-                source={{ uri: sellerProfile.userId.dp }}
+                source={{ uri: normalizeImage(sellerProfile.userId.dp) }}
                 style={styles.profileImage}
               />
+
               <Text style={styles.name}>
                 {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
