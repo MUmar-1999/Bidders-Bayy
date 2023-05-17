@@ -108,7 +108,8 @@ const Product = ({ route, navigation }) => {
                 </View>
               </View>
             </View>
-            {product.productType === "Bidding Item" && product.userId._id !== userInfo._id ? (
+            {product.productType === "Bidding Item" &&
+            product.userId._id !== userInfo._id ? (
               <View>
                 <Text style={styles.price}>
                   Base Price: Rs. {product.productPrice}
@@ -155,8 +156,11 @@ const Product = ({ route, navigation }) => {
                       rule={{
                         required: "Bid cannot be empty.",
                         validate: (value) =>
-                          highestBid === 0 ? value > product.productPrice || `Bid must be greater than Rs.${product.productPrice}` : value > highestBid ||
-                            `Bid must be greater than Rs.${highestBid}`,
+                          highestBid === 0
+                            ? value > product.productPrice ||
+                              `Bid must be greater than Rs.${product.productPrice}`
+                            : value > highestBid ||
+                              `Bid must be greater than Rs.${highestBid}`,
                       }}
                     />
                   </View>
@@ -236,7 +240,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 200,
-    resizeMode: "cover",
+    resizeMode: "contain",
     marginBottom: 10,
     borderRadius: 5,
   },
