@@ -37,6 +37,9 @@ const Login = ({ navigation }) => {
   function newAccountHandler() {
     navigation.navigate("Signup");
   }
+  function forgetPassword() {
+    navigation.navigate("ForgetPass");
+  }
 
   return (
     <SafeArea>
@@ -80,10 +83,7 @@ const Login = ({ navigation }) => {
             secureTextEntry
           />
 
-          <Text
-            style={styles.forgetText}
-            onPress={() => console.log("Forget Pressed!!!")}
-          >
+          <Text style={styles.forgetText} onPress={forgetPassword}>
             Forgot Password?
           </Text>
 
