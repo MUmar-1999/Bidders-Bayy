@@ -11,8 +11,6 @@ const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
-  console.log(JSON.stringify(sellerProfile.userId.dp, null, 2));
-  console.log("R::", rating);
 
   useLayoutEffect(() => {
     getData();
@@ -24,8 +22,7 @@ const SellerProfile = ({ route, navigation }) => {
       const { data } = await BidderApi.get(
         `/rating/${sellerProfile.userId._id}`
       );
-      console.log("RATING:::", data);
-      setRating(data.data[0].avgRating);
+      setRating(data.data[0]?.avgRating || 0);
     } catch (err) {
       console.error("Rating Error:::", err);
     }
@@ -36,7 +33,6 @@ const SellerProfile = ({ route, navigation }) => {
         sellerId: `${sellerProfile.userId._id}`,
         rating: rate,
       });
-      console.log("SET::RATING:::", data);
       getRating();
     } catch (err) {
       console.error("SET::Rating Error:::", err);
@@ -63,7 +59,7 @@ const SellerProfile = ({ route, navigation }) => {
           <>
             <View style={styles.container}>
               <Image
-                source={{ uri: normalizeImage(sellerProfile.userId.dp) }}
+                source={{ uri: normalizeImage(sellerProfile.userId.dp || "/dp") }}
                 style={styles.profileImage}
               />
 
