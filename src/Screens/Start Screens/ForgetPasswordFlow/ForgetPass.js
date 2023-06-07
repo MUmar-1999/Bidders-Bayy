@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   View,
   Text,
@@ -6,22 +7,40 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { forgetPassword } from "../../../Store/authActions";
 
-import React, { useState } from "react";
-import SafeArea from "../../Components/Shared/SafeArea";
-import FormInputField from "../../Components/FormInputField";
-import PrimaryButton from "../../Components/PrimaryButton";
+import SafeArea from "../../../Components/Shared/SafeArea";
+import FormInputField from "../../../Components/FormInputField";
+import PrimaryButton from "../../../Components/PrimaryButton";
+import ErrorMessage from "../../../Components/ErrorMessage";
+import { resetSuccess } from "../../../Store/authSlice";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const ForgetPass = () => {
-  const { control, handleSubmit } = useForm();
+const ForgetPass = ({ navigation }) => {
+  const { control, handleSubmit, watch } = useForm();
+  const email = watch('email');
+  const { loading, error, success } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(success);
+    if (success) {
+      dispatch(resetSuccess());
+      navigation.navigate("OTPscreen", { e: email });
+    }
+  }, [success]);
+
+  function handleForget(data) {
+    dispatch(forgetPassword(data));
+  };
+
   return (
     <SafeArea>
       <KeyboardAvoidingView style={{ flex: 1 }} enabled>
         <View style={{ flex: 1, justifyContent: "center" }}>
           <Image
-            source={require("../../Images/logo.png")}
+            source={require("../../../Images/logo.png")}
             style={styles.logo}
           />
           <Text style={styles.headerText}>Forget Password</Text>
@@ -32,7 +51,7 @@ const ForgetPass = () => {
               alignSelf: "center",
               marginTop: 20,
               marginBottom: -20,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: "400",
             }}
           >
@@ -43,14 +62,15 @@ const ForgetPass = () => {
             name={"email"}
             control={control}
             placeholder={"Email"}
-            icon={require("../../Images/email.png")}
+            icon={require("../../../Images/email.png")}
             rule={{
               required: "Email cannot be empty.",
               pattern: { value: EMAIL_REGEX, message: "Enter correct email." },
             }}
           />
 
-          <PrimaryButton title={"Confirm"} />
+          <PrimaryButton title={"Confirm"} disabled={loading} onPress={handleSubmit(handleForget)} />
+          {error && <ErrorMessage err={error} />}
         </View>
       </KeyboardAvoidingView>
     </SafeArea>
@@ -58,6 +78,7 @@ const ForgetPass = () => {
 };
 
 export default ForgetPass;
+
 const styles = StyleSheet.create({
   logo: {
     marginTop: -100,

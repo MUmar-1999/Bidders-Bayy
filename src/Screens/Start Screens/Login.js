@@ -98,10 +98,6 @@ const Login = ({ navigation }) => {
             onPress={newAccountHandler}
           />
           {error && <ErrorMessage err={error} />}
-          <Loader
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
         </View>
       </KeyboardAvoidingView>
     </SafeArea>

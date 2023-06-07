@@ -57,7 +57,6 @@ export const login = createAsyncThunk(
       await setItemAsync("token", JSON.stringify(data.token));
       return data;
     } catch (error) {
-      console.error("Login", error);
 
       // return custom error message from API if any
       if (error.response && error.response.data.message) {
@@ -105,6 +104,44 @@ export const update = createAsyncThunk(
         return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+
+export const forgetPassword = createAsyncThunk(
+  "auth/forget",
+  async ({ email }, { rejectWithValue }) => {
+    try {
+      const { data } = await BidderApi.post("/forget_password/send-otp/", {
+        email
+      });
+      console.log("DATA:::", data);
+    } catch (error) {
+      if (error.response && error.response.data.error) {
+        return rejectWithValue(error.response.data.error);
+      } else {
+        return rejectWithValue("Something went wrong. Try again!");
+      }
+    }
+  }
+);
+
+export const verifyOTP = createAsyncThunk(
+  "auth/verify-OTP",
+  async ({ email, OTP }, { rejectWithValue }) => {
+    try {
+      const { data } = await BidderApi.post("/forget_password/verify-otp", {
+        email,
+        OTP,
+      });
+      console.log("OTP:::", data);
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue("Something went wrong. Try again!");
       }
     }
   }

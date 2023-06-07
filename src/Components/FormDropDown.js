@@ -24,7 +24,7 @@ const FormDropDown = ({ control, name, rule, icon }) => {
               mode="dropdown"
               style={styles.dropdown}
             >
-              <Picker.Item label="Select type" value="" />
+              <Picker.Item label="Select city" value="" />
               <Picker.Item label="Lahore" value="Lahore" />
               <Picker.Item label="Karachi" value="Karachi" />
               <Picker.Item label="Faisalabad" value="Faisalabad" />

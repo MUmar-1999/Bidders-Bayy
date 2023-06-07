@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, login, getAuthToken, update } from './authActions';
+import { register, login, getAuthToken, update, forgetPassword, verifyOTP } from './authActions';
 import { deleteItemAsync } from 'expo-secure-store';
 
 const initialState = {
@@ -22,6 +22,9 @@ const authSlice = createSlice({
     },
     tryLocalSignIn: (state, action) => {
       state.userToken = action.payload;
+    },
+    resetSuccess: (state) => {
+      state.success = false;
     },
   },
   extraReducers: (builder) => {
@@ -75,10 +78,34 @@ const authSlice = createSlice({
       .addCase(update.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
+      })
+      .addCase(forgetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(forgetPassword.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      }).addCase(verifyOTP.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyOTP.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(verifyOTP.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
       });
   },
 });
 export const logout = authSlice.actions.logout;
 export const tryLocalSignIn = authSlice.actions.tryLocalSignIn;
+export const resetSuccess = authSlice.actions.resetSuccess;
 
 export default authSlice.reducer;

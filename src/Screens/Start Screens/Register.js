@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../Store/authActions";
+import { resetSuccess } from "../../Store/authSlice"
 
 import FormGenderField from "../../Components/FormGenderField";
 import FormDateField from "../../Components/FormDateField";
@@ -44,6 +45,7 @@ const Register = ({ navigation }) => {
 
   useEffect(() => {
     if (success) {
+      dispatch(resetSuccess());
       navigation.navigate("Login");
     }
   }, [success]);

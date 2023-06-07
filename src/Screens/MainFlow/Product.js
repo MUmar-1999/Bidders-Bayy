@@ -126,7 +126,7 @@ const Product = ({ route, navigation }) => {
                     </View>
                   </View>
                   {product.productType === "Bidding Item" &&
-                  product.userId._id !== userInfo._id ? (
+                    product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -175,9 +175,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                    `Bid must be greater than Rs.${highestBid}`,
+                                  `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -199,15 +199,19 @@ const Product = ({ route, navigation }) => {
                         <MaterialIcons name="delete" size={24} color="black" />
                       </View>
 
-                      <Portal>
-                        <Modal
-                          visible={visible}
-                          onDismiss={showModal}
-                          contentContainerStyle={styles.modal}
-                        >
-                          <AllBidList id={product._id} />
-                        </Modal>
-                      </Portal>
+
+                    </>
+                  )}
+                  {product.productType === "Bidding Item" &&
+                    product.userId._id === userInfo._id && <><Portal>
+                      <Modal
+                        visible={visible}
+                        onDismiss={showModal}
+                        contentContainerStyle={styles.modal}
+                      >
+                        <AllBidList id={product._id} />
+                      </Modal>
+                    </Portal>
                       <Button
                         style={{
                           borderWidth: 1,
@@ -218,10 +222,7 @@ const Product = ({ route, navigation }) => {
                         onPress={showModal}
                       >
                         View Bids
-                      </Button>
-                    </>
-                  )}
-
+                      </Button></>}
                   <Text style={styles.description}>{product.description}</Text>
                   <View style={styles.sellerContainer}>
                     <View style={styles.sellerDetails}>
@@ -263,6 +264,7 @@ const Product = ({ route, navigation }) => {
                   </View>
                 </View>
               }
+              showsVerticalScrollIndicator={false}
             />
           </View>
         </PaperProvider>
