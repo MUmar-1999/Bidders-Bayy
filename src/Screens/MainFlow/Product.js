@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  FlatList,
 } from "react-native";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -17,8 +18,10 @@ import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { BASE_URL } from "../../api/BidderApi";
-import { Modal, Portal, Button, PaperProvider } from 'react-native-paper';
+import { Modal, Portal, Button, PaperProvider } from "react-native-paper";
 import AllBidList from "../../Components/AllBidList";
+import { Entypo } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -93,155 +96,176 @@ const Product = ({ route, navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView>
-          <PaperProvider>
-            <View style={styles.container}>
-              <Image
-                source={{
-                  uri:
-                    product.images && product.images.length > 0
-                      ? `${BASE_URL}/${product.images[0]}`
-                      : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                }}
-                style={styles.image}
-              />
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>{product.title}</Text>
-                <View style={styles.inspectionButtonContainer}>
-                  <View style={styles.inspectionButton}>
-                    <Text style={styles.buttonText}>Inspection</Text>
-                  </View>
+        <PaperProvider>
+          <View style={styles.container}>
+            <FlatList
+              data={comments}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.commentContainer}>
+                  <Text style={styles.commentText}>{item.comment}</Text>
                 </View>
-              </View>
-              {product.productType === "Bidding Item" &&
-                product.userId._id !== userInfo._id ? (
-                <View>
-                  <Text style={styles.price}>
-                    Base Price: Rs. {product.productPrice}
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      width: "100%",
-                      flexWrap: "wrap",
+              )}
+              ListHeaderComponent={
+                <View style={{ flex: 1 }}>
+                  <Image
+                    source={{
+                      uri:
+                        product.images && product.images.length > 0
+                          ? `${BASE_URL}/${product.images[0]}`
+                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
                     }}
-                  >
-                    <Text style={styles.price}>
-                      Highest Bid: Rs. {highestBid}
-                    </Text>
-                    <View
-                      style={{
-                        width: "100%",
-                      }}
-                    >
-                      <Text style={styles.time}>
-                        <MaterialCommunityIcons
-                          name="clock-outline"
-                          size={16}
-                          color="black"
-                        />{" "}
-                        6d 01:13:04
+                    style={styles.image}
+                  />
+                  <View style={styles.titleContainer}>
+                    <Text style={styles.title}>{product.title}</Text>
+                    <View style={styles.inspectionButtonContainer}>
+                      <View style={styles.inspectionButton}>
+                        <Text style={styles.buttonText}>Inspection</Text>
+                      </View>
+                    </View>
+                  </View>
+                  {product.productType === "Bidding Item" &&
+                  product.userId._id !== userInfo._id ? (
+                    <View>
+                      <Text style={styles.price}>
+                        Base Price: Rs. {product.productPrice}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "100%",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <Text style={styles.price}>
+                          Highest Bid: Rs. {highestBid}
+                        </Text>
+                        <View
+                          style={{
+                            width: "100%",
+                          }}
+                        >
+                          <Text style={styles.time}>
+                            <MaterialCommunityIcons
+                              name="clock-outline"
+                              size={16}
+                              color="black"
+                            />{" "}
+                            6d 01:13:04
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={styles.BidContainer}>
+                        <View
+                          style={{
+                            justifyContent: "flex-start",
+                            maxWidth: 100,
+                          }}
+                        >
+                          <FormInputFieldd
+                            name={"bid"}
+                            control={control}
+                            placeholder={"Enter Bid"}
+                            keyboardType={"number-pad"}
+                            rule={{
+                              required: "Bid cannot be empty.",
+                              validate: (value) =>
+                                highestBid === 0
+                                  ? value > product.productPrice ||
+                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  : value > highestBid ||
+                                    `Bid must be greater than Rs.${highestBid}`,
+                            }}
+                          />
+                        </View>
+                        <TouchableOpacity
+                          style={styles.bidButton}
+                          onPress={handleSubmit(handlePlaceBid)}
+                        >
+                          <Text style={styles.bidButtonText}>Place Bid</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ) : (
+                    <>
+                      <Text style={styles.price}>
+                        Price: Rs. {product.productPrice}
+                      </Text>
+                      <View style={{ flexDirection: "row", marginTop: 8 }}>
+                        <Entypo name="edit" size={24} color="black" />
+                        <MaterialIcons name="delete" size={24} color="black" />
+                      </View>
+
+                      <Portal>
+                        <Modal
+                          visible={visible}
+                          onDismiss={showModal}
+                          contentContainerStyle={styles.modal}
+                        >
+                          <AllBidList id={product._id} />
+                        </Modal>
+                      </Portal>
+                      <Button
+                        style={{
+                          borderWidth: 1,
+                          borderColor: "black",
+                          borderRadius: 5,
+                          marginTop: 5,
+                        }}
+                        onPress={showModal}
+                      >
+                        View Bids
+                      </Button>
+                    </>
+                  )}
+
+                  <Text style={styles.description}>{product.description}</Text>
+                  <View style={styles.sellerContainer}>
+                    <View style={styles.sellerDetails}>
+                      <Image
+                        source={require("../../Images/name.png")}
+                        style={styles.sellerNameIcon}
+                      />
+                      <Text
+                        style={styles.sellerName}
+                        onPress={() => handleSellerPress(product)}
+                      >
+                        {product.userId.firstName} {product.userId.lastName}
                       </Text>
                     </View>
-                  </View>
-                  <View style={styles.BidContainer}>
-                    <View
-                      style={{
-                        justifyContent: "flex-start",
-                        maxWidth: 100,
-                      }}
-                    >
-                      <FormInputFieldd
-                        name={"bid"}
-                        control={control}
-                        placeholder={"Enter Bid"}
-                        keyboardType={"number-pad"}
-                        rule={{
-                          required: "Bid cannot be empty.",
-                          validate: (value) =>
-                            highestBid === 0
-                              ? value > product.productPrice ||
-                              `Bid must be greater than Rs.${product.productPrice}`
-                              : value > highestBid ||
-                              `Bid must be greater than Rs.${highestBid}`,
-                        }}
+                    <View style={styles.sellerDetails}>
+                      <Image
+                        source={require("../../Images/phone.png")}
+                        style={styles.sellerPhoneIcon}
                       />
+                      <Text style={styles.sellerPhone}>
+                        {product.userId.phoneNo}
+                      </Text>
                     </View>
-                    <TouchableOpacity
-                      style={styles.bidButton}
-                      onPress={handleSubmit(handlePlaceBid)}
-                    >
-                      <Text style={styles.bidButtonText}>Place Bid</Text>
-                    </TouchableOpacity>
+                    <View style={styles.commentContainer}>
+                      <TextInput
+                        style={styles.commentInput}
+                        placeholder="Add a comment"
+                        value={comment}
+                        onChangeText={setComment}
+                      />
+                      <TouchableOpacity
+                        style={styles.commentButton}
+                        onPress={() => handleComment(product._id, comment)}
+                      >
+                        <Text style={styles.commentButtonText}>Post</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={styles.commentTitle}>Comments:</Text>
                   </View>
                 </View>
-              ) : (
-                <>
-                  <Text style={styles.price}>
-                    Price: Rs. {product.productPrice}
-                  </Text>
-
-                  <Portal>
-                    <Modal visible={visible} onDismiss={showModal} contentContainerStyle={styles.modal} >
-                      <AllBidList id={product._id} />
-                    </Modal>
-                  </Portal>
-                  <Button style={{ marginTop: 30 }} onPress={showModal}>
-                    View Bids
-                  </Button>
-
-                </>
-              )}
-
-              <Text style={styles.description}>{product.description}</Text>
-              <View style={styles.sellerContainer}>
-                <View style={styles.sellerDetails}>
-                  <Image
-                    source={require("../../Images/name.png")}
-                    style={styles.sellerNameIcon}
-                  />
-                  <Text
-                    style={styles.sellerName}
-                    onPress={() => handleSellerPress(product)}
-                  >
-                    {product.userId.firstName} {product.userId.lastName}
-                  </Text>
-                </View>
-                <View style={styles.sellerDetails}>
-                  <Image
-                    source={require("../../Images/phone.png")}
-                    style={styles.sellerPhoneIcon}
-                  />
-                  <Text style={styles.sellerPhone}>{product.userId.phoneNo}</Text>
-                </View>
-
-                <View style={styles.commentContainer}>
-                  <TextInput
-                    style={styles.commentInput}
-                    placeholder="Add a comment"
-                    value={comment}
-                    onChangeText={setComment}
-                  />
-                  <TouchableOpacity
-                    style={styles.commentButton}
-                    onPress={() => handleComment(product._id, comment)}
-                  >
-                    <Text style={styles.commentButtonText}>Post</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <Text style={styles.commentTitle}>Comments:</Text>
-                {comments.map((c, index) => (
-                  <Text key={index} style={styles.comment}>
-                    {c.comment}
-                  </Text>
-                ))}
-              </View>
-            </View>
-          </PaperProvider>
-        </ScrollView>
+              }
+            />
+          </View>
+        </PaperProvider>
       </KeyboardAvoidingView>
     </SafeArea>
   );
@@ -249,8 +273,6 @@ const Product = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
     paddingHorizontal: 20,
     paddingTop: 10,
     backgroundColor: Color.white,
@@ -320,6 +342,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 10,
     marginRight: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E0E0E0",
   },
   BidContainer: {
     flexDirection: "row",
@@ -365,6 +389,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
   },
+  commentText: {
+    fontSize: 16,
+    color: "#333333",
+    marginBottom: 8,
+  },
   comment: {
     fontSize: 16,
     marginTop: 10,
@@ -399,15 +428,15 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     alignItems: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     padding: 20,
-    backgroundColor: Color.black,
+    backgroundColor: "white",
     maxHeight: 400,
     width: "90%",
     borderRadius: 20,
-  }
+  },
 });
 
 export default Product;
