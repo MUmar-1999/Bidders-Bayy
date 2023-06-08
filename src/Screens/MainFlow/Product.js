@@ -23,6 +23,7 @@ import AllBidList from "../../Components/AllBidList";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import Comment from "../../Components/Comment";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -104,12 +105,10 @@ const Product = ({ route, navigation }) => {
         <PaperProvider>
           <View style={styles.container}>
             <FlatList
-              data={comments}
+              data={comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <View style={styles.commentContainer}>
-                  <Text style={styles.commentText}>{item.comment}</Text>
-                </View>
+                <Comment item={item} />
               )}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
@@ -131,7 +130,7 @@ const Product = ({ route, navigation }) => {
                     </View>
                   </View>
                   {product.productType === "Bidding Item" &&
-                  product.userId._id !== userInfo._id ? (
+                    product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -180,9 +179,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                    `Bid must be greater than Rs.${highestBid}`,
+                                  `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -199,18 +198,19 @@ const Product = ({ route, navigation }) => {
                       <Text style={styles.price}>
                         Price: Rs. {product.productPrice}
                       </Text>
-                      <View style={{ flexDirection: "row", marginTop: 8 }}>
-                        <Entypo name="edit" size={24} color="black" />
-                        <MaterialIcons name="delete" size={24} color="black" />
-                        <FontAwesome5
-                          name="dollar-sign"
-                          size={24}
-                          color="black"
-                          onPress={() => featurePress(product)}
-                        />
-                      </View>
+
                     </>
                   )}
+                  {product.userId._id === userInfo._id && <View style={{ flexDirection: "row", marginTop: 8 }}>
+                    <Entypo name="edit" size={24} color="black" />
+                    <MaterialIcons name="delete" size={24} color="black" />
+                    <FontAwesome5
+                      name="dollar-sign"
+                      size={24}
+                      color="black"
+                      onPress={() => featurePress(product)}
+                    />
+                  </View>}
                   {product.productType === "Bidding Item" &&
                     product.userId._id === userInfo._id && (
                       <>
