@@ -22,6 +22,7 @@ import { Modal, Portal, Button, PaperProvider } from "react-native-paper";
 import AllBidList from "../../Components/AllBidList";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -63,6 +64,10 @@ const Product = ({ route, navigation }) => {
   };
   const handleSellerPress = (sellerProfile) => {
     navigation.navigate("SellerProfile", { sellerProfile });
+  };
+
+  const featurePress = (featurePost) => {
+    navigation.navigate("FeaturePost", { featurePost });
   };
 
   async function handlePlaceBid({ bid }) {
@@ -126,7 +131,7 @@ const Product = ({ route, navigation }) => {
                     </View>
                   </View>
                   {product.productType === "Bidding Item" &&
-                    product.userId._id !== userInfo._id ? (
+                  product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -175,9 +180,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                  `Bid must be greater than Rs.${product.productPrice}`
+                                    `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                  `Bid must be greater than Rs.${highestBid}`,
+                                    `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -197,32 +202,40 @@ const Product = ({ route, navigation }) => {
                       <View style={{ flexDirection: "row", marginTop: 8 }}>
                         <Entypo name="edit" size={24} color="black" />
                         <MaterialIcons name="delete" size={24} color="black" />
+                        <FontAwesome5
+                          name="dollar-sign"
+                          size={24}
+                          color="black"
+                          onPress={() => featurePress(product)}
+                        />
                       </View>
-
-
                     </>
                   )}
                   {product.productType === "Bidding Item" &&
-                    product.userId._id === userInfo._id && <><Portal>
-                      <Modal
-                        visible={visible}
-                        onDismiss={showModal}
-                        contentContainerStyle={styles.modal}
-                      >
-                        <AllBidList id={product._id} />
-                      </Modal>
-                    </Portal>
-                      <Button
-                        style={{
-                          borderWidth: 1,
-                          borderColor: "black",
-                          borderRadius: 5,
-                          marginTop: 5,
-                        }}
-                        onPress={showModal}
-                      >
-                        View Bids
-                      </Button></>}
+                    product.userId._id === userInfo._id && (
+                      <>
+                        <Portal>
+                          <Modal
+                            visible={visible}
+                            onDismiss={showModal}
+                            contentContainerStyle={styles.modal}
+                          >
+                            <AllBidList id={product._id} />
+                          </Modal>
+                        </Portal>
+                        <Button
+                          style={{
+                            borderWidth: 1,
+                            borderColor: "black",
+                            borderRadius: 5,
+                            marginTop: 5,
+                          }}
+                          onPress={showModal}
+                        >
+                          View Bids
+                        </Button>
+                      </>
+                    )}
                   <Text style={styles.description}>{product.description}</Text>
                   <View style={styles.sellerContainer}>
                     <View style={styles.sellerDetails}>

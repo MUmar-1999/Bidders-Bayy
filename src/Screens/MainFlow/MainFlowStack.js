@@ -12,6 +12,7 @@ import SellerProfile from "./SellerProfile";
 import BecomeSeller from "./BecomeSeller";
 import { Color } from "../../Components/Shared/Color";
 import { FontAwesome5, Feather, Fontisto, Ionicons } from "@expo/vector-icons";
+import FeaturePost from "./FeaturePost";
 
 const HomeStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -103,6 +104,7 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="BidProduct" component={BidProduct} />
     <HomeStack.Screen name="FixProduct" component={FixProduct} />
     <HomeStack.Screen name="SellerProfile" component={SellerProfile} />
+    <HomeStack.Screen name="FeaturePost" component={FeaturePost} />
   </HomeStack.Navigator>
 );
 
