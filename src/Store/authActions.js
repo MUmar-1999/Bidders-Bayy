@@ -136,7 +136,6 @@ export const verifyOTP = createAsyncThunk(
         email,
         OTP,
       });
-      console.log("OTP:::", data);
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -146,3 +145,24 @@ export const verifyOTP = createAsyncThunk(
     }
   }
 );
+
+export const passChange = createAsyncThunk(
+  "auth/pass-change",
+  async ({ email, password, rePassword }, { rejectWithValue }) => {
+    try {
+      const { data } = await BidderApi.post("/forget_password/reset-password", {
+        email,
+        password,
+        rePassword
+      });
+      console.log("REPASS:::", data);
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue("Something went wrong. Try again!");
+      }
+    }
+  }
+);
+

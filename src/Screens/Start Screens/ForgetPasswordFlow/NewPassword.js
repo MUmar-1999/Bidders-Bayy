@@ -3,58 +3,71 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetSuccess } from '../../../Store/authSlice';
-import { verifyOTP } from '../../../Store/authActions';
+import { passChange } from '../../../Store/authActions';
 
 import { Color } from '../../../Components/Shared/Color';
 import SafeArea from '../../../Components/Shared/SafeArea';
-import OTPInput from "../../../Components/StartFlow/OTPInput";
 import PrimaryButton from '../../../Components/PrimaryButton';
 import ErrorMessage from '../../../Components/ErrorMessage';
+import FormInputField from '../../../Components/FormInputField';
 
-function OTPScreen({ route, navigation }) {
+function NewPassword({ route, navigation }) {
     const dispatch = useDispatch();
-    const { e } = route.params;
-    const { control, handleSubmit } = useForm();
+    const { email } = route.params;
+    const { control, handleSubmit, watch } = useForm();
+    const pwd = watch("password");
     const { loading, error, success } = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (success) {
             dispatch(resetSuccess());
-            navigation.navigate("NewPassword", {
-                email: e
-            });
+            navigation.navigate("Login");
         }
     }, [success]);
 
-    function onVerifyPress(data) {
-        console.log("OTPSCreem:::", data);
-        dispatch(verifyOTP({ email: e, OTP: data.OTP }))
+    function onConfirmPress(data) {
+        console.log("PASScreem:::", data);
+        dispatch(passChange({ email, password: data.password, rePassword: data.rePassword }))
     }
 
     return (
         <SafeArea>
             <View style={styles.container}>
-                <Text style={styles.title}>Enter OTP</Text>
+                <Text style={styles.title}>Enter New Password</Text>
                 <Text style={styles.text}>
-                    To change your password code, please enter the OTP sent to your email.
+                    Please enter your new password in both feilds.
                 </Text>
-                <OTPInput
-                    title={'Enter OTP:'}
-                    name={'OTP'}
-                    max={6}
+                <FormInputField
+                    name={"password"}
+                    placeholder={"Password"}
                     control={control}
+                    icon={require("../../../Images/password.png")}
+                    secureTextEntry
                     rule={{
-                        required: 'OTP cannot be empty.',
+                        required: "Password cannot be empty.",
                         minLength: {
-                            value: 6,
-                            message: 'OTP must contain 6 digits.',
+                            value: 3,
+                            message: "Password must contain 3 characters.",
                         },
                         maxLength: {
-                            value: 6,
-                            message: 'OTP cannot be more than 6 digits.',
+                            value: 15,
+                            message: "Password cannot be more than 15 characters.",
                         },
                     }}
                 />
+
+                <FormInputField
+                    name={"rePassword"}
+                    placeholder={"Confirm Password"}
+                    control={control}
+                    icon={require("../../../Images/password.png")}
+                    secureTextEntry
+                    rule={{
+                        required: "Password cannot be empty.",
+                        validate: (value) => value === pwd || "Password do not match.",
+                    }}
+                />
+
                 {error && <ErrorMessage err={error} />}
             </View>
 
@@ -62,9 +75,9 @@ function OTPScreen({ route, navigation }) {
 
             <View style={{ paddingBottom: 30 }}>
                 <PrimaryButton
-                    title={'Verify'}
+                    title={'Confirm'}
                     disabled={loading}
-                    onPress={handleSubmit(onVerifyPress)}
+                    onPress={handleSubmit(onConfirmPress)}
                 />
             </View>
 
@@ -72,7 +85,7 @@ function OTPScreen({ route, navigation }) {
     );
 }
 
-export default OTPScreen;
+export default NewPassword;
 
 const styles = StyleSheet.create({
     container: {

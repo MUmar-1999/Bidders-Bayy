@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, login, getAuthToken, update, forgetPassword, verifyOTP } from './authActions';
+import { register, login, getAuthToken, update, forgetPassword, verifyOTP, passChange } from './authActions';
 import { deleteItemAsync } from 'expo-secure-store';
 
 const initialState = {
@@ -99,6 +99,17 @@ const authSlice = createSlice({
         state.success = true;
       })
       .addCase(verifyOTP.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      }).addCase(passChange.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(passChange.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+      })
+      .addCase(passChange.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload;
       });

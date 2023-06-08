@@ -6,6 +6,7 @@ import Register from "./Register";
 import Home from "../MainFlow/Home";
 import ForgetPass from "./ForgetPasswordFlow/ForgetPass";
 import OTPScreen from "./ForgetPasswordFlow/OTPScreen";
+import NewPassword from "./ForgetPasswordFlow/NewPassword";
 
 const StartScreens = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default StartScreenStack = () => {
       <StartScreens.Screen name="Home" component={Home} />
       <StartScreens.Screen name="ForgetPass" component={ForgetPass} />
       <StartScreens.Screen name="OTPscreen" component={OTPScreen} />
+      <StartScreens.Screen name="NewPassword" component={NewPassword} />
     </StartScreens.Navigator>
   );
 };
