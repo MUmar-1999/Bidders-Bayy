@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 
 function AllBidList({ id }) {
-  const [allBid, setAllBid] = useState([]);
+  const [allBid, setAllBid] = useState({ success: false });
   useEffect(() => {
     getBidData();
   }, []);
@@ -14,19 +14,22 @@ function AllBidList({ id }) {
       const { data } = await BidderApi(`/bidding/${id}`);
       // const { data } = await BidderApi(`/bidding/6463bb3d82ce9b8ab4774c92`);
       console.log("ALLBID:::", data);
-      setAllBid(data.allBidsOfPost);
+      setAllBid(data);
     } catch (err) {
       console.error("ALLBID:::", err);
     }
   }
   function renderBid({ item }) {
-    return <Text>{item.bidingPrice}</Text>;
+    return <Text style={{ color: "white" }}>{item.bidingPrice}</Text>;
   }
   function renderEmpty() {
     return (
       <View style={styles.indicatorContainer}>
-        <ActivityIndicator size="large" color={Color.white} />
-      </View>
+        {(allBid.success && allBid.allBidsOfPost.length === 0) ?
+          <Text style={{ color: "white" }}>NO BIDS</Text> :
+          <ActivityIndicator size="large" color={Color.white} />
+        }
+      </View >
     );
   }
   return (
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 26,
-    color: Color.black,
+    color: Color.white,
   },
   indicatorContainer: {
     justifyContent: "center",
