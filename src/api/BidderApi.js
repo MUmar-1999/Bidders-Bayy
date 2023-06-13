@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getItemAsync } from "expo-secure-store";
 
-export const BASE_URL = "http://api.biddersbay.online";
+export const BASE_URL = "http:192.168.10.2:5000";
 
 export default BidderApi = axios.create({
   baseURL: BASE_URL,

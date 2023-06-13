@@ -24,6 +24,7 @@ import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Comment from "../../Components/Comment";
+import { AntDesign } from "@expo/vector-icons";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -105,11 +106,11 @@ const Product = ({ route, navigation }) => {
         <PaperProvider>
           <View style={styles.container}>
             <FlatList
-              data={comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <Comment item={item} />
+              data={comments.sort(
+                (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
               )}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => <Comment item={item} />}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
                   <Image
@@ -123,6 +124,14 @@ const Product = ({ route, navigation }) => {
                   />
                   <View style={styles.titleContainer}>
                     <Text style={styles.title}>{product.title}</Text>
+                    {product.userId._id === userInfo._id && (
+                      <FontAwesome5
+                        name="dollar-sign"
+                        size={24}
+                        color="black"
+                        onPress={() => featurePress(product)}
+                      />
+                    )}
                     <View style={styles.inspectionButtonContainer}>
                       <View style={styles.inspectionButton}>
                         <Text style={styles.buttonText}>Inspection</Text>
@@ -130,7 +139,7 @@ const Product = ({ route, navigation }) => {
                     </View>
                   </View>
                   {product.productType === "Bidding Item" &&
-                    product.userId._id !== userInfo._id ? (
+                  product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -179,9 +188,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                  `Bid must be greater than Rs.${product.productPrice}`
+                                    `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                  `Bid must be greater than Rs.${highestBid}`,
+                                    `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -198,19 +207,20 @@ const Product = ({ route, navigation }) => {
                       <Text style={styles.price}>
                         Price: Rs. {product.productPrice}
                       </Text>
-
                     </>
                   )}
-                  {product.userId._id === userInfo._id && <View style={{ flexDirection: "row", marginTop: 8 }}>
-                    <Entypo name="edit" size={24} color="black" />
-                    <MaterialIcons name="delete" size={24} color="black" />
-                    <FontAwesome5
-                      name="dollar-sign"
-                      size={24}
-                      color="black"
-                      onPress={() => featurePress(product)}
-                    />
-                  </View>}
+                  {product.userId._id === userInfo._id && (
+                    <View style={{ flexDirection: "row", marginTop: 8 }}>
+                      <TouchableOpacity style={styles.uploadButton}>
+                        <Entypo name="edit" size={18} color="white" />
+                        <Text style={styles.uploadButtonText}>Edit</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.uploadButton}>
+                        <MaterialIcons name="delete" size={18} color="white" />
+                        <Text style={styles.uploadButtonText}>Delete</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
                   {product.productType === "Bidding Item" &&
                     product.userId._id === userInfo._id && (
                       <>
@@ -225,6 +235,7 @@ const Product = ({ route, navigation }) => {
                         </Portal>
                         <Button
                           style={{
+                            color: "black",
                             borderWidth: 1,
                             borderColor: "black",
                             borderRadius: 5,
@@ -451,6 +462,25 @@ const styles = StyleSheet.create({
     maxHeight: 400,
     width: "90%",
     borderRadius: 20,
+  },
+  uploadButton: {
+    marginLeft: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Color.black,
+    borderRadius: 10,
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    width: "40%",
+    height: 35,
+  },
+  uploadButtonText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Color.white,
+    marginLeft: 10,
   },
 });
 
