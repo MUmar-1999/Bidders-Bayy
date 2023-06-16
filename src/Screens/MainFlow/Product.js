@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inspectionButton: {
-    backgroundColor: Color.black,
+    backgroundColor: Color.grey,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
@@ -336,12 +336,13 @@ const styles = StyleSheet.create({
   },
   inspectionButtonContainer: {
     width: 100,
+    justifyContent: "flex-start",
   },
   buttonText: {
     alignSelf: "center",
     color: Color.white,
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 12,
   },
   price: {
     fontSize: 16,
@@ -359,6 +360,7 @@ const styles = StyleSheet.create({
 
   description: {
     fontSize: 16,
+    fontWeight: "500",
     marginTop: 15,
     textAlign: "left",
   },
@@ -382,7 +384,7 @@ const styles = StyleSheet.create({
     marginTop: -15,
   },
   bidButton: {
-    backgroundColor: "black",
+    backgroundColor: Color.grey,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -392,7 +394,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   bidButtonText: {
-    color: "#fff",
+    color: Color.white,
     fontWeight: "bold",
     fontSize: 16,
   },
@@ -406,13 +408,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   commentButton: {
-    backgroundColor: "black",
+    backgroundColor: Color.grey,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
   },
   commentButtonText: {
-    color: "white",
+    color: Color.white,
     fontWeight: "bold",
     fontSize: 16,
   },
