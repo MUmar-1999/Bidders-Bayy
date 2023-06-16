@@ -124,19 +124,24 @@ const Product = ({ route, navigation }) => {
                   />
                   <View style={styles.titleContainer}>
                     <Text style={styles.title}>{product.title}</Text>
-                    {product.userId._id === userInfo._id && (
-                      <FontAwesome5
-                        name="dollar-sign"
-                        size={24}
-                        color="black"
-                        onPress={() => featurePress(product)}
-                      />
-                    )}
-                    <View style={styles.inspectionButtonContainer}>
-                      <View style={styles.inspectionButton}>
-                        <Text style={styles.buttonText}>Inspection</Text>
+                    {product.userId._id === userInfo._id ? (
+                      <View style={styles.inspectionButtonContainer}>
+                        <View style={styles.inspectionButton}>
+                          <Text
+                            style={styles.buttonText}
+                            onPress={() => featurePress(product)}
+                          >
+                            Feature Post
+                          </Text>
+                        </View>
                       </View>
-                    </View>
+                    ) : (
+                      <View style={styles.inspectionButtonContainer}>
+                        <View style={styles.inspectionButton}>
+                          <Text style={styles.buttonText}>Inspection</Text>
+                        </View>
+                      </View>
+                    )}
                   </View>
                   {product.productType === "Bidding Item" &&
                   product.userId._id !== userInfo._id ? (
@@ -323,7 +328,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inspectionButton: {
-    backgroundColor: "black",
+    backgroundColor: Color.black,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
@@ -333,7 +338,8 @@ const styles = StyleSheet.create({
     width: 100,
   },
   buttonText: {
-    color: "white",
+    alignSelf: "center",
+    color: Color.white,
     fontWeight: "bold",
     fontSize: 16,
   },
