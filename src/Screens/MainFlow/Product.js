@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inspectionButton: {
-    backgroundColor: Color.grey,
+    backgroundColor: Color.black,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   commentButton: {
-    backgroundColor: Color.grey,
+    backgroundColor: Color.black,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
