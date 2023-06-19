@@ -71,6 +71,9 @@ const Product = ({ route, navigation }) => {
   const featurePress = (featurePost) => {
     navigation.navigate("FeaturePost", { featurePost });
   };
+  const inspectionPress = (Inspection) => {
+    navigation.navigate("Inspection", { Inspection });
+  };
 
   async function handlePlaceBid({ bid }) {
     try {
@@ -138,7 +141,12 @@ const Product = ({ route, navigation }) => {
                     ) : (
                       <View style={styles.inspectionButtonContainer}>
                         <View style={styles.inspectionButton}>
-                          <Text style={styles.buttonText}>Inspection</Text>
+                          <Text
+                            style={styles.buttonText}
+                            onPress={() => inspectionPress(product)}
+                          >
+                            Inspection
+                          </Text>
                         </View>
                       </View>
                     )}
@@ -384,7 +392,7 @@ const styles = StyleSheet.create({
     marginTop: -15,
   },
   bidButton: {
-    backgroundColor: Color.grey,
+    backgroundColor: Color.black,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",

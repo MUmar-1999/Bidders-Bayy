@@ -4,9 +4,10 @@ import { AntDesign } from "@expo/vector-icons";
 import PrimaryButton from "../../Components/PrimaryButton";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
+import { useForm } from "react-hook-form";
 
 const FeaturePost = () => {
-  const handleUploadImage = () => {};
+  const { control, handleSubmit } = useForm();
 
   return (
     <SafeArea>
@@ -29,10 +30,7 @@ const FeaturePost = () => {
           After transferring money to the above account, please attach the
           payment proof screenshot before applying
         </Text>
-        <TouchableOpacity
-          style={styles.uploadButton}
-          onPress={handleUploadImage}
-        >
+        <TouchableOpacity style={styles.uploadButton}>
           <AntDesign name="upload" size={24} color="white" />
           <Text style={styles.uploadButtonText}>Upload Image</Text>
         </TouchableOpacity>
