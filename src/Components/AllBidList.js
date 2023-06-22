@@ -13,25 +13,37 @@ function AllBidList({ id }) {
     try {
       const { data } = await BidderApi(`/bidding/${id}`);
       // const { data } = await BidderApi(`/bidding/6463bb3d82ce9b8ab4774c92`);
-      console.log("ALLBID:::", data);
-      setAllBid(data);
+      console.log("ALLBID:::", data.allBidsOfPost);
+      setAllBid(data.allBidsOfPost);
     } catch (err) {
       console.error("ALLBID:::", err);
     }
   }
   function renderBid({ item }) {
-    return <Text style={{ color: "white" }}>{item.bidingPrice}</Text>;
+    return (
+      <View style={{ flexDirection: "row" }}>
+        <Text style={{ color: "white" }}>
+          {item.userId.firstName} {item.userId.lastName}
+        </Text>
+        <Text style={{ color: "white" }}> {item.bidingPrice}</Text>
+        <Text style={{ color: "white" }}> {item.userId.phoneNo}</Text>
+      </View>
+    );
   }
   function renderEmpty() {
     return (
       <View style={styles.indicatorContainer}>
-        {(allBid.success && allBid.allBidsOfPost.length === 0) ?
-          <Text style={{ color: "white" }}>NO BIDS</Text> :
+        {allBid.success && allBid.allBidsOfPost.length == 0 ? (
+          <Text style={{ color: "white" }}>NO BIDS</Text>
+        ) : (
           <ActivityIndicator size="large" color={Color.white} />
-        }
-      </View >
+        )}
+      </View>
     );
   }
+  useEffect(() => {
+    console.log("ALL BID DATA", allBid);
+  }, [allBid]);
   return (
     <>
       <Text style={styles.title}>All Bids</Text>

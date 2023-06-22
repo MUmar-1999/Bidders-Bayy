@@ -25,10 +25,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Comment from "../../Components/Comment";
 import { AntDesign } from "@expo/vector-icons";
+import Count from "../../Components/Count";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
   const { product } = route.params;
+  console.log("Nice jee", product.createdAt);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
@@ -180,7 +182,7 @@ const Product = ({ route, navigation }) => {
                               size={16}
                               color="black"
                             />{" "}
-                            6d 01:13:04
+                            <Count time={product.createdAt} />
                           </Text>
                         </View>
                       </View>
