@@ -6,7 +6,7 @@ import { normalizeImage } from "../Utils/functions";
 import { useEffect } from "react";
 import { useState } from "react";
 
-function Card({ item }) {
+function Card({ item, isFeatured }) {
   const MAX_TITLE_LENGTH = 12;
   const truncatedTitle =
     item.title.length > MAX_TITLE_LENGTH
@@ -68,6 +68,11 @@ function Card({ item }) {
         />
       </View>
       <View style={styles.textContainer}>
+        {isFeatured && (
+          <View style={styles.featuredContainer}>
+            <Text style={styles.featuredText}>FEATURED</Text>
+          </View>
+        )}
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View style={{ width: "92%" }}>
             <Text style={styles.titleText}>{truncatedTitle}</Text>
@@ -139,5 +144,20 @@ const styles = StyleSheet.create({
   cityText: {
     fontSize: 12,
     color: "#aaa",
+  },
+
+  featuredContainer: {
+    position: "absolute",
+    top: -25,
+    right: 5,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  featuredText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Color.black,
   },
 });

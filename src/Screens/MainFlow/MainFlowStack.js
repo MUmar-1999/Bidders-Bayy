@@ -5,7 +5,7 @@ import Profile from "./Profile";
 import List from "./List";
 import BidProduct from "./BidProduct";
 import FixProduct from "./FixProduct";
-import MyProducts from "./MyProducts";
+
 import Favorite from "./Favorite";
 import Product from "./Product";
 import SellerProfile from "./SellerProfile";

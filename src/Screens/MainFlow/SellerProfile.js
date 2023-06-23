@@ -59,7 +59,9 @@ const SellerProfile = ({ route, navigation }) => {
           <>
             <View style={styles.container}>
               <Image
-                source={{ uri: normalizeImage(sellerProfile.userId.dp || "/dp") }}
+                source={{
+                  uri: normalizeImage(sellerProfile.userId.dp || "/dp"),
+                }}
                 style={styles.profileImage}
               />
 
@@ -85,7 +87,7 @@ const SellerProfile = ({ route, navigation }) => {
             </Text>
           </>
         }
-        renderItem={({ item }) => <Card item={item} />}
+        renderItem={({ item }) => <Card item={item} isFeatured={true} />}
       />
     </SafeArea>
   );

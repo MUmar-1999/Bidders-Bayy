@@ -13,17 +13,21 @@ import { Color } from "../../Components/Shared/Color";
 import { BASE_URL } from "../../api/BidderApi";
 import FormInputF from "../../Components/FormInputF";
 
-const EditPost = ({ navigation }) => {
+const EditPost = ({ route, navigation }) => {
+  const { EditPost } = route.params;
+  console.log("nice post", EditPost);
   const {
     userInfo: { role },
   } = useSelector((state) => state.auth);
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
-  const { control, handleSubmit, reset } = useForm();
+  const { control, handleSubmit, reset } = useForm(EditPost);
+  const { basePrice, setBasePrice } = useState(44);
+  console.log("nojee", control.description);
   const [dataForm, setDataForm] = useState({
-    subcategoryId: "",
-    productType: "",
+    subcategoryId: EditPost.subcategoryId,
+    productType: EditPost.productType,
     product_picture: [],
   });
 
@@ -31,6 +35,9 @@ const EditPost = ({ navigation }) => {
     axios.get(`${BASE_URL}/category/`).then(function (response) {
       setCategory(response.data.data.allCategory);
     });
+    const x = parseInt(EditPost.productPrice, 10);
+    console.log("gag", x);
+    // setBasePrice(x);
   }, []);
 
   const handleSubCategory = (value) => {
@@ -184,6 +191,7 @@ const EditPost = ({ navigation }) => {
 
           <Text style={styles.label}>Title:</Text>
           <FormInputF
+            Values={EditPost.title}
             name={"title"}
             control={control}
             rule={{
@@ -193,6 +201,7 @@ const EditPost = ({ navigation }) => {
 
           <Text style={styles.label}>Description:</Text>
           <FormInputF
+            Values={EditPost.description}
             name={"description"}
             control={control}
             rule={{
@@ -204,6 +213,7 @@ const EditPost = ({ navigation }) => {
             {dataForm.productType === "Bidding Item" ? "Base Price:" : "Price:"}
           </Text>
           <FormInputF
+            Values={EditPost.productPrice}
             name={"productPrice"}
             keyboardType="numeric"
             control={control}

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   data: {
     color: "white",
-    marginRight: 5,
+    marginRight: 25,
   },
   label: {
     fontWeight: "bold",

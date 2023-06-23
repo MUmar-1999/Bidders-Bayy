@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
+  useEffect,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Color } from "./Shared/Color";
 import Slider from "@react-native-community/slider";
+import { Picker } from "@react-native-picker/picker";
 function SearchBar({ onChange }) {
   const [search, setSearch] = useState("");
 
@@ -22,6 +24,7 @@ function SearchBar({ onChange }) {
   };
   const [showPopup, setShowPopup] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 10000000]);
+  const [subCategoryData, setSubCategoryData] = useState(null);
 
   const handleButtonPress = () => {
     setShowPopup(true);
@@ -37,6 +40,12 @@ function SearchBar({ onChange }) {
   const handlePriceRangeComplete = (values) => {
     setPriceRange(values);
   };
+
+  const [dataForm, setDataForm] = useState({
+    subcategoryId: "",
+    productType: "",
+    product_picture: [],
+  });
 
   return (
     <View style={styles.container}>
@@ -76,6 +85,30 @@ function SearchBar({ onChange }) {
               onSlidingComplete={handlePriceRangeComplete}
             />
           </View>
+          <Text style={styles.label}>Category:</Text>
+          <Picker
+            name="subcategoryId"
+            selectedValue={dataForm.subcategoryId}
+            onValueChange={(itemValue) =>
+              setDataForm((preValue) => {
+                return { ...preValue, subcategoryId: itemValue };
+              })
+            }
+            style={styles.dropdown}
+            onPress={() => console.log("hello")}
+          >
+            <Picker.Item label="Select sub Category" value="" />
+            {subCategoryData != null
+              ? subCategoryData.map((Option) => (
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
+              : null}
+          </Picker>
+
           <TouchableOpacity
             style={styles.closeButton}
             onPress={handleClosePopup}

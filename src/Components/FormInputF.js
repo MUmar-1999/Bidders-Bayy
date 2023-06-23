@@ -9,11 +9,13 @@ const FormInputF = ({
   icon,
   secureTextEntry,
   keyboardType,
+  Values,
 }) => {
   return (
     <Controller
       control={control}
       name={name}
+      defaultValue={Values}
       rules={rule}
       render={({
         field: { value, onChange, onBlur },
