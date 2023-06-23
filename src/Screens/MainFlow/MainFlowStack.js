@@ -14,6 +14,7 @@ import { Color } from "../../Components/Shared/Color";
 import { FontAwesome5, Feather, Fontisto, Ionicons } from "@expo/vector-icons";
 import FeaturePost from "./FeaturePost";
 import Inspection from "./Inspection";
+import EditPost from "./EditPost";
 
 const HomeStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -107,6 +108,7 @@ const HomeStackScreen = () => (
     <HomeStack.Screen name="SellerProfile" component={SellerProfile} />
     <HomeStack.Screen name="FeaturePost" component={FeaturePost} />
     <HomeStack.Screen name="Inspection" component={Inspection} />
+    <HomeStack.Screen name="EditPost" component={EditPost} />
   </HomeStack.Navigator>
 );
 

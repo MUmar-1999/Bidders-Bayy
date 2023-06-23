@@ -16,15 +16,12 @@ import BidderApi from "../../api/BidderApi";
 import FormInputFieldd from "../../Components/Form Control/FormInputFieldd";
 import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { BASE_URL } from "../../api/BidderApi";
 import { Modal, Portal, Button, PaperProvider } from "react-native-paper";
 import AllBidList from "../../Components/AllBidList";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import Comment from "../../Components/Comment";
-import { AntDesign } from "@expo/vector-icons";
 import Count from "../../Components/Count";
 
 const Product = ({ route, navigation }) => {
@@ -75,6 +72,9 @@ const Product = ({ route, navigation }) => {
   };
   const inspectionPress = (Inspection) => {
     navigation.navigate("Inspection", { Inspection });
+  };
+  const editPress = (EditPost) => {
+    navigation.navigate("EditPost", { EditPost });
   };
 
   async function handlePlaceBid({ bid }) {
@@ -177,11 +177,11 @@ const Product = ({ route, navigation }) => {
                           }}
                         >
                           <Text style={styles.time}>
-                            <MaterialCommunityIcons
+                            {/* <MaterialCommunityIcons
                               name="clock-outline"
                               size={16}
                               color="black"
-                            />{" "}
+                            />{" "} */}
                             <Count time={product.createdAt} />
                           </Text>
                         </View>
@@ -225,8 +225,17 @@ const Product = ({ route, navigation }) => {
                     </>
                   )}
                   {product.userId._id === userInfo._id && (
-                    <View style={{ flexDirection: "row", marginTop: 8 }}>
-                      <TouchableOpacity style={styles.uploadButton}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginTop: 8,
+                        marginBottom: -10,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => editPress(product)}
+                        style={styles.uploadButton}
+                      >
                         <Entypo name="edit" size={18} color="white" />
                         <Text style={styles.uploadButtonText}>Edit</Text>
                       </TouchableOpacity>
@@ -236,32 +245,38 @@ const Product = ({ route, navigation }) => {
                       </TouchableOpacity>
                     </View>
                   )}
-                  {product.productType === "Bidding Item" &&
-                    product.userId._id === userInfo._id && (
-                      <>
-                        <Portal>
-                          <Modal
-                            visible={visible}
-                            onDismiss={showModal}
-                            contentContainerStyle={styles.modal}
-                          >
-                            <AllBidList id={product._id} />
-                          </Modal>
-                        </Portal>
-                        <Button
-                          style={{
-                            color: "black",
-                            borderWidth: 1,
-                            borderColor: "black",
-                            borderRadius: 5,
-                            marginTop: 5,
-                          }}
-                          onPress={showModal}
+                  {product.productType === "Bidding Item" && (
+                    <>
+                      <Portal>
+                        <Modal
+                          visible={visible}
+                          onDismiss={showModal}
+                          contentContainerStyle={styles.modal}
                         >
-                          View Bids
-                        </Button>
-                      </>
-                    )}
+                          <AllBidList id={product._id} />
+                        </Modal>
+                      </Portal>
+                      <TouchableOpacity
+                        onPress={showModal}
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: Color.black,
+                          borderRadius: 10,
+                          paddingVertical: 10,
+                          paddingHorizontal: 20,
+                          marginTop: 6,
+                          width: "100%",
+                          height: 45,
+                          alignSelf: "center",
+                        }}
+                      >
+                        <Entypo name="eye" size={24} color="white" />
+                        <Text style={styles.viewBidText}>View Bids</Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
                   <Text style={styles.description}>{product.description}</Text>
                   <View style={styles.sellerContainer}>
                     <View style={styles.sellerDetails}>
@@ -371,7 +386,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     fontWeight: "500",
-    marginTop: 15,
+    marginTop: 6,
     textAlign: "left",
   },
   seller: {
@@ -391,7 +406,7 @@ const styles = StyleSheet.create({
   },
   BidContainer: {
     flexDirection: "row",
-    marginTop: -15,
+    marginTop: -30,
   },
   bidButton: {
     backgroundColor: Color.black,
@@ -495,6 +510,12 @@ const styles = StyleSheet.create({
     height: 35,
   },
   uploadButtonText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: Color.white,
+    marginLeft: 10,
+  },
+  viewBidText: {
     fontSize: 14,
     fontWeight: "bold",
     color: Color.white,

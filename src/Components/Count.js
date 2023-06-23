@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Count(props) {
   const [days, setDays] = useState(-1);
@@ -69,6 +70,11 @@ export default function Count(props) {
         <Text>Post has expired</Text>
       ) : (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <MaterialCommunityIcons
+            name="clock-outline"
+            size={16}
+            color="black"
+          />
           <Text
             style={{
               fontSize: 16,
@@ -78,6 +84,7 @@ export default function Count(props) {
               paddingVertical: 5,
             }}
           >
+            {" "}
             {days} {days === 1 ? "day" : "days"}
           </Text>
         </View>

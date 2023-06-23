@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Linking,
+} from "react-native";
 import BidderApi from "../api/BidderApi";
 import { Color } from "./Shared/Color";
 import { useEffect, useState } from "react";
@@ -19,21 +25,38 @@ function AllBidList({ id }) {
       console.error("ALLBID:::", err);
     }
   }
-  function renderBid({ item }) {
+  function renderBid({ item, index }) {
+    const handlePhoneNumberPress = () => {
+      const phoneNumber = item.userId.phoneNo;
+      Linking.openURL(`tel:${phoneNumber}`);
+    };
     return (
-      <View style={{ flexDirection: "row" }}>
-        <Text style={{ color: "white" }}>
-          {item.userId.firstName} {item.userId.lastName}
-        </Text>
-        <Text style={{ color: "white" }}> {item.bidingPrice}</Text>
-        <Text style={{ color: "white" }}> {item.userId.phoneNo}</Text>
+      <View>
+        <Text style={styles.heading}>Bid {index + 1}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.label}>Name: </Text>
+          <Text style={styles.data}>
+            {item.userId.firstName} {item.userId.lastName}
+          </Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.label}>Bid Entered: </Text>
+          <Text style={styles.data}>{item.bidingPrice}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.label}>Phone Number: </Text>
+          <Text style={styles.data} onPress={handlePhoneNumberPress}>
+            {item.userId.phoneNo}
+          </Text>
+        </View>
       </View>
     );
   }
+
   function renderEmpty() {
     return (
       <View style={styles.indicatorContainer}>
-        {allBid.success && allBid.allBidsOfPost.length == 0 ? (
+        {allBid.success && allBid.allBidsOfPost.length === 0 ? (
           <Text style={{ color: "white" }}>NO BIDS</Text>
         ) : (
           <ActivityIndicator size="large" color={Color.white} />
@@ -68,5 +91,19 @@ const styles = StyleSheet.create({
   },
   indicatorContainer: {
     justifyContent: "center",
+  },
+  heading: {
+    fontWeight: "bold",
+    color: "white",
+    marginRight: 5,
+    marginTop: 5,
+  },
+  data: {
+    color: "white",
+    marginRight: 5,
+  },
+  label: {
+    fontWeight: "bold",
+    color: "white",
   },
 });
