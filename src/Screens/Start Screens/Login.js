@@ -15,7 +15,6 @@ import ErrorMessage from "../../Components/ErrorMessage";
 import PrimaryButton from "../../Components/PrimaryButton";
 import SecondaryButton from "../../Components/SecondaryButton";
 
-import Loader from "../../Custom/Loader";
 import SafeArea from "../../Components/Shared/SafeArea";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
