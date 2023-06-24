@@ -48,36 +48,40 @@ const EditPost = ({ route, navigation }) => {
     }
   };
   const NewPost = async (data) => {
-    console.log("🚀 ~ file: EditPost.js:52 ~ NewPost ~ data:", data)
+    console.log("🚀 ~ file: EditPost.js:52 ~ NewPost ~ data:", data);
 
     let formData = new FormData();
     formData.append("title", data.title);
     formData.append("productType", dataForm.productType);
-    formData.append("subcategoryId", dataForm.subcategoryId);
+    formData.append("subcategoryId", EditPost.subcategoryId);
     formData.append("product_picture", dataForm.product_picture);
     formData.append("description", data.description);
     formData.append("productPrice", data.productPrice);
     console.log("FORMDATA:::", formData);
-    // const config = {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
-    // try {
-    //   const { data } = await BidderApi.post("/products/", formData, config);
-    //   if (data.success) {
-    //     setCategoryData("");
-    //     setDataForm({
-    //       subcategoryId: "",
-    //       productType: "",
-    //       product_picture: [],
-    //     });
-    //     reset();
-    //     navigation.navigate("Bidders Bay");
-    //   }
-    // } catch (error) {
-    //   console.log("NEWPOST ERROR:::", error);
-    // }
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    try {
+      const { data } = await BidderApi.post(
+        `/products/${EditPost._id}`,
+        formData,
+        config
+      );
+      if (data.success) {
+        setCategoryData("");
+        setDataForm({
+          subcategoryId: "",
+          productType: "",
+          product_picture: [],
+        });
+        reset();
+        navigation.navigate("Bidders Bay");
+      }
+    } catch (error) {
+      console.log("NEWPOST ERROR:::", error);
+    }
   };
 
   return (
@@ -108,12 +112,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -132,12 +136,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 

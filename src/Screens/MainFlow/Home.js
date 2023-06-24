@@ -14,15 +14,17 @@ import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
+import Card2 from "../../Components/Card2";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const getData = async () => {
     try {
-      const res = await BidderApi.get("/products/bid/");
-      setProducts(res.data.data.allProducts);
-      setFilteredProducts(res.data.data.allProducts);
+      const res = await BidderApi.get("/payment-featured/featured_post/");
+      setProducts(res.data.data);
+      setFilteredProducts(res.data.data);
+      console.log("filter", res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +101,7 @@ const Home = ({ navigation }) => {
             fontWeight: "400",
           }}
         >
-          Products
+          Feature Products
         </Text>
       </View>
     );
@@ -114,7 +116,7 @@ const Home = ({ navigation }) => {
           data={filteredProducts}
           ListHeaderComponent={Header}
           renderItem={({ item }) => {
-            return <Card item={item} />;
+            return <Card2 item={item} />;
           }}
         />
       </KeyboardAvoidingView>

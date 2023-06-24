@@ -148,9 +148,9 @@ const styles = StyleSheet.create({
 
   featuredContainer: {
     position: "absolute",
-    top: -25,
+    top: -165,
     right: 5,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    backgroundColor: "rgb(170, 255, 0)",
     borderRadius: 5,
     paddingHorizontal: 8,
     paddingVertical: 4,

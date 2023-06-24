@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   errorContainer: {
     width: "100%",
     alignSelf: "center",
-    marginBottom: -10,
+    marginBottom: -5,
     flexDirection: "row",
     paddingLeft: 10,
   },
