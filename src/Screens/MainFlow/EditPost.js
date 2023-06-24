@@ -15,7 +15,7 @@ import FormInputF from "../../Components/FormInputF";
 
 const EditPost = ({ route, navigation }) => {
   const { EditPost } = route.params;
-  console.log("nice post", EditPost);
+  console.log("nice post", JSON.stringify(EditPost, null, 2));
   const {
     userInfo: { role },
   } = useSelector((state) => state.auth);
@@ -24,7 +24,6 @@ const EditPost = ({ route, navigation }) => {
   const [subCategoryData, setSubCategoryData] = useState(null);
   const { control, handleSubmit, reset } = useForm(EditPost);
   const { basePrice, setBasePrice } = useState(44);
-  console.log("nojee", control.description);
   const [dataForm, setDataForm] = useState({
     subcategoryId: EditPost.subcategoryId,
     productType: EditPost.productType,
@@ -49,6 +48,8 @@ const EditPost = ({ route, navigation }) => {
     }
   };
   const NewPost = async (data) => {
+    console.log("🚀 ~ file: EditPost.js:52 ~ NewPost ~ data:", data)
+
     let formData = new FormData();
     formData.append("title", data.title);
     formData.append("productType", dataForm.productType);
@@ -57,72 +58,28 @@ const EditPost = ({ route, navigation }) => {
     formData.append("description", data.description);
     formData.append("productPrice", data.productPrice);
     console.log("FORMDATA:::", formData);
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-    try {
-      const { data } = await BidderApi.post("/products/", formData, config);
-      if (data.success) {
-        setCategoryData("");
-        setDataForm({
-          subcategoryId: "",
-          productType: "",
-          product_picture: [],
-        });
-        reset();
-        navigation.navigate("Bidders Bay");
-      }
-    } catch (error) {
-      console.log("NEWPOST ERROR:::", error);
-    }
-  };
-  const chooseImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: false,
-      aspect: [9, 16],
-      quality: 0.5,
-    });
-    if (
-      result &&
-      !result.canceled &&
-      result.assets &&
-      result.assets.length > 0
-    ) {
-      const pro = {
-        uri: result.assets[0].uri,
-        type: "image/jpeg",
-        name: "image.jpg",
-      };
-      setDataForm((preValue) => {
-        return { ...preValue, product_picture: pro };
-      });
-    }
+    // const config = {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
+    // try {
+    //   const { data } = await BidderApi.post("/products/", formData, config);
+    //   if (data.success) {
+    //     setCategoryData("");
+    //     setDataForm({
+    //       subcategoryId: "",
+    //       productType: "",
+    //       product_picture: [],
+    //     });
+    //     reset();
+    //     navigation.navigate("Bidders Bay");
+    //   }
+    // } catch (error) {
+    //   console.log("NEWPOST ERROR:::", error);
+    // }
   };
 
-  if (role == "buyer") {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-end",
-          alignItems: "flex-end",
-          padding: 6,
-          paddingBottom: 70,
-        }}
-      >
-        <Text style={{ fontSize: 45, fontWeight: "bold" }}>
-          Become seller to post your products
-        </Text>
-        <SecondaryButton
-          title="Go to Profile"
-          onPress={() => navigation.navigate("Profile")}
-        />
-      </View>
-    );
-  }
   return (
     <SafeArea>
       <ScrollView style={styles.container}>
@@ -142,11 +99,6 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Used Item" value="Used Item" />
           </Picker>
 
-          <View style={styles.imageUploadContainer}>
-            <Text style={styles.label}>Upload Image:</Text>
-            <Button color="black" title="Choose Image" onPress={chooseImage} />
-          </View>
-
           <Text style={styles.label}>Category:</Text>
           <Picker
             selectedValue={categoryData}
@@ -156,12 +108,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
@@ -180,12 +132,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 

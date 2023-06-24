@@ -15,10 +15,9 @@ const FormInputF = ({
     <Controller
       control={control}
       name={name}
-      defaultValue={Values}
       rules={rule}
       render={({
-        field: { value, onChange, onBlur },
+        field: { value = Values, onChange, onBlur },
         fieldState: { error },
       }) => (
         <>
@@ -27,6 +26,7 @@ const FormInputF = ({
           >
             <Image source={icon} style={{ width: 25, height: 25 }} />
             <TextInput
+              defaultValue={`${Values}`}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
