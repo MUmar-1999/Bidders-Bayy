@@ -10,7 +10,7 @@ import { Color } from "./Shared/Color";
 import { useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 
-function AllBidList({ id }) {
+function AllBidList({ id, user }) {
   const [allBid, setAllBid] = useState({ success: false });
   useEffect(() => {
     getBidData();
@@ -43,12 +43,14 @@ function AllBidList({ id }) {
           <Text style={styles.label}>Bid Entered: </Text>
           <Text style={styles.data}>{item.bidingPrice}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+
+        {user && <View style={{ flexDirection: "row" }}>
           <Text style={styles.label}>Phone Number: </Text>
           <Text style={styles.data} onPress={handlePhoneNumberPress}>
             {item.userId.phoneNo}
           </Text>
-        </View>
+        </View>}
+
       </View>
     );
   }

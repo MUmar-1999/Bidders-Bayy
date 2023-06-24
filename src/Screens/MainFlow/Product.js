@@ -154,7 +154,7 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                  product.userId._id !== userInfo._id ? (
+                    product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -203,9 +203,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                    `Bid must be greater than Rs.${highestBid}`,
+                                  `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -253,7 +253,7 @@ const Product = ({ route, navigation }) => {
                           onDismiss={showModal}
                           contentContainerStyle={styles.modal}
                         >
-                          <AllBidList id={product._id} />
+                          <AllBidList id={product._id} user={product.userId._id === userInfo._id} />
                         </Modal>
                       </Portal>
                       <TouchableOpacity
