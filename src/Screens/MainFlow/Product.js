@@ -104,6 +104,23 @@ const Product = ({ route, navigation }) => {
       console.log(error);
     }
   };
+  const HandlePostDeletion = async () => {
+    if (product.StatusOfActive == true) {
+      try {
+        const { data } = await BidderApi.put(
+          `/products/add_to_deleted/${product._id}`
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const { data } = await BidderApi.delete(`/products/${product._id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <SafeArea>
@@ -118,6 +135,10 @@ const Product = ({ route, navigation }) => {
               renderItem={({ item }) => <Comment item={item} />}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
+                  <Text>
+                    {" "}
+                    {product.StatusOfActive == true ? "Active" : "Not Active"}
+                  </Text>
                   <Image
                     source={{
                       uri:
@@ -154,7 +175,7 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                    product.userId._id !== userInfo._id ? (
+                  product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -203,9 +224,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                  `Bid must be greater than Rs.${product.productPrice}`
+                                    `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                  `Bid must be greater than Rs.${highestBid}`,
+                                    `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -239,7 +260,10 @@ const Product = ({ route, navigation }) => {
                         <Entypo name="edit" size={18} color="white" />
                         <Text style={styles.uploadButtonText}>Edit</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.uploadButton}>
+                      <TouchableOpacity
+                        onPress={HandlePostDeletion}
+                        style={styles.uploadButton}
+                      >
                         <MaterialIcons name="delete" size={18} color="white" />
                         <Text style={styles.uploadButtonText}>Delete</Text>
                       </TouchableOpacity>
@@ -253,7 +277,10 @@ const Product = ({ route, navigation }) => {
                           onDismiss={showModal}
                           contentContainerStyle={styles.modal}
                         >
-                          <AllBidList id={product._id} user={product.userId._id === userInfo._id} />
+                          <AllBidList
+                            id={product._id}
+                            user={product.userId._id === userInfo._id}
+                          />
                         </Modal>
                       </Portal>
                       <TouchableOpacity

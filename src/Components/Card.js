@@ -71,6 +71,10 @@ function Card({ item, isFeatured }) {
         {isFeatured && (
           <View style={styles.featuredContainer}>
             <Text style={styles.featuredText}>FEATURED</Text>
+            <Text>
+              {" "}
+              {item.StatusOfActive == true ? "Active" : "Not Active"}
+            </Text>
           </View>
         )}
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
