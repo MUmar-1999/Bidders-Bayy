@@ -10,7 +10,6 @@ import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
-import Card from "../../Components/Card";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";

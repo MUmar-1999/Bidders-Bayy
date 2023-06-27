@@ -23,7 +23,12 @@ function SearchBar({ onChange }) {
     onChange("");
   };
   const [showPopup, setShowPopup] = useState(false);
-  const [{ minRange, selectedRange, maxRange }, setPriceRange] = useState({ minRange: 0, selectedRange: 50000, maxRange: 100000 });
+  const [{ minRange, selectedRange, maxRange }, setPriceRange] = useState({
+    minRange: 0,
+    selectedRange: 50000,
+    maxRange: 100000,
+  });
+  const [category, setCategory] = useState(null);
   const [subCategoryData, setSubCategoryData] = useState(null);
 
   const handleButtonPress = () => {
@@ -95,24 +100,25 @@ function SearchBar({ onChange }) {
               })
             }
             style={styles.dropdown}
-            onPress={() => { }
+            onPress={
+              () => {}
               // console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
           <Picker
             selectedValue={""}
-            onValueChange={(itemValue) => { }}
+            onValueChange={(itemValue) => {}}
             mode="dropdown"
             style={styles.dropdown}
           >
@@ -198,10 +204,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   sliderContainer: {
-    width: "100%"
+    width: "100%",
   },
   dropdown: {
-    width: "100%"
-
-  }
+    width: "100%",
+  },
 });

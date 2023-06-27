@@ -25,7 +25,7 @@ const BidProduct = ({ navigation }) => {
       const res = await BidderApi.get("/products/bid/");
       setProducts(res.data.data.allProducts);
       setFilteredProducts(res.data.data.allProducts);
-      //  console.log ("chup", JSON.stringify(res.data.data.allProducts, null, 2));
+      // console.log("chup", JSON.stringify(res.data.data.allProducts, null, 2));
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +89,7 @@ const BidProduct = ({ navigation }) => {
             data={filteredProducts}
             ListHeaderComponent={Header}
             renderItem={({ item }) => {
-              return <Card item={item} />;
+              return <Card item={item} isFeatured={true} />;
             }}
           />
         ) : (

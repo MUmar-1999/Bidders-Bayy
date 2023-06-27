@@ -27,8 +27,8 @@ const EditPost = ({ route, navigation }) => {
     defaultValues: {
       title: EditPost.title,
       description: EditPost.description,
-      productPrice: `${EditPost.productPrice}`
-    }
+      productPrice: `${EditPost.productPrice}`,
+    },
   });
   const { basePrice, setBasePrice } = useState(44);
   const [dataForm, setDataForm] = useState({
@@ -119,12 +119,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -138,19 +138,20 @@ const EditPost = ({ route, navigation }) => {
               })
             }
             style={styles.dropdown}
-            onPress={() => { }
+            onPress={
+              () => {}
               //  console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 

@@ -193,11 +193,23 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                    product.userId._id !== userInfo._id ? (
+                  product.userId._id !== userInfo._id ? (
                     <View>
-                      <Text style={styles.price}>
-                        Base Price: Rs. {product.productPrice}
-                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text style={styles.price}>
+                          Base Price: Rs. {product.productPrice}
+                        </Text>
+                        <Text style={styles.date}>
+                          {product.createdAt.substring(0, 10)}
+                        </Text>
+                      </View>
+
                       <View
                         style={{
                           flexDirection: "row",
@@ -237,9 +249,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                  `Bid must be greater than Rs.${product.productPrice}`
+                                    `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                  `Bid must be greater than Rs.${highestBid}`,
+                                    `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -253,9 +265,20 @@ const Product = ({ route, navigation }) => {
                     </View>
                   ) : (
                     <>
-                      <Text style={styles.price}>
-                        Price: Rs. {product.productPrice}
-                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Text style={styles.price}>
+                          Price: Rs. {product.productPrice}
+                        </Text>
+                        <Text style={styles.date}>
+                          {product.createdAt.substring(0, 10)}
+                        </Text>
+                      </View>
                     </>
                   )}
                   {product.userId._id === userInfo._id && (
@@ -414,6 +437,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "green",
     fontWeight: "bold",
+    marginLeft: 1,
+  },
+  date: {
+    fontSize: 16,
+    color: Color.black,
+    fontWeight: "bold",
+    marginRight: 1,
   },
 
   time: {
