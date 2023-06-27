@@ -82,7 +82,7 @@ export const getAuthToken = createAsyncThunk("auth/getAuthToken", async () => {
 export const update = createAsyncThunk(
   "auth/update",
   async function ({ formData, role }, { rejectWithValue }) {
-    console.log(role);
+    // console.log(role);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -95,7 +95,7 @@ export const update = createAsyncThunk(
         formData,
         config
       );
-      console.log("UPDATEUSERINFO:::", JSON.stringify(data, null, 2));
+      // console.log("UPDATEUSERINFO:::", JSON.stringify(data, null, 2));
       await setItemAsync("user", JSON.stringify(data.data));
       return { user: data.data };
     } catch (error) {
@@ -117,7 +117,7 @@ export const forgetPassword = createAsyncThunk(
       const { data } = await BidderApi.post("/forget_password/send-otp/", {
         email
       });
-      console.log("DATA:::", data);
+      // console.log("DATA:::", data);
     } catch (error) {
       if (error.response && error.response.data.error) {
         return rejectWithValue(error.response.data.error);
@@ -155,7 +155,7 @@ export const passChange = createAsyncThunk(
         password,
         rePassword
       });
-      console.log("REPASS:::", data);
+      // console.log("REPASS:::", data);
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

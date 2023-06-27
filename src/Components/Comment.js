@@ -3,7 +3,7 @@ import { getTimeDifference, normalizeImage } from "../Utils/functions"
 import { Color } from "./Shared/Color";
 
 function Comment({ item }) {
-    console.log("Co:::", JSON.stringify(item, null, 2));
+    // console.log("Co:::", JSON.stringify(item, null, 2));
     return (
         <View style={styles.container}>
             <Image

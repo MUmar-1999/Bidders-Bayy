@@ -19,7 +19,7 @@ function AllBidList({ id, user }) {
     try {
       const { data } = await BidderApi(`/bidding/${id}`);
       // const { data } = await BidderApi(`/bidding/6463bb3d82ce9b8ab4774c92`);
-      console.log("ALLBID:::", data.allBidsOfPost);
+      // console.log("ALLBID:::", data.allBidsOfPost);
       setAllBid(data.allBidsOfPost);
     } catch (err) {
       console.error("ALLBID:::", err);
@@ -67,7 +67,7 @@ function AllBidList({ id, user }) {
     );
   }
   useEffect(() => {
-    console.log("ALL BID DATA", allBid);
+    // console.log("ALL BID DATA", allBid);
   }, [allBid]);
   return (
     <>

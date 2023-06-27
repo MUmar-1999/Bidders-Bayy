@@ -23,7 +23,7 @@ function SearchBar({ onChange }) {
     onChange("");
   };
   const [showPopup, setShowPopup] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 10000000]);
+  const [{ minRange, selectedRange, maxRange }, setPriceRange] = useState({ minRange: 0, selectedRange: 50000, maxRange: 100000 });
   const [subCategoryData, setSubCategoryData] = useState(null);
 
   const handleButtonPress = () => {
@@ -34,11 +34,11 @@ function SearchBar({ onChange }) {
     setShowPopup(false);
   };
   const handlePriceRangeChange = (values) => {
-    setPriceRange(values);
+    setPriceRange((prev) => ({ ...prev, selectedRange: values }));
   };
 
   const handlePriceRangeComplete = (values) => {
-    setPriceRange(values);
+    setPriceRange((prev) => ({ ...prev, selectedRange: values }));
   };
 
   const [dataForm, setDataForm] = useState({
@@ -70,17 +70,17 @@ function SearchBar({ onChange }) {
           <Text style={styles.label}>Price Range:</Text>
           <View style={styles.sliderContainer}>
             <Text style={styles.sliderValue}>
-              {priceRange[0]} - {priceRange[1]}
+              {selectedRange} - {maxRange}
             </Text>
             <Slider
               style={styles.slider}
-              minimumValue={0}
-              maximumValue={10000000}
-              step={1}
+              minimumValue={minRange}
+              maximumValue={maxRange}
+              step={500}
               thumbTintColor="black"
               minimumTrackTintColor="black"
               maximumTrackTintColor="black"
-              value={priceRange[1]}
+              value={selectedRange}
               onValueChange={handlePriceRangeChange}
               onSlidingComplete={handlePriceRangeComplete}
             />
@@ -95,20 +95,39 @@ function SearchBar({ onChange }) {
               })
             }
             style={styles.dropdown}
-            onPress={() => console.log("hello")}
+            onPress={() => { }
+              // console.log("hello")
+            }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
-
+          <Picker
+            selectedValue={""}
+            onValueChange={(itemValue) => { }}
+            mode="dropdown"
+            style={styles.dropdown}
+          >
+            <Picker.Item label="Select city" value="" />
+            <Picker.Item label="Lahore" value="Lahore" />
+            <Picker.Item label="Karachi" value="Karachi" />
+            <Picker.Item label="Faisalabad" value="Faisalabad" />
+            <Picker.Item label="Islamabad" value="Islamabad" />
+            <Picker.Item label="Gujranwala" value="Gujranwala" />
+            <Picker.Item label="Rawalpindi" value="Rawalpindi" />
+            <Picker.Item label="Hyderabad" value="Hyderabad" />
+            <Picker.Item label="Multan" value="Multan" />
+            <Picker.Item label="Peshawar" value="Peshawar" />
+            <Picker.Item label="Quetta" value="Quetta" />
+          </Picker>
           <TouchableOpacity
             style={styles.closeButton}
             onPress={handleClosePopup}
@@ -178,4 +197,11 @@ const styles = StyleSheet.create({
     color: Color.white,
     fontWeight: "bold",
   },
+  sliderContainer: {
+    width: "100%"
+  },
+  dropdown: {
+    width: "100%"
+
+  }
 });

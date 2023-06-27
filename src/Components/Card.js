@@ -25,7 +25,7 @@ function Card({ item, isFeatured }) {
   useEffect(() => {
     setCheck(0);
     getData(item);
-    console.log("HELLO", JSON.stringify(item, null, 2));
+    // console.log("HELLO", JSON.stringify(item, null, 2));
   }, [item]);
 
   const getData = async (p) => {
@@ -35,8 +35,8 @@ function Card({ item, isFeatured }) {
       if (res) {
         favorites.map((item) => {
           if (item.postId._id == p._id) {
-            console.log("mae chala");
-            console.log(p.title);
+            // console.log("mae chala");
+            // console.log(p.title);
             setCheck(1);
           }
         });

@@ -27,7 +27,7 @@ function OTPScreen({ route, navigation }) {
     }, [success]);
 
     function onVerifyPress(data) {
-        console.log("OTPSCreem:::", data);
+        // console.log("OTPSCreem:::", data);
         dispatch(verifyOTP({ email: e, OTP: data.OTP }))
     }
 

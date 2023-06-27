@@ -28,8 +28,9 @@ import Count from "../../Components/Count";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
-  const { product } = route.params;
-  console.log("Nice jee", product.createdAt);
+  let { product } = route.params;
+  product = product.postId ?? product;
+  console.log("PRODUCT:::", JSON.stringify(product, null, 2));
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
@@ -192,7 +193,7 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                  product.userId._id !== userInfo._id ? (
+                    product.userId._id !== userInfo._id ? (
                     <View>
                       <Text style={styles.price}>
                         Base Price: Rs. {product.productPrice}
@@ -236,9 +237,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                    `Bid must be greater than Rs.${highestBid}`,
+                                  `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>

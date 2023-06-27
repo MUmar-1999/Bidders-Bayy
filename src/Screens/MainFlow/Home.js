@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
       const res = await BidderApi.get("/payment-featured/featured_post/");
       setProducts(res.data.data);
       setFilteredProducts(res.data.data);
-      console.log("filter", res.data.data);
+      // console.log("filter", res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -39,8 +39,8 @@ const Home = ({ navigation }) => {
   function filtered(text) {
     if (text) {
       const newData = products.filter(function (item) {
-        const itemData = item.title
-          ? item.title.toUpperCase()
+        const itemData = item.postId.title
+          ? item.postId.title.toUpperCase()
           : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;

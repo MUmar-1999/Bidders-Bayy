@@ -34,7 +34,7 @@ const BecomeSeller = ({ navigation }) => {
 
     if (!result.canceled) {
       if (side === "front") {
-        console.log("IMAGHE:::", result.assets[0].uri);
+        // console.log("IMAGHE:::", result.assets[0].uri);
         setFrontImage(result.assets[0].uri);
       } else {
         setBackImage(result.assets[0].uri);
@@ -47,7 +47,7 @@ const BecomeSeller = ({ navigation }) => {
       const result = await BidderApi.patch("/users/become-seller-cnic-number", {
         cnicNumber: cnic,
       });
-      console.log("CNIC RES::", JSON.stringify(result.data, null, 2));
+      // console.log("CNIC RES::", JSON.stringify(result.data, null, 2));
     } catch (err) {
       console.error(JSON.stringify(err.response.data, null, 2));
     }
@@ -73,7 +73,7 @@ const BecomeSeller = ({ navigation }) => {
         frontImageData,
         config
       );
-      console.log("FrontCNIC RES::", JSON.stringify(result.data, null, 2));
+      // console.log("FrontCNIC RES::", JSON.stringify(result.data, null, 2));
     } catch (err) {
       console.error(
         "frontCNIC ERROR::",
@@ -97,7 +97,7 @@ const BecomeSeller = ({ navigation }) => {
         backImageData,
         config
       );
-      console.log("backCNIC RES::", JSON.stringify(result.data, null, 2));
+      // console.log("backCNIC RES::", JSON.stringify(result.data, null, 2));
     } catch (err) {
       console.error(
         "backCNIC ERROR::",

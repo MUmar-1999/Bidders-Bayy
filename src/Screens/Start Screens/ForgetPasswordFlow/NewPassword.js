@@ -26,7 +26,7 @@ function NewPassword({ route, navigation }) {
     }, [success]);
 
     function onConfirmPress(data) {
-        console.log("PASScreem:::", data);
+        // console.log("PASScreem:::", data);
         dispatch(passChange({ email, password: data.password, rePassword: data.rePassword }))
     }
 

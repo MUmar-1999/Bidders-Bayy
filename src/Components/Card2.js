@@ -32,8 +32,8 @@ function Card2({ item, isFeatured }) {
       if (res) {
         favorites.map((item) => {
           if (item.postId._id == p._id) {
-            console.log("mae chala");
-            console.log(p.title);
+            // console.log("mae chala");
+            // console.log(p.title);
             setCheck(1);
           }
         });

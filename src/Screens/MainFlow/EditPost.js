@@ -15,14 +15,21 @@ import FormInputF from "../../Components/FormInputF";
 
 const EditPost = ({ route, navigation }) => {
   const { EditPost } = route.params;
-  console.log("nice post", JSON.stringify(EditPost, null, 2));
+  console.log("Edit:::", JSON.stringify(EditPost, null, 2));
   const {
     userInfo: { role },
   } = useSelector((state) => state.auth);
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
-  const { control, handleSubmit, reset } = useForm(EditPost);
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      title: EditPost.title,
+      description: EditPost.description,
+      productPrice: `${EditPost.productPrice}`
+    }
+  });
   const { basePrice, setBasePrice } = useState(44);
   const [dataForm, setDataForm] = useState({
     subcategoryId: EditPost.subcategoryId,
@@ -35,7 +42,7 @@ const EditPost = ({ route, navigation }) => {
       setCategory(response.data.data.allCategory);
     });
     const x = parseInt(EditPost.productPrice, 10);
-    console.log("gag", x);
+    // console.log("gag", x);
     // setBasePrice(x);
   }, []);
 
@@ -57,7 +64,7 @@ const EditPost = ({ route, navigation }) => {
     formData.append("product_picture", dataForm.product_picture);
     formData.append("description", data.description);
     formData.append("productPrice", data.productPrice);
-    console.log("FORMDATA:::", formData);
+    // console.log("FORMDATA:::", formData);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -80,7 +87,7 @@ const EditPost = ({ route, navigation }) => {
         navigation.navigate("Bidders Bay");
       }
     } catch (error) {
-      console.log("NEWPOST ERROR:::", error);
+      // console.log("NEWPOST ERROR:::", error);
     }
   };
 
@@ -112,12 +119,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
@@ -131,23 +138,24 @@ const EditPost = ({ route, navigation }) => {
               })
             }
             style={styles.dropdown}
-            onPress={() => console.log("hello")}
+            onPress={() => { }
+              //  console.log("hello")
+            }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
           <Text style={styles.label}>Title:</Text>
           <FormInputF
-            Values={EditPost.title}
             name={"title"}
             control={control}
             rule={{
@@ -157,7 +165,6 @@ const EditPost = ({ route, navigation }) => {
 
           <Text style={styles.label}>Description:</Text>
           <FormInputF
-            Values={EditPost.description}
             name={"description"}
             control={control}
             rule={{
@@ -169,7 +176,6 @@ const EditPost = ({ route, navigation }) => {
             {dataForm.productType === "Bidding Item" ? "Base Price:" : "Price:"}
           </Text>
           <FormInputF
-            Values={EditPost.productPrice}
             name={"productPrice"}
             keyboardType="numeric"
             control={control}

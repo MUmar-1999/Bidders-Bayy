@@ -9,7 +9,7 @@ import * as ImagePicker from "expo-image-picker";
 
 const FeaturePost = ({ route, navigation }) => {
   const { featurePost } = route.params;
-  console.log("Hello papa", featurePost);
+  // console.log("Hello papa", featurePost);
   const { control, handleSubmit } = useForm();
   const [dataForm, setDataForm] = useState({
     payment_ss: [],
@@ -41,12 +41,12 @@ const FeaturePost = ({ route, navigation }) => {
     }
   };
   useEffect(() => {
-    console.log("this is form data", dataForm);
+    // console.log("this is form data", dataForm);
   }, [dataForm]);
 
   const ApplyFeature = async (id, ss) => {
-    console.log("wawa", id);
-    console.log("papa", ss);
+    // console.log("wawa", id);
+    // console.log("papa", ss);
     let formData = new FormData();
     formData.append("payment_ss", ss.payment_ss);
     formData.append("postId", id);
@@ -62,7 +62,7 @@ const FeaturePost = ({ route, navigation }) => {
         config
       );
       if (data.success) {
-        console.log("nana", data);
+        // console.log("nana", data);
         // setCategoryData("");
         // setDataForm({
         //   subcategoryId: "",

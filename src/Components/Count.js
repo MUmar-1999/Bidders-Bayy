@@ -7,17 +7,17 @@ export default function Count(props) {
 
   useEffect(() => {
     const newDate = new Date(props.time);
-    console.log("new date", newDate);
+    // console.log("new date", newDate);
     const x = dataChanger(newDate);
-    console.log("The value of ex", x);
+    // console.log("The value of ex", x);
     const y = addDays(x, 7);
-    console.log("thel value of why", y);
+    // console.log("thel value of why", y);
     let u = new Date();
     u = dataChanger(u);
     const z = calculateDaysDifference(u, y);
-    console.log(x);
-    console.log(y);
-    console.log(z);
+    // console.log(x);
+    // console.log(y);
+    // console.log(z);
 
     if (isNaN(z) || z < 0) {
       setDays(0);

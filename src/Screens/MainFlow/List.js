@@ -17,6 +17,7 @@ const List = ({ navigation }) => {
   const {
     userInfo: { role },
   } = useSelector((state) => state.auth);
+
   const [category, setCategory] = useState(null);
   const [categoryData, setCategoryData] = useState("");
   const [subCategoryData, setSubCategoryData] = useState(null);
@@ -49,7 +50,7 @@ const List = ({ navigation }) => {
     formData.append("product_picture", dataForm.product_picture);
     formData.append("description", data.description);
     formData.append("productPrice", data.productPrice);
-    console.log("FORMDATA:::", formData);
+    // console.log("FORMDATA:::", formData);
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -68,7 +69,7 @@ const List = ({ navigation }) => {
         navigation.navigate("Bidders Bay");
       }
     } catch (error) {
-      console.log("NEWPOST ERROR:::", error);
+      // console.log("NEWPOST ERROR:::", error);
     }
   };
   const chooseImage = async () => {
@@ -149,12 +150,12 @@ const List = ({ navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
@@ -168,17 +169,19 @@ const List = ({ navigation }) => {
               })
             }
             style={styles.dropdown}
-            onPress={() => console.log("hello")}
+            onPress={() => { }
+              // console.log("hello")
+            }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 

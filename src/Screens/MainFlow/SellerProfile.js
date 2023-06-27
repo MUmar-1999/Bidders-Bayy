@@ -43,7 +43,7 @@ const SellerProfile = ({ route, navigation }) => {
       const res = await BidderApi.get(
         `/products/user_product/${sellerProfile.userId._id}`
       );
-      console.log("Seller Product LIST::", JSON.stringify(res.data, null, 2));
+      // console.log("Seller Product LIST::", JSON.stringify(res.data, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
       console.log(error);

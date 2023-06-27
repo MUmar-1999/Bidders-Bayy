@@ -9,7 +9,6 @@ const FormInputF = ({
   icon,
   secureTextEntry,
   keyboardType,
-  Values,
 }) => {
   return (
     <Controller
@@ -17,7 +16,7 @@ const FormInputF = ({
       name={name}
       rules={rule}
       render={({
-        field: { value = Values, onChange, onBlur },
+        field: { value, onChange, onBlur },
         fieldState: { error },
       }) => (
         <>
@@ -26,7 +25,6 @@ const FormInputF = ({
           >
             <Image source={icon} style={{ width: 25, height: 25 }} />
             <TextInput
-              defaultValue={`${Values}`}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
