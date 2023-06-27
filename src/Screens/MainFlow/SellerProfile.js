@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 import { StyleSheet, View, Text, Image, FlatList } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
@@ -12,10 +12,10 @@ const SellerProfile = ({ route, navigation }) => {
   const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getData();
     getRating();
-  }, []);
+  }, [sellerProfile]);
 
   async function getRating() {
     try {

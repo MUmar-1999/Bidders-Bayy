@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, KeyboardAvoidingView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ActivityIndicator,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useFocusEffect } from "@react-navigation/native";
 import Card from "../../Components/Card";
@@ -19,6 +25,7 @@ const BidProduct = ({ navigation }) => {
       const res = await BidderApi.get("/products/bid/");
       setProducts(res.data.data.allProducts);
       setFilteredProducts(res.data.data.allProducts);
+      console.log("chup", JSON.stringify(res.data.data.allProducts, null, 2));
     } catch (error) {
       console.log(error);
     }
@@ -75,16 +82,21 @@ const BidProduct = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
-        {products.length !== 0 ? <FlatList
-          numColumns={2}
-          style={styles.container}
-          data={filteredProducts}
-          ListHeaderComponent={Header}
-          renderItem={({ item }) => {
-            return <Card item={item} />;
-          }}
-        /> : <View style={styles.loaderContainer}><ActivityIndicator size="large" color={Color.black} /></View>}
-
+        {products.length !== 0 ? (
+          <FlatList
+            numColumns={2}
+            style={styles.container}
+            data={filteredProducts}
+            ListHeaderComponent={Header}
+            renderItem={({ item }) => {
+              return <Card item={item} />;
+            }}
+          />
+        ) : (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size="large" color={Color.black} />
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeArea>
   );
@@ -120,9 +132,9 @@ const styles = StyleSheet.create({
   },
   loaderContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: "center"
-  }
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 
 export default BidProduct;

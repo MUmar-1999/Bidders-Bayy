@@ -21,6 +21,8 @@ import { Modal, Portal, Button, PaperProvider } from "react-native-paper";
 import AllBidList from "../../Components/AllBidList";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import Swiper from "react-native-swiper";
+
 import Comment from "../../Components/Comment";
 import Count from "../../Components/Count";
 
@@ -39,10 +41,6 @@ const Product = ({ route, navigation }) => {
   const getComments = async () => {
     try {
       const res = await BidderApi.get(`/comment/${product._id}`);
-      // console.log(
-      //   "GET COMMENT::",
-      //   JSON.stringify(res.data.data.allCommentsOfPost, null, 2)
-      // );
       setComments(res.data.data.allCommentsOfPost);
     } catch (error) {
       console.log(error);
@@ -50,11 +48,8 @@ const Product = ({ route, navigation }) => {
   };
 
   const handleComment = async (postId, comment) => {
-    // console.log(comment);
-    // console.log(postId);
     try {
       const res = await BidderApi.post("/comment/", { postId, comment });
-      // console.log("COMMENT::", JSON.stringify(res, null, 2));
       if (res) {
         getComments();
         setComment("");
@@ -135,19 +130,41 @@ const Product = ({ route, navigation }) => {
               renderItem={({ item }) => <Comment item={item} />}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
-                  <Text>
-                    {" "}
-                    {product.StatusOfActive == true ? "Active" : "Not Active"}
-                  </Text>
-                  <Image
-                    source={{
-                      uri:
-                        product.images && product.images.length > 0
-                          ? `${BASE_URL}/${product.images[0]}`
-                          : "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                    }}
-                    style={styles.image}
-                  />
+                  <Swiper style={styles.wrapper} showsPagination={false}>
+                    {product.images && product.images.length > 0 ? (
+                      product.images.map((image, index) => (
+                        <View style={styles.slide} key={index}>
+                          <Image
+                            source={{ uri: `${BASE_URL}/${image}` }}
+                            style={styles.image}
+                          />
+                        </View>
+                      ))
+                    ) : (
+                      <View style={styles.slide}>
+                        <Image
+                          source={{
+                            uri: "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+                          }}
+                          style={styles.image}
+                        />
+                      </View>
+                    )}
+                  </Swiper>
+
+                  {product.userId._id === userInfo._id ? (
+                    <View style={styles.featuredContainer}>
+                      <Text style={styles.featuredText}>
+                        {" "}
+                        {product.StatusOfActive == true
+                          ? "Active"
+                          : "Not Active"}
+                      </Text>
+                    </View>
+                  ) : (
+                    <Text></Text>
+                  )}
+
                   <View style={styles.titleContainer}>
                     <Text style={styles.title}>{product.title}</Text>
                     {product.userId._id === userInfo._id ? (
@@ -198,11 +215,6 @@ const Product = ({ route, navigation }) => {
                           }}
                         >
                           <Text style={styles.time}>
-                            {/* <MaterialCommunityIcons
-                              name="clock-outline"
-                              size={16}
-                              color="black"
-                            />{" "} */}
                             <Count time={product.createdAt} />
                           </Text>
                         </View>
@@ -372,6 +384,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+    marginTop: -25,
     marginBottom: 10,
     flexWrap: "wrap",
   },
@@ -547,6 +560,32 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Color.white,
     marginLeft: 10,
+  },
+  featuredContainer: {
+    width: "25%",
+    position: "relative",
+    top: -207,
+    left: 237,
+    backgroundColor: Color.blue,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    elevation: 6,
+  },
+
+  featuredText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: Color.white,
+    alignSelf: "center",
+  },
+  wrapper: {
+    height: 225,
+  },
+  slide: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

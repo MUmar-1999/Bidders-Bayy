@@ -5,8 +5,10 @@ import { Color } from "./Shared/Color";
 import { normalizeImage } from "../Utils/functions";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 function Card({ item, isFeatured }) {
+  const { userInfo } = useSelector((state) => state.auth);
   const MAX_TITLE_LENGTH = 12;
   const truncatedTitle =
     item.title.length > MAX_TITLE_LENGTH
@@ -23,6 +25,7 @@ function Card({ item, isFeatured }) {
   useEffect(() => {
     setCheck(0);
     getData(item);
+    console.log("HELLO", JSON.stringify(item, null, 2));
   }, [item]);
 
   const getData = async (p) => {
@@ -68,15 +71,16 @@ function Card({ item, isFeatured }) {
         />
       </View>
       <View style={styles.textContainer}>
-        {isFeatured && (
+        {isFeatured && userInfo._id === item.userId._id ? (
           <View style={styles.featuredContainer}>
-            <Text style={styles.featuredText}>FEATURED</Text>
-            <Text>
+            {/* <Text style={styles.featuredText}>FEATURED</Text> */}
+            <Text style={styles.featuredText}>
               {" "}
-              {item.StatusOfActive == true ? "Active" : "Not Active"}
+              {item.StatusOfActive ? "Active" : "Not Active"}
             </Text>
           </View>
-        )}
+        ) : null}
+
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View style={{ width: "92%" }}>
             <Text style={styles.titleText}>{truncatedTitle}</Text>
@@ -154,14 +158,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -165,
     right: 5,
-    backgroundColor: "rgb(170, 255, 0)",
+    backgroundColor: Color.blue,
     borderRadius: 5,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    elevation: 6,
   },
   featuredText: {
     fontSize: 12,
     fontWeight: "bold",
-    color: Color.black,
+    color: Color.white,
   },
 });

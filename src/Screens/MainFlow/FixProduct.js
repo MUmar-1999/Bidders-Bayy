@@ -49,7 +49,7 @@ const FixProduct = ({ navigation }) => {
     return (
       <View>
         <SearchBar onChange={(txt) => filtered(txt)} />
-        <Text style={styles.headerText}>Bidding Items</Text>
+        <Text style={styles.headerText}>Fix Price Products</Text>
         {filteredProducts.length === 0 ? (
           <View style={styles.centeredContainer}>
             <View style={styles.notAvailableContainer}>
