@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,13 +6,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
-  useEffect,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Color } from "./Shared/Color";
 import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
+import axios from "axios";
+import { BASE_URL } from "../api/BidderApi";
 function SearchBar({ onChange }) {
+  const [categoryData, setCategoryData] = useState("");
+  const [category, setCategory] = useState(null);
+  const [subCategoryData, setSubCategoryData] = useState(null);
   const [search, setSearch] = useState("");
 
   const handleEndEditing = () => {
@@ -28,8 +32,6 @@ function SearchBar({ onChange }) {
     selectedRange: 50000,
     maxRange: 100000,
   });
-  const [category, setCategory] = useState(null);
-  const [subCategoryData, setSubCategoryData] = useState(null);
 
   const handleButtonPress = () => {
     setShowPopup(true);
@@ -46,11 +48,25 @@ function SearchBar({ onChange }) {
     setPriceRange((prev) => ({ ...prev, selectedRange: values }));
   };
 
+  const handleSubCategory = (value) => {
+    setCategoryData(value);
+    if (value !== "") {
+      axios.get(`${BASE_URL}/sub-category/${value}`).then(function (response) {
+        setSubCategoryData(response.data.data);
+      });
+    }
+  };
+
   const [dataForm, setDataForm] = useState({
     subcategoryId: "",
     productType: "",
     product_picture: [],
   });
+  useEffect(() => {
+    axios.get(`${BASE_URL}/category/`).then(function (response) {
+      setCategory(response.data.data.allCategory);
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -91,6 +107,22 @@ function SearchBar({ onChange }) {
             />
           </View>
           <Text style={styles.label}>Category:</Text>
+          <Picker
+            selectedValue={categoryData}
+            onValueChange={handleSubCategory}
+            style={styles.dropdown}
+          >
+            <Picker.Item label="Select Category" value="" />
+            {category != null
+              ? category.map((Option) => (
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
+              : null}
+          </Picker>
           <Picker
             name="subcategoryId"
             selectedValue={dataForm.subcategoryId}

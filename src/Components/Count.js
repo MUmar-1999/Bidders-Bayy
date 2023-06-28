@@ -72,18 +72,11 @@ export default function Count(props) {
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <MaterialCommunityIcons
             name="clock-outline"
-            size={16}
-            color="black"
+            // size={props.size}
+            // color="black"
+            style={props.style2}
           />
-          <Text
-            style={{
-              fontSize: 16,
-              color: "black",
-              fontWeight: "bold",
-              width: "100%",
-              paddingVertical: 5,
-            }}
-          >
+          <Text style={props.style}>
             {" "}
             {days} {days === 1 ? "day" : "days"}
           </Text>

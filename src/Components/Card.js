@@ -6,6 +6,7 @@ import { normalizeImage } from "../Utils/functions";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Count from "./Count";
 
 function Card({ item, isFeatured }) {
   const { userInfo } = useSelector((state) => state.auth);
@@ -69,6 +70,24 @@ function Card({ item, isFeatured }) {
         />
       </View>
       <View style={styles.textContainer}>
+        {item.productType == "Bidding Item" ? (
+          <View style={styles.countContainer}>
+            <Count
+              time={item.createdAt}
+              style={{
+                fontSize: 10,
+                color: "black",
+                fontWeight: "bold",
+                width: "100%",
+                paddingVertical: 5,
+              }}
+              style2={{
+                fontSize: 12,
+                color: "red",
+              }}
+            />
+          </View>
+        ) : null}
         {isFeatured && userInfo._id === item.userId._id ? (
           <View style={styles.featuredContainer}>
             {/* <Text style={styles.featuredText}>FEATURED</Text> */}
@@ -161,6 +180,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     elevation: 6,
+  },
+  countContainer: {
+    position: "absolute",
+    top: -165,
+    left: 5,
+    backgroundColor: Color.white,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    elevation: 6,
+    width: "45%",
+    height: 30,
   },
   featuredText: {
     fontSize: 12,

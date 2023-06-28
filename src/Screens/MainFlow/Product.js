@@ -228,7 +228,17 @@ const Product = ({ route, navigation }) => {
                           }}
                         >
                           <Text style={styles.time}>
-                            <Count time={product.createdAt} />
+                            <Count
+                              time={product.createdAt}
+                              style={{
+                                fontSize: 16,
+                                color: "black",
+                                fontWeight: "bold",
+                                width: "100%",
+                                paddingVertical: 5,
+                              }}
+                              size={16}
+                            />
                           </Text>
                         </View>
                       </View>

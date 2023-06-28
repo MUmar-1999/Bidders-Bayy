@@ -115,7 +115,16 @@ const Home = ({ navigation }) => {
           data={filteredProducts}
           ListHeaderComponent={Header}
           renderItem={({ item }) => {
-            return <Card2 item={item} />;
+            return (
+              <Card2
+                item={item}
+                date={
+                  item.postId.productType == "Bidding Item"
+                    ? item.postId.createdAt
+                    : null
+                }
+              />
+            );
           }}
         />
       </KeyboardAvoidingView>
