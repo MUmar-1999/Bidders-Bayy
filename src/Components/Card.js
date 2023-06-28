@@ -88,7 +88,7 @@ function Card({ item, isFeatured }) {
             />
           </View>
         ) : null}
-        {isFeatured && userInfo._id === item.userId._id ? (
+        {userInfo._id === item.userId._id ? (
           <View style={styles.featuredContainer}>
             {/* <Text style={styles.featuredText}>FEATURED</Text> */}
             <Text style={styles.featuredText}>
@@ -97,7 +97,11 @@ function Card({ item, isFeatured }) {
             </Text>
           </View>
         ) : null}
-
+        {item.featured !== undefined ? (
+          <View style={styles.trueContainer}>
+            <Text style={styles.featuredText}>FEATURED</Text>
+          </View>
+        ) : null}
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View style={{ width: "92%" }}>
             <Text style={styles.titleText}>{truncatedTitle}</Text>
@@ -192,6 +196,16 @@ const styles = StyleSheet.create({
     elevation: 6,
     width: "45%",
     height: 30,
+  },
+  trueContainer: {
+    position: "absolute",
+    bottom: 75,
+    right: 5,
+    backgroundColor: Color.black,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    elevation: 6,
   },
   featuredText: {
     fontSize: 12,

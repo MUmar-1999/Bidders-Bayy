@@ -5,7 +5,7 @@ import Profile from "./Profile";
 import List from "./List";
 import BidProduct from "./BidProduct";
 import FixProduct from "./FixProduct";
-
+import BidderApi from "../../api/BidderApi";
 import Favorite from "./Favorite";
 import Product from "./Product";
 import SellerProfile from "./SellerProfile";
@@ -15,6 +15,7 @@ import { FontAwesome5, Feather, Fontisto, Ionicons } from "@expo/vector-icons";
 import FeaturePost from "./FeaturePost";
 import Inspection from "./Inspection";
 import EditPost from "./EditPost";
+import { useState, useEffect } from "react";
 
 const HomeStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
