@@ -22,9 +22,9 @@ import AllBidList from "../../Components/AllBidList";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Swiper from "react-native-swiper";
-
 import Comment from "../../Components/Comment";
 import Count from "../../Components/Count";
+import { Ionicons } from "@expo/vector-icons";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -117,6 +117,11 @@ const Product = ({ route, navigation }) => {
       }
     }
   };
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleToggle = () => {
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <SafeArea>
@@ -131,40 +136,55 @@ const Product = ({ route, navigation }) => {
               renderItem={({ item }) => <Comment item={item} />}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
-                  <Swiper style={styles.wrapper} showsPagination={false}>
-                    {product.images && product.images.length > 0 ? (
-                      product.images.map((image, index) => (
-                        <View style={styles.slide} key={index}>
+                  <View>
+                    <Swiper style={styles.wrapper} showsPagination={false}>
+                      {product.images && product.images.length > 0 ? (
+                        product.images.map((image, index) => (
+                          <View style={styles.slide} key={index}>
+                            <Image
+                              source={{ uri: `${BASE_URL}/${image}` }}
+                              style={styles.image}
+                            />
+                          </View>
+                        ))
+                      ) : (
+                        <View style={styles.slide}>
                           <Image
-                            source={{ uri: `${BASE_URL}/${image}` }}
+                            source={{
+                              uri: "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
+                            }}
                             style={styles.image}
                           />
                         </View>
-                      ))
-                    ) : (
-                      <View style={styles.slide}>
-                        <Image
-                          source={{
-                            uri: "https://eagle-sensors.com/wp-content/uploads/unavailable-image.jpg",
-                          }}
-                          style={styles.image}
-                        />
-                      </View>
-                    )}
-                  </Swiper>
+                      )}
+                    </Swiper>
 
-                  {product.userId._id === userInfo._id ? (
-                    <View style={styles.featuredContainer}>
-                      <Text style={styles.featuredText}>
-                        {" "}
-                        {product.StatusOfActive == true
-                          ? "Active"
-                          : "Not Active"}
-                      </Text>
-                    </View>
-                  ) : (
-                    <Text></Text>
-                  )}
+                    {product.userId._id === userInfo._id ? (
+                      <View style={styles.featuredContainer}>
+                        <Text style={styles.featuredText}>
+                          {" "}
+                          {product.StatusOfActive == true
+                            ? "Active"
+                            : "Not Active"}
+                        </Text>
+                      </View>
+                    ) : null}
+                    {product.userId._id === userInfo._id ? (
+                      <View style={styles.pauseContainer}>
+                        <TouchableOpacity onPress={handleToggle}>
+                          <Ionicons
+                            name={
+                              isPlaying
+                                ? "pause-circle-outline"
+                                : "play-circle-outline"
+                            }
+                            size={24}
+                            color="white"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
+                  </View>
 
                   <View style={styles.titleContainer}>
                     <Text style={styles.title}>{product.title}</Text>
@@ -418,7 +438,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
-    marginTop: -25,
+    // marginTop: -10,
     marginBottom: 10,
     flexWrap: "wrap",
   },
@@ -479,11 +499,11 @@ const styles = StyleSheet.create({
   commentContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+
+    borderRadius: 5,
     marginTop: 10,
-    marginRight: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   BidContainer: {
     flexDirection: "row",
@@ -508,10 +528,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
-    width: "70%",
-    height: 40,
+    width: "80%",
+    height: 45,
     paddingHorizontal: 10,
-    marginRight: 10,
+    marginRight: 5,
+    marginLeft: -8,
   },
   commentButton: {
     backgroundColor: Color.black,
@@ -604,10 +625,21 @@ const styles = StyleSheet.create({
   },
   featuredContainer: {
     width: "25%",
-    position: "relative",
-    top: -207,
-    left: 237,
+    position: "absolute",
+    top: 15,
+    right: 8,
     backgroundColor: Color.blue,
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    elevation: 6,
+  },
+
+  pauseContainer: {
+    position: "absolute",
+    top: 15,
+    left: 8,
+    backgroundColor: Color.grey,
     borderRadius: 5,
     paddingHorizontal: 8,
     paddingVertical: 4,
