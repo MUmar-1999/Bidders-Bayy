@@ -83,8 +83,9 @@ const EditPost = ({ route, navigation }) => {
           productType: "",
           product_picture: [],
         });
+        navigation.popToTop();
         reset();
-        navigation.navigate("Bidders Bay");
+
       }
     } catch (error) {
       // console.log("NEWPOST ERROR:::", error);
@@ -119,12 +120,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 
@@ -139,19 +140,19 @@ const EditPost = ({ route, navigation }) => {
             }
             style={styles.dropdown}
             onPress={
-              () => {}
+              () => { }
               //  console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
 

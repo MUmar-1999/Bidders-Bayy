@@ -34,20 +34,31 @@ const Home = ({ navigation }) => {
       getData();
     }, [navigation])
   );
+  function filtered(text, priceRange, category, subCategory, city) {
+    const newData = products.reduce(function (acc, item) {
+      const itemData = item.postId.title
+        ? item.postId.title.toUpperCase()
+        : "".toUpperCase();
+      const textData = text ? text.toUpperCase() : "";
+      const priceData = item.price <= priceRange;
+      const categoryData = category ? item.category === category : true;
+      const subCategoryData = subCategory ? item.subCategory === subCategory : true;
+      const cityData = city ? item.city === city : true;
 
-  function filtered(text) {
-    if (text) {
-      const newData = products.filter(function (item) {
-        const itemData = item.postId.title
-          ? item.postId.title.toUpperCase()
-          : "".toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredProducts(newData);
-    } else {
-      setFilteredProducts(products);
-    }
+      if (
+        itemData.indexOf(textData) > -1 &&
+        priceData &&
+        categoryData &&
+        subCategoryData &&
+        cityData
+      ) {
+        acc.push(item);
+      }
+
+      return acc;
+    }, []);
+
+    setFilteredProducts(newData.length > 0 ? newData : products);
   }
   const handleBidPress = (bidproduct) => {
     navigation.navigate("BidProduct", { bidproduct });
@@ -65,7 +76,7 @@ const Home = ({ navigation }) => {
   function Header() {
     return (
       <View>
-        <SearchBar onChange={(txt) => filtered(txt)} />
+        <SearchBar onChange={(txt, priceRange, category, subCategory, city) => filtered(txt, priceRange, category, subCategory, city)} />
         <Image
           source={require("../../Images/Banner1.png")}
           style={styles.banner}

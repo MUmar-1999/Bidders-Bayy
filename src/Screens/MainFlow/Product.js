@@ -34,6 +34,7 @@ const Product = ({ route, navigation }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
+  const [expired, setExpired] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
 
   const [visible, setVisible] = useState(false);
@@ -133,7 +134,7 @@ const Product = ({ route, navigation }) => {
                 (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
               )}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => <Comment item={item} />}
+              renderItem={({ item }) => <Comment item={item} sellerId={product.userId._id} />}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
                   <View>
@@ -213,7 +214,7 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                  product.userId._id !== userInfo._id ? (
+                    product.userId._id !== userInfo._id ? (
                     <View>
                       <View
                         style={{
@@ -258,11 +259,13 @@ const Product = ({ route, navigation }) => {
                                 paddingVertical: 5,
                               }}
                               size={16}
+                              onExpired={(txt) => { setExpired(txt) }}
                             />
                           </Text>
                         </View>
                       </View>
-                      <View style={styles.BidContainer}>
+
+                      {!expired && <View style={styles.BidContainer}>
                         <View
                           style={{
                             justifyContent: "flex-start",
@@ -279,9 +282,9 @@ const Product = ({ route, navigation }) => {
                               validate: (value) =>
                                 highestBid === 0
                                   ? value > product.productPrice ||
-                                    `Bid must be greater than Rs.${product.productPrice}`
+                                  `Bid must be greater than Rs.${product.productPrice}`
                                   : value > highestBid ||
-                                    `Bid must be greater than Rs.${highestBid}`,
+                                  `Bid must be greater than Rs.${highestBid}`,
                             }}
                           />
                         </View>
@@ -291,7 +294,7 @@ const Product = ({ route, navigation }) => {
                         >
                           <Text style={styles.bidButtonText}>Place Bid</Text>
                         </TouchableOpacity>
-                      </View>
+                      </View>}
                     </View>
                   ) : (
                     <>

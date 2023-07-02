@@ -2,10 +2,9 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { getTimeDifference, normalizeImage } from "../Utils/functions";
 import { Color } from "./Shared/Color";
-import { useSelector } from "react-redux";
 
-function Comment({ item }) {
-  const { userInfo } = useSelector((state) => state.auth);
+function Comment({ item, sellerId }) {
+  console.log("COMMENT:::", JSON.stringify(item, null, 2));
   return (
     <View style={styles.dialogBox}>
       <View style={styles.container}>
@@ -15,12 +14,12 @@ function Comment({ item }) {
             source={
               item.userId.dp
                 ? {
-                    uri: normalizeImage(item.userId.dp),
-                  }
+                  uri: normalizeImage(item.userId.dp),
+                }
                 : require("../Images/dp.png")
             }
           />
-          {item.userId._id && (
+          {item.userId._id === sellerId && (
             <View style={styles.sellerBadgeContainer}>
               <Text style={styles.sellerBadgeText}>Seller</Text>
             </View>

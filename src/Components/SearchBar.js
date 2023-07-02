@@ -17,17 +17,18 @@ function SearchBar({ onChange }) {
   const [categoryData, setCategoryData] = useState("");
   const [category, setCategory] = useState(null);
   const [subCategoryData, setSubCategoryData] = useState(null);
+  const [cityData, setCityData] = useState(null);
   const [search, setSearch] = useState("");
 
   const handleEndEditing = () => {
-    onChange(search);
+    onChange(search, priceRange.selectedRange, categoryData, subCategoryData, cityData);
     setSearch("");
   };
   const handleClear = () => {
     onChange("");
   };
   const [showPopup, setShowPopup] = useState(false);
-  const [{ minRange, selectedRange, maxRange }, setPriceRange] = useState({
+  const [priceRange, setPriceRange] = useState({
     minRange: 0,
     selectedRange: 50000,
     maxRange: 100000,
@@ -91,17 +92,17 @@ function SearchBar({ onChange }) {
           <Text style={styles.label}>Price Range:</Text>
           <View style={styles.sliderContainer}>
             <Text style={styles.sliderValue}>
-              {selectedRange} - {maxRange}
+              {priceRange.selectedRange} - {priceRange.maxRange}
             </Text>
             <Slider
               style={styles.slider}
-              minimumValue={minRange}
-              maximumValue={maxRange}
+              minimumValue={priceRange.minRange}
+              maximumValue={priceRange.maxRange}
               step={500}
               thumbTintColor="black"
               minimumTrackTintColor="black"
               maximumTrackTintColor="black"
-              value={selectedRange}
+              value={priceRange.selectedRange}
               onValueChange={handlePriceRangeChange}
               onSlidingComplete={handlePriceRangeComplete}
             />
@@ -115,12 +116,12 @@ function SearchBar({ onChange }) {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
           <Picker
@@ -133,24 +134,24 @@ function SearchBar({ onChange }) {
             }
             style={styles.dropdown}
             onPress={
-              () => {}
+              () => { }
               // console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                  <Picker.Item
-                    key={Option._id}
-                    label={Option.title}
-                    value={Option._id}
-                  />
-                ))
+                <Picker.Item
+                  key={Option._id}
+                  label={Option.title}
+                  value={Option._id}
+                />
+              ))
               : null}
           </Picker>
           <Picker
-            selectedValue={""}
-            onValueChange={(itemValue) => {}}
+            selectedValue={cityData}
+            onValueChange={(itemValue) => { setCityData(itemValue) }}
             mode="dropdown"
             style={styles.dropdown}
           >

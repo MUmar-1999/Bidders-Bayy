@@ -71,7 +71,7 @@ function Card2({ item, isFeatured }) {
         {item.postId.productType == "Bidding Item" ? (
           <View style={styles.countContainer}>
             <Count
-              time={item.createdAt}
+              time={item.postId.createdAt}
               style={{
                 fontSize: 10,
                 color: "black",
