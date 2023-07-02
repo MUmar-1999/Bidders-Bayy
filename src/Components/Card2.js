@@ -124,7 +124,7 @@ export default Card2;
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
-    width: "45%",
+    width: "45.5%",
     margin: 8,
     borderRadius: 10,
     shadowColor: "#000",

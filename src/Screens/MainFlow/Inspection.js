@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, Linking } from "react-native";
+import { View, Text, StyleSheet, Linking, ScrollView } from "react-native";
+import SafeArea from "../../Components/Shared/SafeArea";
 
 const Inspection = () => {
   const openLocationLink = (link) => {
@@ -7,89 +8,147 @@ const Inspection = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Inspection</Text>
+    <SafeArea>
+      <ScrollView style={styles.container}>
+        <Text style={styles.heading}>Inspection</Text>
 
-      <View style={styles.categoryContainer}>
-        <Text style={styles.categoryTitle}>Currency:</Text>
-        <View style={styles.itemContainer}>
-          <Text
-            style={styles.item}
-            onPress={() =>
-              openLocationLink("https://goo.gl/maps/rVj88YS2Jmq7D1G78")
-            }
-          >
-            1- HBL PIA Road Lahore
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() =>
-              openLocationLink("https://goo.gl/maps/neZjKUKWj9E9Mz5i9")
-            }
-          >
-            2- Meezan Bank - Military Accounts Lahore
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() =>
-              openLocationLink("https://goo.gl/maps/q5W7kH6f4CsbXT1J6")
-            }
-          >
-            3- Askari Bank Ghazi Chowk Lahore
-          </Text>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Currency:</Text>
+          <View style={styles.itemContainer}>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://goo.gl/maps/rVj88YS2Jmq7D1G78")
+              }
+            >
+              1- HBL PIA Road Lahore
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://goo.gl/maps/neZjKUKWj9E9Mz5i9")
+              }
+            >
+              2- Meezan Bank - Military Accounts Lahore
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://goo.gl/maps/q5W7kH6f4CsbXT1J6")
+              }
+            >
+              3- Askari Bank Ghazi Chowk Lahore
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.categoryContainer}>
-        <Text style={styles.categoryTitle}>Tickets/Stamps:</Text>
-        <View style={styles.itemContainer}>
-          <Text
-            style={styles.item}
-            onPress={() => openLocationLink("TICKET_LOCATION_LINK")}
-          >
-            1- Ticket Location 1
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() => openLocationLink("TICKET_LOCATION_LINK")}
-          >
-            2- Ticket Location 2
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() => openLocationLink("TICKET_LOCATION_LINK")}
-          >
-            3- Ticket Location 3
-          </Text>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Art Work</Text>
+          <View style={styles.itemContainer}>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://maps.app.goo.gl/qsBVVM6t9fmGsV37A")
+              }
+            >
+              1- PNCA Islamabad
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://maps.app.goo.gl/pKgghZ9hKGM1DtcM8")
+              }
+            >
+              2- Oyester Art Gallery Lahore
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://maps.app.goo.gl/Kyef4NJ5x2DpTsBAA")
+              }
+            >
+              3- State Bank Museum and Art Galery Karachi
+            </Text>
+          </View>
         </View>
-      </View>
 
-      <View style={styles.categoryContainer}>
-        <Text style={styles.categoryTitle}>Cars:</Text>
-        <View style={styles.itemContainer}>
-          <Text
-            style={styles.item}
-            onPress={() => openLocationLink("https://www.pakwheels.com/")}
-          >
-            1- Pak Wheels
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() => openLocationLink("http://www.cartest.pk/")}
-          >
-            2- Cartest.pk
-          </Text>
-          <Text
-            style={styles.item}
-            onPress={() =>
-              openLocationLink("https://www.gari.pk/products/car-inspection/")
-            }
-          >
-            3- Gari.pk
-          </Text>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Cars:</Text>
+          <View style={styles.itemContainer}>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("https://www.pakwheels.com/")}
+            >
+              1- Pak Wheels
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("http://www.cartest.pk/")}
+            >
+              2- Cartest.pk
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://www.gari.pk/products/car-inspection/")
+              }
+            >
+              3- Gari.pk
+            </Text>
+          </View>
         </View>
-      </View>
-    </View>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Cars:</Text>
+          <View style={styles.itemContainer}>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("https://www.pakwheels.com/")}
+            >
+              1- Pak Wheels
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("http://www.cartest.pk/")}
+            >
+              2- Cartest.pk
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://www.gari.pk/products/car-inspection/")
+              }
+            >
+              3- Gari.pk
+            </Text>
+          </View>
+        </View>
+        <View style={styles.categoryContainer}>
+          <Text style={styles.categoryTitle}>Cars:</Text>
+          <View style={styles.itemContainer}>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("https://www.pakwheels.com/")}
+            >
+              1- Pak Wheels
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() => openLocationLink("http://www.cartest.pk/")}
+            >
+              2- Cartest.pk
+            </Text>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                openLocationLink("https://www.gari.pk/products/car-inspection/")
+              }
+            >
+              3- Gari.pk
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeArea>
   );
 };
 
@@ -102,7 +161,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 30,
+    marginTop: 10,
     color: "#333333",
   },
   categoryContainer: {
