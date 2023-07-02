@@ -25,6 +25,7 @@ import Swiper from "react-native-swiper";
 import Comment from "../../Components/Comment";
 import Count from "../../Components/Count";
 import { Ionicons } from "@expo/vector-icons";
+import { Linking } from "react-native";
 
 const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -121,6 +122,21 @@ const Product = ({ route, navigation }) => {
 
   const handleToggle = () => {
     setIsPlaying(!isPlaying);
+  };
+
+  const handlePhoneClick = () => {
+    const phoneNumber = product.userId.phoneNo;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
+
+    Linking.canOpenURL(whatsappUrl)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(whatsappUrl);
+        } else {
+          console.log("WhatsApp is not installed on your device");
+        }
+      })
+      .catch((error) => console.log("Error opening WhatsApp:", error));
   };
 
   return (
@@ -385,13 +401,15 @@ const Product = ({ route, navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.sellerDetails}>
-                      <Image
-                        source={require("../../Images/phone.png")}
-                        style={styles.sellerPhoneIcon}
-                      />
-                      <Text style={styles.sellerPhone}>
-                        {product.userId.phoneNo}
-                      </Text>
+                      <TouchableOpacity onPress={handlePhoneClick}>
+                        <Image
+                          source={require("../../Images/phone.png")}
+                          style={styles.sellerPhoneIcon}
+                        />
+                        <Text style={styles.sellerPhone}>
+                          {product.userId.phoneNo}
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                     <View style={styles.commentContainer}>
                       <TextInput
