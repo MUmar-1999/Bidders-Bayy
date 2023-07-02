@@ -14,6 +14,7 @@ import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
 import Card2 from "../../Components/Card2";
+import Card from "../../Components/Card";
 const Home = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -42,7 +43,9 @@ const Home = ({ navigation }) => {
       const textData = text ? text.toUpperCase() : "";
       const priceData = item.price <= priceRange;
       const categoryData = category ? item.category === category : true;
-      const subCategoryData = subCategory ? item.subCategory === subCategory : true;
+      const subCategoryData = subCategory
+        ? item.subCategory === subCategory
+        : true;
       const cityData = city ? item.city === city : true;
 
       if (
@@ -76,7 +79,11 @@ const Home = ({ navigation }) => {
   function Header() {
     return (
       <View>
-        <SearchBar onChange={(txt, priceRange, category, subCategory, city) => filtered(txt, priceRange, category, subCategory, city)} />
+        <SearchBar
+          onChange={(txt, priceRange, category, subCategory, city) =>
+            filtered(txt, priceRange, category, subCategory, city)
+          }
+        />
         <Image
           source={require("../../Images/Banner1.png")}
           style={styles.banner}
@@ -127,8 +134,8 @@ const Home = ({ navigation }) => {
           ListHeaderComponent={Header}
           renderItem={({ item }) => {
             return (
-              <Card2
-                item={item}
+              <Card
+                item={item.postId}
                 date={
                   item.postId.productType == "Bidding Item"
                     ? item.postId.createdAt

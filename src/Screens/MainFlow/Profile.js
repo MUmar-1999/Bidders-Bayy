@@ -7,6 +7,8 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Modal,
+  Alert,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../Store/authSlice";
@@ -23,8 +25,8 @@ import { normalizeImage } from "../../Utils/functions";
 const Profile = ({ navigation }) => {
   const { userInfo } = useSelector((state) => state.auth);
   // console.log("USER_INFO:::", JSON.stringify(userInfo, null, 2));
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  // TODO: make all these states into 1 && Update IMAGE URI to display image recieved from backend
   const [firstName, setFirstName] = useState(userInfo.firstName || "");
   const [lastName, setLastName] = useState(userInfo.lastName || "");
   const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo || "");
@@ -57,6 +59,7 @@ const Profile = ({ navigation }) => {
     // console.log("SAVE");
 
     dispatch(update({ formData, role: userInfo.role }));
+    setIsModalVisible(true);
   }
 
   const handleBecomeSeller = (becomeSeller) => {
@@ -94,10 +97,10 @@ const Profile = ({ navigation }) => {
             source={
               profile_picture
                 ? {
-                  uri: profile_picture.dp
-                    ? normalizeImage(profile_picture.dp)
-                    : profile_picture.file,
-                }
+                    uri: profile_picture.dp
+                      ? normalizeImage(profile_picture.dp)
+                      : profile_picture.file,
+                  }
                 : require("../../Images/dp.png")
             }
             style={styles.profileImage}
@@ -193,6 +196,19 @@ const Profile = ({ navigation }) => {
         </View>
         <SecondaryButton title={"Save"} onPress={saveHandler} />
         <PrimaryButton title={"Logout"} onPress={logoutHandler} />
+        <Modal visible={isModalVisible} animationType="slide" transparent>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>Profile edited successfully!</Text>
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setIsModalVisible(false)}
+              >
+                <Text style={styles.modalButtonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeArea>
   );
@@ -234,5 +250,34 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
     height: 50,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: Color.black,
+    borderRadius: 5,
+  },
+  modalButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

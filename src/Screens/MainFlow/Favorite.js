@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import BidderApi from "../../api/BidderApi";
 import { useFocusEffect } from "@react-navigation/native";
 import SafeArea from "../../Components/Shared/SafeArea";
-import Card from '../../Components/Card'
+import Card from "../../Components/Card";
 
 const Favorite = ({ navigation }) => {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,6 @@ const Favorite = ({ navigation }) => {
   }, []);
 
   const getData = async () => {
-    // console.log("mein chal rha hun");
     try {
       const res = await BidderApi.get("/favorite/");
       // console.log("Fav::", JSON.stringify(res.data.FavoritePosts, null, 2));
@@ -42,13 +41,13 @@ const Favorite = ({ navigation }) => {
                 marginTop: 20,
                 marginBottom: 20,
                 fontWeight: "bold",
-                textAlign: 'center'
+                textAlign: "center",
               }}
             >
               My Favorites
             </Text>
           }
-          renderItem={({ item }) => <Card item={item.postId} />}
+          renderItem={({ item }) => <Card item={item.postId ?? item} />}
         />
       </View>
     </SafeArea>

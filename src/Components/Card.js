@@ -11,10 +11,10 @@ import Count from "./Count";
 function Card({ item, isFeatured }) {
   const { userInfo } = useSelector((state) => state.auth);
   const MAX_TITLE_LENGTH = 12;
-  const truncatedTitle =
-    item.title.length > MAX_TITLE_LENGTH
-      ? `${item.title.substring(0, MAX_TITLE_LENGTH)}...`
-      : item.title;
+  const truncatedTitle = item.title;
+  // .length > MAX_TITLE_LENGTH
+  // ? `${item.title.substring(0, MAX_TITLE_LENGTH)}...`
+  // : item.title;
   const navigation = useNavigation();
 
   const handleProductPress = (product) => {
@@ -35,7 +35,7 @@ function Card({ item, isFeatured }) {
       setFavorites(res.data.FavoritePosts);
       if (res) {
         favorites.map((item) => {
-          if (item.postId._id == p._id) {
+          if (item._id == p._id) {
             setCheck(1);
           }
         });

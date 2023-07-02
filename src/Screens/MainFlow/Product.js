@@ -134,7 +134,9 @@ const Product = ({ route, navigation }) => {
                 (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
               )}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => <Comment item={item} sellerId={product.userId._id} />}
+              renderItem={({ item }) => (
+                <Comment item={item} sellerId={product.userId._id} />
+              )}
               ListHeaderComponent={
                 <View style={{ flex: 1 }}>
                   <View>
@@ -214,7 +216,7 @@ const Product = ({ route, navigation }) => {
                     )}
                   </View>
                   {product.productType === "Bidding Item" &&
-                    product.userId._id !== userInfo._id ? (
+                  product.userId._id !== userInfo._id ? (
                     <View>
                       <View
                         style={{
@@ -259,42 +261,46 @@ const Product = ({ route, navigation }) => {
                                 paddingVertical: 5,
                               }}
                               size={16}
-                              onExpired={(txt) => { setExpired(txt) }}
+                              onExpired={(txt) => {
+                                setExpired(txt);
+                              }}
                             />
                           </Text>
                         </View>
                       </View>
 
-                      {!expired && <View style={styles.BidContainer}>
-                        <View
-                          style={{
-                            justifyContent: "flex-start",
-                            maxWidth: 100,
-                          }}
-                        >
-                          <FormInputFieldd
-                            name={"bid"}
-                            control={control}
-                            placeholder={"Enter Bid"}
-                            keyboardType={"number-pad"}
-                            rule={{
-                              required: "Bid cannot be empty.",
-                              validate: (value) =>
-                                highestBid === 0
-                                  ? value > product.productPrice ||
-                                  `Bid must be greater than Rs.${product.productPrice}`
-                                  : value > highestBid ||
-                                  `Bid must be greater than Rs.${highestBid}`,
+                      {!expired && (
+                        <View style={styles.BidContainer}>
+                          <View
+                            style={{
+                              justifyContent: "flex-start",
+                              maxWidth: 100,
                             }}
-                          />
+                          >
+                            <FormInputFieldd
+                              name={"bid"}
+                              control={control}
+                              placeholder={"Enter Bid"}
+                              keyboardType={"number-pad"}
+                              rule={{
+                                required: "Bid cannot be empty.",
+                                validate: (value) =>
+                                  highestBid === 0
+                                    ? value > product.productPrice ||
+                                      `Bid must be greater than Rs.${product.productPrice}`
+                                    : value > highestBid ||
+                                      `Bid must be greater than Rs.${highestBid}`,
+                              }}
+                            />
+                          </View>
+                          <TouchableOpacity
+                            style={styles.bidButton}
+                            onPress={handleSubmit(handlePlaceBid)}
+                          >
+                            <Text style={styles.bidButtonText}>Place Bid</Text>
+                          </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                          style={styles.bidButton}
-                          onPress={handleSubmit(handlePlaceBid)}
-                        >
-                          <Text style={styles.bidButtonText}>Place Bid</Text>
-                        </TouchableOpacity>
-                      </View>}
+                      )}
                     </View>
                   ) : (
                     <>
