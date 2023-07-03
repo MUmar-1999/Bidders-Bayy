@@ -128,7 +128,7 @@ const ProfileStackScreen = () => (
     />
 
     <ProfileStack.Screen name="BecomeSeller" component={BecomeSeller} />
-    {/* <ProfileStack.Screen name="SellerProfile" component={SellerProfile} />
-    <ProfileStack.Screen name="Product" component={Product} /> */}
+    <ProfileStack.Screen name="SellerProfile" component={SellerProfile} />
+    <ProfileStack.Screen name="Product" component={Product} />
   </ProfileStack.Navigator>
 );

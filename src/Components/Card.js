@@ -104,7 +104,9 @@ function Card({ item, isFeatured }) {
         ) : null}
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <View style={{ width: "92%" }}>
-            <Text style={styles.titleText}>{truncatedTitle}</Text>
+            <Text style={styles.titleText} numberOfLines={1}>
+              {truncatedTitle}
+            </Text>
           </View>
           <View style={{ width: "20%", marginTop: 1.2 }}>
             <TouchableOpacity onPress={() => addfav(item._id)}>

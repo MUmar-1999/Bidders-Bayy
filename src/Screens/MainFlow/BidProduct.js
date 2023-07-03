@@ -93,6 +93,7 @@ const BidProduct = ({ navigation }) => {
   useEffect(() => {
     if (Feature !== null && products !== null) {
       console.log("Teri", JSON.stringify(Feature, null, 2));
+
       const converted = Feature.map((feature) => {
         return ChangeObject(feature);
       }).filter((obj) => obj !== null);

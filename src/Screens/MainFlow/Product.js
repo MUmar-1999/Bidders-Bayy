@@ -36,6 +36,8 @@ const Product = ({ route, navigation }) => {
   const [highestBid, setHighestBid] = useState(0);
   const [expired, setExpired] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
+  const [flagBid, setFlagBid] = useState(product.closeBid);
+  const [flagDel, setFlagDel] = useState(product.StatusOfActive);
 
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(!visible);
@@ -102,11 +104,14 @@ const Product = ({ route, navigation }) => {
     }
   };
   const HandlePostDeletion = async () => {
-    if (product.StatusOfActive == true) {
+    if (flagDel == true) {
       try {
         const { data } = await BidderApi.put(
           `/products/add_to_deleted/${product._id}`
         );
+        if (data) {
+          setFlagDel(false);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -118,10 +123,30 @@ const Product = ({ route, navigation }) => {
       }
     }
   };
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleToggle = () => {
-    setIsPlaying(!isPlaying);
+  const handleCloseBid = async () => {
+    if (flagBid == false) {
+      try {
+        const { data } = await BidderApi.put(
+          `/bidding/close_bidding/${product._id}`
+        );
+        if (data) {
+          setFlagBid(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        const { data } = await BidderApi.put(
+          `/bidding/resume_bidding/${product._id}`
+        );
+        if (data) {
+          setFlagBid(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -166,18 +191,17 @@ const Product = ({ route, navigation }) => {
                       <View style={styles.featuredContainer}>
                         <Text style={styles.featuredText}>
                           {" "}
-                          {product.StatusOfActive == true
-                            ? "Active"
-                            : "Not Active"}
+                          {flagDel == true ? "Active" : "Not Active"}
                         </Text>
                       </View>
                     ) : null}
-                    {product.userId._id === userInfo._id ? (
+                    {product.userId._id === userInfo._id &&
+                    product.productType === "Bidding Item" ? (
                       <View style={styles.pauseContainer}>
-                        <TouchableOpacity onPress={handleToggle}>
+                        <TouchableOpacity onPress={handleCloseBid}>
                           <Ionicons
                             name={
-                              isPlaying
+                              flagBid == false
                                 ? "pause-circle-outline"
                                 : "play-circle-outline"
                             }
@@ -269,7 +293,7 @@ const Product = ({ route, navigation }) => {
                         </View>
                       </View>
 
-                      {!expired && (
+                      {!expired && product.closeBid == false ? (
                         <View style={styles.BidContainer}>
                           <View
                             style={{
@@ -300,6 +324,10 @@ const Product = ({ route, navigation }) => {
                             <Text style={styles.bidButtonText}>Place Bid</Text>
                           </TouchableOpacity>
                         </View>
+                      ) : (
+                        <Text style={styles.yes}>
+                          Bidding is Paused by the Seller
+                        </Text>
                       )}
                     </View>
                   ) : (
@@ -491,6 +519,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     width: "100%",
     paddingVertical: 5,
+  },
+
+  yes: {
+    fontSize: 16,
+    color: "red",
+    fontWeight: "bold",
+    width: "100%",
+    paddingVertical: -10,
   },
 
   description: {
