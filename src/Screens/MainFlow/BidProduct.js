@@ -14,18 +14,36 @@ import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
 import { FontAwesome } from "@expo/vector-icons";
 import { Color } from "../../Components/Shared/Color";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "../../Store/filterSlice";
+
 
 const BidProduct = ({ navigation }) => {
+
+  const {
+    subCategory,
+    city,
+    selectedRange
+  } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+
+
+
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
   const [Feature, SetFeature] = useState(null);
   const [filter, setFilter] = useState(null);
+  const [search, setSearch] = useState("");
+
 
   const getData = async () => {
     try {
       const res = await BidderApi.get("/products/bid/");
-      setProducts(res.data.data.allProducts);
+      // console.log("RES:::", JSON.stringify(res.data.data, null, 2));
+      const products = res.data.data.allProducts.filter(product => product.StatusOfActive === true)
+      // console.log("PRO:::", products);
+      setProducts(products);
 
       // console.log("chup", JSON.stringify(res.data.data.allProducts, null, 2));
     } catch (error) {
@@ -33,34 +51,59 @@ const BidProduct = ({ navigation }) => {
     }
     try {
       const res = await BidderApi.get("/payment-featured/featured_post/");
+      const feature = res.data.data.filter(product => product.postId.StatusOfActive === true)
+      // console.log("FE:::", JSON.stringify(feature, null, 2));
       // setProducts(res.data.data);
       // setFilteredProducts(res.data.data);
-      SetFeature(res.data.data);
+      SetFeature(feature);
       // console.log("filter", res.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const filtered = (text) => {
-    if (text) {
-      const newData = filter.filter(function (item) {
-        const itemData = item.title
-          ? item.title.toUpperCase()
-          : "".toUpperCase();
+  useEffect(() => {
+    filtered({ text: search, subCategory, city, price: selectedRange })
+  }, [search, subCategory, city, selectedRange]);
+  function filtered({ text, price, subCategory, city }) {
+    const filteredProducts = products.reduce(function (acc, item) {
+      item = item.postId ?? item;
+      if (text) {
+        const itemData = item.title.toUpperCase();
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredProducts(newData);
-    } else {
-      setFilteredProducts(filter);
-    }
-  };
+        if (!itemData.includes(textData)) {
+          return acc;
+        }
+      }
 
+      // Apply additional filters if other props are received
+
+      if (price) {
+        if (!(item.productPrice <= price)) {
+          return acc;
+        }
+      }
+
+      if (subCategory) {
+        if (item.subcategoryId !== subCategory) {
+          return acc;
+        }
+      }
+
+      if (city) {
+        if (item.userId.currentCity !== city) {
+          return acc;
+        }
+      }
+
+      return acc.concat(item);
+    }, []);
+
+    setFilteredProducts(filteredProducts);
+  }
   const Header = () => {
     return (
       <View>
-        <SearchBar onChange={(txt) => filtered(txt)} />
         <Text style={styles.headerText}>Bidding Items</Text>
         {filteredProducts.length === 0 ? (
           <View style={styles.centeredContainer}>
@@ -92,19 +135,19 @@ const BidProduct = ({ navigation }) => {
 
   useEffect(() => {
     if (Feature !== null && products !== null) {
-      console.log("Teri", JSON.stringify(Feature, null, 2));
+      // console.log("Teri", JSON.stringify(Feature, null, 2));
 
       const converted = Feature.map((feature) => {
         return ChangeObject(feature);
       }).filter((obj) => obj !== null);
-      console.log("Abdullah", JSON.stringify(converted, null, 2));
+      // console.log("Abdullah", JSON.stringify(converted, null, 2));
       setFilter(converted);
       setFilteredProducts(converted);
       const filteredProducts = products.filter(
         (item) =>
           !Feature.some((featureItem) => featureItem.postId._id === item._id)
       );
-      console.log("lenght", filteredProducts.length);
+      // console.log("lenght", filteredProducts.length);
       setFilter((prevFiltered) => [...prevFiltered, ...filteredProducts]);
       setFilteredProducts((prevFiltered) => [
         ...prevFiltered,
@@ -176,18 +219,18 @@ const BidProduct = ({ navigation }) => {
         updatedAt: inputObject.postId.updatedAt,
         _v: inputObject.postId._v,
       };
-      console.log("not converted", item);
-      console.log("this is converted", outputObject);
+      // console.log("not converted", item);
+      // console.log("this is converted", outputObject);
       return outputObject;
     }
     return null;
   };
-  useEffect(() => {
-    console.log("Hello::", JSON.stringify(filter, null, 2));
-  }, [filter]);
+
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
+        <SearchBar search={search}
+          onChange={setSearch} />
         {filter !== null ? (
           <FlatList
             numColumns={2}

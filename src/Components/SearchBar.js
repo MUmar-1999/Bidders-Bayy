@@ -13,12 +13,25 @@ import Slider from "@react-native-community/slider";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { BASE_URL } from "../api/BidderApi";
-function SearchBar({ onChange }) {
+import { useDispatch, useSelector } from "react-redux";
+import { setSubCategory, setCity, setSelectedRange } from "../Store/filterSlice";
+
+
+function SearchBar({ search, onChange }) {
+
+  const {
+    subCategory,
+    city,
+    selectedRange
+  } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+  // dispatch(setSubCategory());
+  console.log(subCategory);
   const [categoryData, setCategoryData] = useState("");
   const [category, setCategory] = useState(null);
   const [subCategoryData, setSubCategoryData] = useState(null);
   const [cityData, setCityData] = useState(null);
-  const [search, setSearch] = useState("");
+
 
   const handleEndEditing = () => {
     onChange(search, priceRange.selectedRange, categoryData, subCategoryData, cityData);
@@ -28,11 +41,10 @@ function SearchBar({ onChange }) {
     onChange("");
   };
   const [showPopup, setShowPopup] = useState(false);
-  const [priceRange, setPriceRange] = useState({
+  const priceRange = {
     minRange: 0,
-    selectedRange: 50000,
     maxRange: 100000,
-  });
+  };
 
   const handleButtonPress = () => {
     setShowPopup(true);
@@ -42,11 +54,8 @@ function SearchBar({ onChange }) {
     setShowPopup(false);
   };
   const handlePriceRangeChange = (values) => {
-    setPriceRange((prev) => ({ ...prev, selectedRange: values }));
-  };
-
-  const handlePriceRangeComplete = (values) => {
-    setPriceRange((prev) => ({ ...prev, selectedRange: values }));
+    dispatch(setSelectedRange(values));
+    // setPriceRange((prev) => ({ ...prev, selectedRange: values }));
   };
 
   const handleSubCategory = (value) => {
@@ -74,8 +83,7 @@ function SearchBar({ onChange }) {
       <TextInput
         placeholder="Search products..."
         value={search}
-        onChangeText={setSearch}
-        onEndEditing={handleEndEditing}
+        onChangeText={onChange}
         style={styles.input}
       />
       <TouchableOpacity onPress={handleClear} style={styles.button}>
@@ -92,7 +100,7 @@ function SearchBar({ onChange }) {
           <Text style={styles.label}>Price Range:</Text>
           <View style={styles.sliderContainer}>
             <Text style={styles.sliderValue}>
-              {priceRange.selectedRange} - {priceRange.maxRange}
+              {selectedRange}
             </Text>
             <Slider
               style={styles.slider}
@@ -102,9 +110,8 @@ function SearchBar({ onChange }) {
               thumbTintColor="black"
               minimumTrackTintColor="black"
               maximumTrackTintColor="black"
-              value={priceRange.selectedRange}
+              value={selectedRange}
               onValueChange={handlePriceRangeChange}
-              onSlidingComplete={handlePriceRangeComplete}
             />
           </View>
           <Text style={styles.label}>Category:</Text>
@@ -126,11 +133,9 @@ function SearchBar({ onChange }) {
           </Picker>
           <Picker
             name="subcategoryId"
-            selectedValue={dataForm.subcategoryId}
+            selectedValue={subCategory}
             onValueChange={(itemValue) =>
-              setDataForm((preValue) => {
-                return { ...preValue, subcategoryId: itemValue };
-              })
+              dispatch(setSubCategory(itemValue))
             }
             style={styles.dropdown}
             onPress={
@@ -150,8 +155,8 @@ function SearchBar({ onChange }) {
               : null}
           </Picker>
           <Picker
-            selectedValue={cityData}
-            onValueChange={(itemValue) => { setCityData(itemValue) }}
+            selectedValue={city}
+            onValueChange={(itemValue) => { dispatch(setCity(itemValue)); }}
             mode="dropdown"
             style={styles.dropdown}
           >

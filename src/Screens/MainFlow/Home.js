@@ -13,61 +13,88 @@ import { useFocusEffect } from "@react-navigation/native";
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
-import Card2 from "../../Components/Card2";
 import Card from "../../Components/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { reset } from "../../Store/filterSlice";
+
+
 const Home = ({ navigation }) => {
+
+  const {
+    subCategory,
+    city,
+    selectedRange
+  } = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+
+
+
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [search, setSearch] = useState("");
 
   const getData = async () => {
     try {
       const res = await BidderApi.get("/payment-featured/featured_post/");
-      setProducts(res.data.data);
-      setFilteredProducts(res.data.data);
+      const feature = res.data.data.filter(product => product.postId.StatusOfActive === true)
+      setProducts(feature);
+      setFilteredProducts(feature);
       // console.log("filter", res.data.data);
     } catch (error) {
       console.log(error);
     }
   };
-
   useFocusEffect(
     useCallback(() => {
       getData();
     }, [navigation])
   );
-  function filtered(text, priceRange, category, subCategory, city) {
-    const newData = products.reduce(function (acc, item) {
-      const itemData = item.postId.title
-        ? item.postId.title.toUpperCase()
-        : "".toUpperCase();
-      const textData = text ? text.toUpperCase() : "";
-      const priceData = item.price <= priceRange;
-      const categoryData = category ? item.category === category : true;
-      const subCategoryData = subCategory
-        ? item.subCategory === subCategory
-        : true;
-      const cityData = city ? item.city === city : true;
-
-      if (
-        itemData.indexOf(textData) > -1 &&
-        priceData &&
-        categoryData &&
-        subCategoryData &&
-        cityData
-      ) {
-        acc.push(item);
+  useEffect(() => {
+    filtered({ text: search, subCategory, city, price: selectedRange })
+  }, [search, subCategory, city, selectedRange]);
+  function filtered({ text, price, subCategory, city }) {
+    const filteredProducts = products.reduce(function (acc, item) {
+      item = item.postId ?? item;
+      if (text) {
+        const itemData = item.title.toUpperCase();
+        const textData = text.toUpperCase();
+        if (!itemData.includes(textData)) {
+          return acc;
+        }
       }
 
-      return acc;
+      // Apply additional filters if other props are received
+
+      if (price) {
+        if (!(item.productPrice <= price)) {
+          return acc;
+        }
+      }
+
+      if (subCategory) {
+        if (item.subcategoryId !== subCategory) {
+          return acc;
+        }
+      }
+
+      if (city) {
+        if (item.userId.currentCity !== city) {
+          return acc;
+        }
+      }
+
+      return acc.concat(item);
     }, []);
 
-    setFilteredProducts(newData.length > 0 ? newData : products);
+    setFilteredProducts(filteredProducts);
   }
   const handleBidPress = (bidproduct) => {
     navigation.navigate("BidProduct", { bidproduct });
+    dispatch(reset())
   };
   const handleFixPress = (fixproduct) => {
     navigation.navigate("FixProduct", { fixproduct });
+    dispatch(reset())
   };
 
   useFocusEffect(
@@ -79,11 +106,6 @@ const Home = ({ navigation }) => {
   function Header() {
     return (
       <View>
-        <SearchBar
-          onChange={(txt, priceRange, category, subCategory, city) =>
-            filtered(txt, priceRange, category, subCategory, city)
-          }
-        />
         <Image
           source={require("../../Images/Banner1.png")}
           style={styles.banner}
@@ -127,6 +149,10 @@ const Home = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
+        <SearchBar
+          search={search}
+          onChange={setSearch}
+        />
         <FlatList
           numColumns={2}
           style={styles.container}
@@ -135,12 +161,8 @@ const Home = ({ navigation }) => {
           renderItem={({ item }) => {
             return (
               <Card
-                item={item.postId}
-                date={
-                  item.postId.productType == "Bidding Item"
-                    ? item.postId.createdAt
-                    : null
-                }
+                item={item.postId ?? item}
+                date={item?.postId?.createdAt}
               />
             );
           }}
