@@ -112,6 +112,7 @@ const Product = ({ route, navigation }) => {
         );
         if (data) {
           setFlagDel(false);
+          navigation.goBack();
         }
       } catch (error) {
         console.log(error);
@@ -119,6 +120,7 @@ const Product = ({ route, navigation }) => {
     } else {
       try {
         const { data } = await BidderApi.delete(`/products/${product._id}`);
+        navigation.goBack();
       } catch (error) {
         console.log(error);
       }
