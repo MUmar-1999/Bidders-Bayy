@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, useEffect } from "react";
-import { StyleSheet, View, Text, Image, FlatList } from "react-native";
+import { StyleSheet, View, Text, Image, FlatList, Linking } from "react-native";
 import BidderApi from "../../api/BidderApi";
 import { AirbnbRating } from "@rneui/themed";
 import { Color } from "../../Components/Shared/Color";
@@ -49,6 +49,10 @@ const SellerProfile = ({ route, navigation }) => {
       console.log(error);
     }
   };
+  const handlePhoneNumberPress = () => {
+    const phoneNumber = sellerProfile.userId.phoneNo;
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
   return (
     <SafeArea>
       <FlatList
@@ -68,7 +72,9 @@ const SellerProfile = ({ route, navigation }) => {
               <Text style={styles.name}>
                 {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
-              <Text style={styles.bio}>{sellerProfile.userId.phoneNo}</Text>
+              <Text style={styles.bio} onPress={handlePhoneNumberPress}>
+                {sellerProfile.userId.phoneNo}
+              </Text>
               <AirbnbRating
                 defaultRating={rating}
                 showRating={false}

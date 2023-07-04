@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   FlatList,
+  Linking,
 } from "react-native";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -147,6 +148,10 @@ const Product = ({ route, navigation }) => {
         console.log(error);
       }
     }
+  };
+  const handlePhoneNumberPress = () => {
+    const phoneNumber = product.userId.phoneNo;
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
@@ -426,7 +431,10 @@ const Product = ({ route, navigation }) => {
                         source={require("../../Images/phone.png")}
                         style={styles.sellerPhoneIcon}
                       />
-                      <Text style={styles.sellerPhone}>
+                      <Text
+                        style={styles.sellerPhone}
+                        onPress={handlePhoneNumberPress}
+                      >
                         {product.userId.phoneNo}
                       </Text>
                     </View>
