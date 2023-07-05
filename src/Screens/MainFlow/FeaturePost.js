@@ -9,11 +9,11 @@ import * as ImagePicker from "expo-image-picker";
 
 const FeaturePost = ({ route, navigation }) => {
   const { featurePost } = route.params;
-  // console.log("Hello papa", featurePost);
   const { control, handleSubmit } = useForm();
   const [dataForm, setDataForm] = useState({
     payment_ss: [],
   });
+
   const chooseImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -21,6 +21,7 @@ const FeaturePost = ({ route, navigation }) => {
       aspect: [12, 12],
       quality: 0.5,
     });
+
     if (
       result &&
       !result.canceled &&
@@ -35,18 +36,14 @@ const FeaturePost = ({ route, navigation }) => {
       setDataForm(() => {
         return { payment_ss: pro };
       });
-      // setDataForm((preValue) => {
-      //   return { ...preValue, product_picture: pro };
-      // });
     }
   };
+
   useEffect(() => {
     // console.log("this is form data", dataForm);
   }, [dataForm]);
 
   const ApplyFeature = async (id, ss) => {
-    // console.log("wawa", id);
-    // console.log("papa", ss);
     let formData = new FormData();
     formData.append("payment_ss", ss.payment_ss);
     formData.append("postId", id);
@@ -62,15 +59,7 @@ const FeaturePost = ({ route, navigation }) => {
         config
       );
       if (data.success) {
-        // console.log("nana", data);
-        // setCategoryData("");
-        // setDataForm({
-        //   subcategoryId: "",
-        //   productType: "",
-        //   product_picture: [],
-        // });
-        // reset();
-        navigation.navigate("Bidders Bay");
+        navigation.goBack(); // Go back to the previous screen
       }
     } catch (error) {
       console.log("NEWPOST ERROR:::", error);
