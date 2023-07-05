@@ -6,11 +6,13 @@ import { Color } from "../../Components/Shared/Color";
 import { normalizeImage } from "../../Utils/functions";
 import Card from "../../Components/Card";
 import SafeArea from "../../Components/Shared/SafeArea";
+import { useSelector } from "react-redux";
 
 const SellerProfile = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
   const [rating, setRating] = useState(0);
   const { sellerProfile } = route.params;
+  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     getData();
@@ -46,7 +48,7 @@ const SellerProfile = ({ route, navigation }) => {
       // console.log("Seller Product LIST::", JSON.stringify(res.data, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
   const handlePhoneNumberPress = () => {
@@ -68,14 +70,18 @@ const SellerProfile = ({ route, navigation }) => {
                 }}
                 style={styles.profileImage}
               />
+
               <Text style={styles.name}>
                 {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
               <Text style={styles.bio} onPress={handlePhoneNumberPress}>
                 {sellerProfile.userId.phoneNo}
               </Text>
-              yar
+
               <AirbnbRating
+                isDisabled={
+                  sellerProfile.userId._id === userInfo._id ? true : false
+                }
                 defaultRating={rating}
                 showRating={false}
                 size={25}
