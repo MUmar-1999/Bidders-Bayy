@@ -14,16 +14,16 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import { BASE_URL } from "../api/BidderApi";
 import { useDispatch, useSelector } from "react-redux";
-import { setSubCategory, setCity, setSelectedRange } from "../Store/filterSlice";
-
+import {
+  setSubCategory,
+  setCity,
+  setSelectedRange,
+} from "../Store/filterSlice";
 
 function SearchBar({ search, onChange }) {
-
-  const {
-    subCategory,
-    city,
-    selectedRange
-  } = useSelector((state) => state.filter);
+  const { subCategory, city, selectedRange } = useSelector(
+    (state) => state.filter
+  );
   const dispatch = useDispatch();
   // dispatch(setSubCategory());
   console.log(subCategory);
@@ -32,9 +32,14 @@ function SearchBar({ search, onChange }) {
   const [subCategoryData, setSubCategoryData] = useState(null);
   const [cityData, setCityData] = useState(null);
 
-
   const handleEndEditing = () => {
-    onChange(search, priceRange.selectedRange, categoryData, subCategoryData, cityData);
+    onChange(
+      search,
+      priceRange.selectedRange,
+      categoryData,
+      subCategoryData,
+      cityData
+    );
     setSearch("");
   };
   const handleClear = () => {
@@ -99,9 +104,7 @@ function SearchBar({ search, onChange }) {
 
           <Text style={styles.label}>Price Range:</Text>
           <View style={styles.sliderContainer}>
-            <Text style={styles.sliderValue}>
-              {selectedRange}
-            </Text>
+            <Text style={styles.sliderValue}>{selectedRange}</Text>
             <Slider
               style={styles.slider}
               minimumValue={priceRange.minRange}
@@ -123,40 +126,40 @@ function SearchBar({ search, onChange }) {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
           <Picker
             name="subcategoryId"
             selectedValue={subCategory}
-            onValueChange={(itemValue) =>
-              dispatch(setSubCategory(itemValue))
-            }
+            onValueChange={(itemValue) => dispatch(setSubCategory(itemValue))}
             style={styles.dropdown}
             onPress={
-              () => { }
+              () => {}
               // console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
           <Picker
             selectedValue={city}
-            onValueChange={(itemValue) => { dispatch(setCity(itemValue)); }}
+            onValueChange={(itemValue) => {
+              dispatch(setCity(itemValue));
+            }}
             mode="dropdown"
             style={styles.dropdown}
           >
@@ -176,7 +179,7 @@ function SearchBar({ search, onChange }) {
             style={styles.closeButton}
             onPress={handleClosePopup}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={styles.closeButtonText}>Apply</Text>
           </TouchableOpacity>
         </View>
       </Modal>

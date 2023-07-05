@@ -9,25 +9,19 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { useEffect, useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-
 import BidderApi from "../../api/BidderApi";
 import SafeArea from "../../Components/Shared/SafeArea";
 import SearchBar from "../../Components/SearchBar";
 import Card from "../../Components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../Store/filterSlice";
-
+import { FontAwesome } from "@expo/vector-icons";
 
 const Home = ({ navigation }) => {
-
-  const {
-    subCategory,
-    city,
-    selectedRange
-  } = useSelector((state) => state.filter);
+  const { subCategory, city, selectedRange } = useSelector(
+    (state) => state.filter
+  );
   const dispatch = useDispatch();
-
-
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -36,7 +30,9 @@ const Home = ({ navigation }) => {
   const getData = async () => {
     try {
       const res = await BidderApi.get("/payment-featured/featured_post/");
-      const feature = res.data.data.filter(product => product.postId.StatusOfActive === true)
+      const feature = res.data.data.filter(
+        (product) => product.postId.StatusOfActive === true
+      );
       setProducts(feature);
       setFilteredProducts(feature);
       // console.log("filter", res.data.data);
@@ -50,7 +46,7 @@ const Home = ({ navigation }) => {
     }, [navigation])
   );
   useEffect(() => {
-    filtered({ text: search, subCategory, city, price: selectedRange })
+    filtered({ text: search, subCategory, city, price: selectedRange });
   }, [search, subCategory, city, selectedRange]);
   function filtered({ text, price, subCategory, city }) {
     const filteredProducts = products.reduce(function (acc, item) {
@@ -90,11 +86,11 @@ const Home = ({ navigation }) => {
   }
   const handleBidPress = (bidproduct) => {
     navigation.navigate("BidProduct", { bidproduct });
-    dispatch(reset())
+    dispatch(reset());
   };
   const handleFixPress = (fixproduct) => {
     navigation.navigate("FixProduct", { fixproduct });
-    dispatch(reset())
+    dispatch(reset());
   };
 
   useFocusEffect(
@@ -142,6 +138,20 @@ const Home = ({ navigation }) => {
         >
           Feature Products
         </Text>
+        {filteredProducts.length === 0 ? (
+          <View style={styles.centeredContainer}>
+            <View style={styles.notAvailableContainer}>
+              <FontAwesome
+                name="exclamation-triangle"
+                size={40}
+                color="#C62828"
+              />
+              <Text style={styles.notAvailableText}>
+                Sorry, we couldn't find any products.
+              </Text>
+            </View>
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -149,10 +159,8 @@ const Home = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
-        <SearchBar
-          search={search}
-          onChange={setSearch}
-        />
+        <SearchBar search={search} onChange={setSearch} />
+
         <FlatList
           numColumns={2}
           style={styles.container}
@@ -160,10 +168,7 @@ const Home = ({ navigation }) => {
           ListHeaderComponent={Header}
           renderItem={({ item }) => {
             return (
-              <Card
-                item={item.postId ?? item}
-                date={item?.postId?.createdAt}
-              />
+              <Card item={item.postId ?? item} date={item?.postId?.createdAt} />
             );
           }}
         />
@@ -207,5 +212,23 @@ const styles = StyleSheet.create({
     color: "#444",
     marginBottom: 5,
     fontWeight: "300",
+  },
+  centeredContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  notAvailableContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FBE9E7",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  notAvailableText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: "#C62828",
   },
 });
