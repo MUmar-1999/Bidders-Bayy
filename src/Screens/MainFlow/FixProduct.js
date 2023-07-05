@@ -17,12 +17,9 @@ import { Color } from "../../Components/Shared/Color";
 import { useDispatch, useSelector } from "react-redux";
 
 const FixProduct = ({ navigation }) => {
-
-  const {
-    subCategory,
-    city,
-    selectedRange
-  } = useSelector((state) => state.filter);
+  const { subCategory, city, selectedRange } = useSelector(
+    (state) => state.filter
+  );
   const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
@@ -32,11 +29,12 @@ const FixProduct = ({ navigation }) => {
   const [filter, setFilter] = useState(null);
   const [search, setSearch] = useState("");
 
-
   const getData = async () => {
     try {
       const res = await BidderApi.get("/products/used/");
-      const products = res.data.data.allProducts.filter(product => product.StatusOfActive === true)
+      const products = res.data.data.allProducts.filter(
+        (product) => product.StatusOfActive === true
+      );
 
       setProducts(products);
 
@@ -46,7 +44,9 @@ const FixProduct = ({ navigation }) => {
     }
     try {
       const res = await BidderApi.get("/payment-featured/featured_post/");
-      const feature = res.data.data.filter(product => product.postId.StatusOfActive === true)
+      const feature = res.data.data.filter(
+        (product) => product.postId.StatusOfActive === true
+      );
       // setProducts(res.data.data);
       // setFilteredProducts(res.data.data);
       SetFeature(feature);
@@ -57,7 +57,7 @@ const FixProduct = ({ navigation }) => {
   };
 
   useEffect(() => {
-    filtered({ text: search, subCategory, city, price: selectedRange })
+    filtered({ text: search, subCategory, city, price: selectedRange });
   }, [search, subCategory, city, selectedRange]);
   function filtered({ text, price, subCategory, city }) {
     const filteredProducts = products.reduce(function (acc, item) {
@@ -99,7 +99,6 @@ const FixProduct = ({ navigation }) => {
   const Header = () => {
     return (
       <View>
-
         <Text style={styles.headerText}>Fix Price Product</Text>
         {filteredProducts.length === 0 ? (
           <View style={styles.centeredContainer}>
@@ -131,18 +130,18 @@ const FixProduct = ({ navigation }) => {
 
   useEffect(() => {
     if (Feature !== null && products !== null) {
-      console.log("Teri", JSON.stringify(Feature, null, 2));
+      // console.log("Teri", JSON.stringify(Feature, null, 2));
       const converted = Feature.map((feature) => {
         return ChangeObject(feature);
       }).filter((obj) => obj !== null);
-      console.log("Abdullah", JSON.stringify(converted, null, 2));
+      // console.log("Abdullah", JSON.stringify(converted, null, 2));
       setFilter(converted);
       setFilteredProducts(converted);
       const filteredProducts = products.filter(
         (item) =>
           !Feature.some((featureItem) => featureItem.postId._id === item._id)
       );
-      console.log("lenght", filteredProducts.length);
+      // console.log("lenght", filteredProducts.length);
       setFilter((prevFiltered) => [...prevFiltered, ...filteredProducts]);
       setFilteredProducts((prevFiltered) => [
         ...prevFiltered,
@@ -214,8 +213,8 @@ const FixProduct = ({ navigation }) => {
         updatedAt: inputObject.postId.updatedAt,
         _v: inputObject.postId._v,
       };
-      console.log("not converted", item);
-      console.log("this is converted", outputObject);
+      // console.log("not converted", item);
+      // console.log("this is converted", outputObject);
       return outputObject;
     }
     return null;
@@ -224,8 +223,7 @@ const FixProduct = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
-        <SearchBar search={search}
-          onChange={setSearch} />
+        <SearchBar search={search} onChange={setSearch} />
         {filter !== null ? (
           <FlatList
             numColumns={2}

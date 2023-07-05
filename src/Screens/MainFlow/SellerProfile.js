@@ -46,7 +46,7 @@ const SellerProfile = ({ route, navigation }) => {
       // console.log("Seller Product LIST::", JSON.stringify(res.data, null, 2));
       setProducts(res.data.data.allProducts);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const handlePhoneNumberPress = () => {
@@ -68,13 +68,13 @@ const SellerProfile = ({ route, navigation }) => {
                 }}
                 style={styles.profileImage}
               />
-
               <Text style={styles.name}>
                 {sellerProfile.userId.firstName} {sellerProfile.userId.lastName}
               </Text>
               <Text style={styles.bio} onPress={handlePhoneNumberPress}>
                 {sellerProfile.userId.phoneNo}
               </Text>
+              yar
               <AirbnbRating
                 defaultRating={rating}
                 showRating={false}

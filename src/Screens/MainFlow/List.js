@@ -19,6 +19,7 @@ import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
 import { BASE_URL } from "../../api/BidderApi";
 import FormInputF from "../../Components/FormInputF";
+import FormInputD from "../../Components/FormInputD";
 
 const List = ({ navigation }) => {
   const {
@@ -62,7 +63,7 @@ const List = ({ navigation }) => {
     }
     formData.append("description", data.description);
     formData.append("productPrice", data.productPrice);
-    console.log("FORMDATA:::", JSON.stringify(formData, null, 2));
+    // console.log("FORMDATA:::", JSON.stringify(formData, null, 2));
 
     const config = {
       headers: {
@@ -83,7 +84,7 @@ const List = ({ navigation }) => {
         navigation.navigate("Bidders Bay");
       }
     } catch (error) {
-      console.log("NEWPOST ERROR:::", error);
+      // console.log("NEWPOST ERROR:::", error);
     }
   };
 
@@ -223,13 +224,20 @@ const List = ({ navigation }) => {
           />
 
           <Text style={styles.label}>Description:</Text>
-          <FormInputF
+          <FormInputD
             name={"description"}
             control={control}
             rule={{
               required: "Description cannot be empty.",
             }}
           />
+          {/* <FormInputF
+            name={"description"}
+            control={control}
+            rule={{
+              required: "Description cannot be empty.",
+            }}
+          /> */}
 
           <Text style={styles.label}>
             {dataForm.productType === "Bidding Item" ? "Base Price:" : "Price:"}

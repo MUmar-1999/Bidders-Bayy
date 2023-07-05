@@ -26,7 +26,7 @@ function SearchBar({ search, onChange }) {
   );
   const dispatch = useDispatch();
   // dispatch(setSubCategory());
-  console.log(subCategory);
+  // console.log(subCategory);
   const [categoryData, setCategoryData] = useState("");
   const [category, setCategory] = useState(null);
   const [subCategoryData, setSubCategoryData] = useState(null);

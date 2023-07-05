@@ -31,7 +31,7 @@ const Product = ({ route, navigation }) => {
   const { control, handleSubmit } = useForm();
   let { product } = route.params;
   product = product.postId ?? product;
-  console.log("PRODUCT:::", JSON.stringify(product, null, 2));
+  // console.log("PRODUCT:::", JSON.stringify(product, null, 2));
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [highestBid, setHighestBid] = useState(0);
@@ -48,7 +48,7 @@ const Product = ({ route, navigation }) => {
       const res = await BidderApi.get(`/comment/${product._id}`);
       setComments(res.data.data.allCommentsOfPost);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -60,7 +60,7 @@ const Product = ({ route, navigation }) => {
         setComment("");
       }
     } catch (error) {
-      console.log(error.res);
+      // console.log(error.res);
     }
   };
   const handleSellerPress = (sellerProfile) => {
@@ -101,7 +101,7 @@ const Product = ({ route, navigation }) => {
       const { data } = await BidderApi.get(`/bidding/${product._id}`);
       setHighestBid(data.highestBid);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const HandlePostDeletion = async () => {
@@ -115,14 +115,14 @@ const Product = ({ route, navigation }) => {
           navigation.goBack();
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     } else {
       try {
         const { data } = await BidderApi.delete(`/products/${product._id}`);
         navigation.goBack();
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
   };
@@ -136,7 +136,7 @@ const Product = ({ route, navigation }) => {
           setFlagBid(true);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     } else {
       try {
@@ -147,7 +147,7 @@ const Product = ({ route, navigation }) => {
           setFlagBid(false);
         }
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
   };

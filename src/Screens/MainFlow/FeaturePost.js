@@ -62,7 +62,7 @@ const FeaturePost = ({ route, navigation }) => {
         navigation.goBack(); // Go back to the previous screen
       }
     } catch (error) {
-      console.log("NEWPOST ERROR:::", error);
+      // console.log("NEWPOST ERROR:::", error);
     }
   };
 

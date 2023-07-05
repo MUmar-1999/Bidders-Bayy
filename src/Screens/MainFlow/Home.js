@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
       setFilteredProducts(feature);
       // console.log("filter", res.data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useFocusEffect(

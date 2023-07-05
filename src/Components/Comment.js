@@ -4,7 +4,7 @@ import { getTimeDifference, normalizeImage } from "../Utils/functions";
 import { Color } from "./Shared/Color";
 
 function Comment({ item, sellerId }) {
-  console.log("COMMENT:::", JSON.stringify(item, null, 2));
+  // console.log("COMMENT:::", JSON.stringify(item, null, 2));
   return (
     <View style={styles.dialogBox}>
       <View style={styles.container}>
@@ -14,8 +14,8 @@ function Comment({ item, sellerId }) {
             source={
               item.userId.dp
                 ? {
-                  uri: normalizeImage(item.userId.dp),
-                }
+                    uri: normalizeImage(item.userId.dp),
+                  }
                 : require("../Images/dp.png")
             }
           />

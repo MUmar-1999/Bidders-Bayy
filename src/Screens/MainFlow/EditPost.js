@@ -12,10 +12,11 @@ import SafeArea from "../../Components/Shared/SafeArea";
 import { Color } from "../../Components/Shared/Color";
 import { BASE_URL } from "../../api/BidderApi";
 import FormInputF from "../../Components/FormInputF";
+import FormInputD from "../../Components/FormInputD";
 
 const EditPost = ({ route, navigation }) => {
   const { EditPost } = route.params;
-  console.log("Edit:::", JSON.stringify(EditPost, null, 2));
+  // console.log("Edit:::", JSON.stringify(EditPost, null, 2));
   const {
     userInfo: { role },
   } = useSelector((state) => state.auth);
@@ -55,7 +56,7 @@ const EditPost = ({ route, navigation }) => {
     }
   };
   const NewPost = async (data) => {
-    console.log("🚀 ~ file: EditPost.js:52 ~ NewPost ~ data:", data);
+    // console.log("🚀 ~ file: EditPost.js:52 ~ NewPost ~ data:", data);
 
     let formData = new FormData();
     formData.append("title", data.title);
@@ -85,7 +86,6 @@ const EditPost = ({ route, navigation }) => {
         });
         navigation.popToTop();
         reset();
-
       }
     } catch (error) {
       // console.log("NEWPOST ERROR:::", error);
@@ -120,12 +120,12 @@ const EditPost = ({ route, navigation }) => {
             <Picker.Item label="Select Category" value="" />
             {category != null
               ? category.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -140,19 +140,19 @@ const EditPost = ({ route, navigation }) => {
             }
             style={styles.dropdown}
             onPress={
-              () => { }
+              () => {}
               //  console.log("hello")
             }
           >
             <Picker.Item label="Select sub Category" value="" />
             {subCategoryData != null
               ? subCategoryData.map((Option) => (
-                <Picker.Item
-                  key={Option._id}
-                  label={Option.title}
-                  value={Option._id}
-                />
-              ))
+                  <Picker.Item
+                    key={Option._id}
+                    label={Option.title}
+                    value={Option._id}
+                  />
+                ))
               : null}
           </Picker>
 
@@ -166,13 +166,20 @@ const EditPost = ({ route, navigation }) => {
           />
 
           <Text style={styles.label}>Description:</Text>
-          <FormInputF
+          <FormInputD
             name={"description"}
             control={control}
             rule={{
               required: "Description cannot be empty.",
             }}
           />
+          {/* <FormInputF
+            name={"description"}
+            control={control}
+            rule={{
+              required: "Description cannot be empty.",
+            }}
+          /> */}
 
           <Text style={styles.label}>
             {dataForm.productType === "Bidding Item" ? "Base Price:" : "Price:"}
