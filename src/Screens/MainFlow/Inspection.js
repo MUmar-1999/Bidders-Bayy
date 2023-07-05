@@ -73,7 +73,7 @@ const Inspection = () => {
         </View>
 
         <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Cars:</Text>
+          <Text style={styles.categoryTitle}>Vehicles:</Text>
           <View style={styles.itemContainer}>
             <Text
               style={styles.item}
@@ -98,19 +98,21 @@ const Inspection = () => {
           </View>
         </View>
         <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Cars:</Text>
+          <Text style={styles.categoryTitle}>
+            Electronics (Mobile, Laptops, Computers):
+          </Text>
           <View style={styles.itemContainer}>
             <Text
               style={styles.item}
               onPress={() => openLocationLink("https://www.pakwheels.com/")}
             >
-              1- Pak Wheels
+              1- Hafeez Center Lahore
             </Text>
             <Text
               style={styles.item}
               onPress={() => openLocationLink("http://www.cartest.pk/")}
             >
-              2- Cartest.pk
+              2- Hall Road Lahore
             </Text>
             <Text
               style={styles.item}
@@ -118,24 +120,24 @@ const Inspection = () => {
                 openLocationLink("https://www.gari.pk/products/car-inspection/")
               }
             >
-              3- Gari.pk
+              3- Mochipura Township Lahore
             </Text>
           </View>
         </View>
         <View style={styles.categoryContainer}>
-          <Text style={styles.categoryTitle}>Cars:</Text>
+          <Text style={styles.categoryTitle}>Stamps/Tickets:</Text>
           <View style={styles.itemContainer}>
             <Text
               style={styles.item}
               onPress={() => openLocationLink("https://www.pakwheels.com/")}
             >
-              1- Pak Wheels
+              1- Pakistan Post Office
             </Text>
             <Text
               style={styles.item}
               onPress={() => openLocationLink("http://www.cartest.pk/")}
             >
-              2- Cartest.pk
+              2- Mozang Post Office
             </Text>
             <Text
               style={styles.item}
@@ -143,7 +145,7 @@ const Inspection = () => {
                 openLocationLink("https://www.gari.pk/products/car-inspection/")
               }
             >
-              3- Gari.pk
+              3- Jahangir Town Post Office
             </Text>
           </View>
         </View>

@@ -1,98 +1,111 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
   Linking,
+  FlatList,
 } from "react-native";
 import BidderApi from "../api/BidderApi";
 import { Color } from "./Shared/Color";
-import { useEffect, useState } from "react";
-import { FlatList } from "react-native-gesture-handler";
 
 function AllBidList({ id, user }) {
-  const [allBid, setAllBid] = useState({ success: false });
+  const [allBid, setAllBid] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     getBidData();
   }, []);
+
   async function getBidData() {
     try {
       const { data } = await BidderApi(`/bidding/${id}`);
-      // const { data } = await BidderApi(`/bidding/6463bb3d82ce9b8ab4774c92`);
-      // console.log("ALLBID:::", data.allBidsOfPost);
       setAllBid(data.allBidsOfPost);
     } catch (err) {
-      console.error("ALLBID:::", err);
+      console.error("Error fetching bid data:", err);
+    } finally {
+      setIsLoading(false);
     }
   }
-  function renderBid({ item, index }) {
-    const handlePhoneNumberPress = () => {
-      const phoneNumber = item.userId.phoneNo;
-      Linking.openURL(`tel:${phoneNumber}`);
-    };
-    return (
-      <View>
-        <Text style={styles.heading}>Bid {index + 1}</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.label}>Name: </Text>
-          <Text style={styles.data}>
-            {item.userId.firstName} {item.userId.lastName}
-          </Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.label}>Bid Entered: </Text>
-          <Text style={styles.data}>{item.bidingPrice}</Text>
-        </View>
 
-        {user && <View style={{ flexDirection: "row" }}>
+  const handlePhoneNumberPress = (phoneNumber) => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
+  const renderBid = ({ item, index }) => (
+    <View>
+      <Text style={styles.heading}>Bid {index + 1}</Text>
+      <View style={styles.row}>
+        <Text style={styles.label}>Name: </Text>
+        <Text style={styles.data}>
+          {item.userId.firstName} {item.userId.lastName}
+        </Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.label}>Bid Entered: </Text>
+        <Text style={styles.data}>{item.bidingPrice}</Text>
+      </View>
+
+      {user && (
+        <View style={styles.row}>
           <Text style={styles.label}>Phone Number: </Text>
-          <Text style={styles.data} onPress={handlePhoneNumberPress}>
+          <Text
+            style={styles.data}
+            onPress={() => handlePhoneNumberPress(item.userId.phoneNo)}
+          >
             {item.userId.phoneNo}
           </Text>
-        </View>}
+        </View>
+      )}
+    </View>
+  );
 
-      </View>
-    );
-  }
+  const renderEmpty = () => (
+    <View style={styles.indicatorContainer}>
+      {isLoading ? (
+        <ActivityIndicator size="large" color={Color.white} />
+      ) : (
+        <Text style={styles.emptyText}>NO BIDS</Text>
+      )}
+    </View>
+  );
 
-  function renderEmpty() {
-    return (
-      <View style={styles.indicatorContainer}>
-        {allBid.success && allBid.allBidsOfPost.length === 0 ? (
-          <Text style={{ color: "white" }}>NO BIDS</Text>
-        ) : (
-          <ActivityIndicator size="large" color={Color.white} />
-        )}
-      </View>
-    );
-  }
-  useEffect(() => {
-    // console.log("ALL BID DATA", allBid);
-  }, [allBid]);
   return (
-    <>
+    <View style={styles.container}>
       <Text style={styles.title}>All Bids</Text>
-
       <FlatList
         data={allBid}
         renderItem={renderBid}
         ListEmptyComponent={renderEmpty}
-        style={{ flex: 1 }}
+        style={styles.listContainer}
+        keyExtractor={(item, index) => index.toString()}
       />
-    </>
+    </View>
   );
 }
 
-export default AllBidList;
-
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   title: {
     fontWeight: "bold",
     fontSize: 26,
     color: Color.white,
+    marginVertical: 10,
+    marginLeft: 10,
+  },
+  listContainer: {
+    flex: 1,
   },
   indicatorContainer: {
+    flex: 1,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    color: "white",
   },
   heading: {
     fontWeight: "bold",
@@ -108,4 +121,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
+  row: {
+    flexDirection: "row",
+    marginVertical: 5,
+  },
 });
+
+export default AllBidList;

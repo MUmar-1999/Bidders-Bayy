@@ -17,17 +17,11 @@ import { Color } from "../../Components/Shared/Color";
 import { useDispatch, useSelector } from "react-redux";
 import { reset } from "../../Store/filterSlice";
 
-
 const BidProduct = ({ navigation }) => {
-
-  const {
-    subCategory,
-    city,
-    selectedRange
-  } = useSelector((state) => state.filter);
+  const { subCategory, city, selectedRange } = useSelector(
+    (state) => state.filter
+  );
   const dispatch = useDispatch();
-
-
 
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -36,12 +30,13 @@ const BidProduct = ({ navigation }) => {
   const [filter, setFilter] = useState(null);
   const [search, setSearch] = useState("");
 
-
   const getData = async () => {
     try {
       const res = await BidderApi.get("/products/bid/");
       // console.log("RES:::", JSON.stringify(res.data.data, null, 2));
-      const products = res.data.data.allProducts.filter(product => product.StatusOfActive === true)
+      const products = res.data.data.allProducts.filter(
+        (product) => product.StatusOfActive === true
+      );
       // console.log("PRO:::", products);
       setProducts(products);
 
@@ -51,7 +46,9 @@ const BidProduct = ({ navigation }) => {
     }
     try {
       const res = await BidderApi.get("/payment-featured/featured_post/");
-      const feature = res.data.data.filter(product => product.postId.StatusOfActive === true)
+      const feature = res.data.data.filter(
+        (product) => product.postId.StatusOfActive === true
+      );
       // console.log("FE:::", JSON.stringify(feature, null, 2));
       // setProducts(res.data.data);
       // setFilteredProducts(res.data.data);
@@ -63,7 +60,7 @@ const BidProduct = ({ navigation }) => {
   };
 
   useEffect(() => {
-    filtered({ text: search, subCategory, city, price: selectedRange })
+    filtered({ text: search, subCategory, city, price: selectedRange });
   }, [search, subCategory, city, selectedRange]);
   function filtered({ text, price, subCategory, city }) {
     const filteredProducts = products.reduce(function (acc, item) {
@@ -229,8 +226,7 @@ const BidProduct = ({ navigation }) => {
   return (
     <SafeArea>
       <KeyboardAvoidingView style={styles.container}>
-        <SearchBar search={search}
-          onChange={setSearch} />
+        <SearchBar search={search} onChange={setSearch} />
         {filter !== null ? (
           <FlatList
             numColumns={2}
