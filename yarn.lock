@@ -4061,9 +4061,10 @@ __metadata:
     expo-status-bar: ~1.4.4
     react: 18.2.0
     react-dom: 18.2.0
-    react-hook-form: ^7.43.8
+    react-hook-form: ^7.45.1
     react-native: 0.71.8
     react-native-dropdown-select-list: ^2.0.4
+    react-native-flash-message: ^0.4.1
     react-native-gesture-handler: ~2.9.0
     react-native-image-crop-picker: ^0.40.0
     react-native-modal-datetime-picker: ^14.0.1
@@ -10469,7 +10470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:*, prop-types@npm:^15.5.10, prop-types@npm:^15.7.2":
+"prop-types@npm:*, prop-types@npm:^15.5.10, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -10643,7 +10644,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.43.8":
+"react-hook-form@npm:^7.45.1":
   version: 7.45.1
   resolution: "react-hook-form@npm:7.45.1"
   peerDependencies:
@@ -10692,6 +10693,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-flash-message@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "react-native-flash-message@npm:0.4.1"
+  dependencies:
+    prop-types: ^15.8.1
+    react-native-iphone-screen-helper: ^2.0.2
+  peerDependencies:
+    prop-types: ^15.0 || ^16.0
+    react: "*"
+    react-native: "*"
+  checksum: 059bb968c463f2185e859fd57ed2186cfd3dd2d1a66748d33a0b49e9e65f315195038ee2fbcd841d6f75d84bcb98418aeace44c0f92f01801c658d3bfaed81d2
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:~2.9.0":
   version: 2.9.0
   resolution: "react-native-gesture-handler@npm:2.9.0"
@@ -10721,6 +10736,15 @@ __metadata:
   peerDependencies:
     react-native: ">=0.40.0"
   checksum: f2f2a4ea8ae1dd8c242361f391dc694ef93a651314efe538ecb5e382911f82595cd0f2337ac5cd5225acd740899a90a1d65a8d9e1f02a66232ac5273c33fd550
+  languageName: node
+  linkType: hard
+
+"react-native-iphone-screen-helper@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "react-native-iphone-screen-helper@npm:2.0.3"
+  peerDependencies:
+    react-native: ">=0.42.0"
+  checksum: 99e00eb611b744d106911f0483350dd76306314284ba43412cf0efcd9478bb05186fa030b471d5e44d409ee1b5e8d705c4ede8d32bf6b26ff6f30c2d6e4478aa
   languageName: node
   linkType: hard
 

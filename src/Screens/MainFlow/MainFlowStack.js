@@ -130,5 +130,7 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen name="BecomeSeller" component={BecomeSeller} />
     <ProfileStack.Screen name="SellerProfile" component={SellerProfile} />
     <ProfileStack.Screen name="Product" component={Product} />
+    <ProfileStack.Screen name="FeaturePost" component={FeaturePost} />
+    <ProfileStack.Screen name="Inspection" component={Inspection} />
   </ProfileStack.Navigator>
 );
